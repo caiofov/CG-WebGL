@@ -1,16 +1,20 @@
-function getGL(canvas: HTMLCanvasElement): WebGLRenderingContext | RenderingContext | false {
+// type RenderingType = WebGLRenderingContext | RenderingContext
+
+function getGL(canvas: HTMLCanvasElement): WebGLRenderingContext | false {
     var webgl = canvas.getContext("webgl");
     if (webgl) return webgl;
 
-    var exp_webgl = canvas.getContext("experimental-webgl");
-    if (exp_webgl) return exp_webgl;
+    // var exp_webgl = canvas.getContext("experimental-webgl");
+    // if (exp_webgl) return exp_webgl;
 
     alert("Contexto WebGL inexistente! Troque de navegador!");
     return false;
 }
 
-function createShader(gl, shaderType, shaderSrc) {
+function createShader(gl: WebGLRenderingContext, shaderType: number, shaderSrc: string) {
     var shader = gl.createShader(shaderType);
+    if (!shader) throw "Shader não foi criado"
+
     gl.shaderSource(shader, shaderSrc);
     gl.compileShader(shader);
 
@@ -22,8 +26,10 @@ function createShader(gl, shaderType, shaderSrc) {
     gl.deleteShader(shader);
 }
 
-function createProgram(gl, vtxShader, fragShader) {
+function createProgram(gl: WebGLRenderingContext, vtxShader, fragShader): WebGLProgram | undefined {
     var prog = gl.createProgram();
+    if (!prog) throw "Programa não foi criado"
+
     gl.attachShader(prog, vtxShader);
     gl.attachShader(prog, fragShader);
     gl.linkProgram(prog);
@@ -36,18 +42,34 @@ function createProgram(gl, vtxShader, fragShader) {
     gl.deleteProgram(prog);
 }
 
+function getCanvas(): HTMLCanvasElement {
+    var canvas = document.querySelector<HTMLCanvasElement>("#glcanvas1")
+    if (canvas) return canvas
+
+    throw "Canvas não encontrado"
+}
+
+function getScript(scriptID): string {
+    var script = document.querySelector<HTMLScriptElement>("#vertex-shader")
+    if (script) return script.text
+
+    throw `Script ${scriptID} não encontrado`
+}
+
 function init() {
-    var canvas = document.querySelector<HTMLCanvasElement>("#glcanvas1");
+    var canvas = getCanvas();
 
     var gl = getGL(canvas);
     if (gl) {
         //Inicializa shaders
-        var vtxShSrc = document.querySelector<HTMLScriptElement>("#vertex-shader")?.text;
-        var fragShSrc = document.querySelector<HTMLScriptElement>("frag-shader")?.text;
+        var vtxShSrc = getScript("#vertex-shader")
+        var fragShSrc = getScript("#frag-shader")
 
         var vtxShader = createShader(gl, gl.VERTEX_SHADER, vtxShSrc);
         var fragShader = createShader(gl, gl.FRAGMENT_SHADER, fragShSrc);
         var prog = createProgram(gl, vtxShader, fragShader);
+
+        if (!prog) throw "Erro ao criar programa"
 
         gl.useProgram(prog);
 
