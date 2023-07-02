@@ -195,6 +195,23 @@ function drawNoTex(gl, prog) {
 /**
  * 
  * @param {WebGLRenderingContext} gl 
+ * @param {HTMLImageElement} image 
+ */
+function submitTexture(gl, image) {
+	var tex = gl.createTexture();
+
+	gl.activeTexture(gl.TEXTURE0);
+	gl.bindTexture(gl.TEXTURE_2D, tex);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+}
+
+/**
+ * 
+ * @param {WebGLRenderingContext} gl 
  * @param {WebGLProgram} prog
  */
 function drawWithTex(gl, prog) {
@@ -209,7 +226,6 @@ function drawWithTex(gl, prog) {
 		setAttributePointer(gl, prog, "position", 2, 6, 0)
 		setAttributePointer(gl, prog, "texCoord", 2, 4, 2)
 
-		gl.activeTexture(gl.TEXTURE0);
 		submitTexture(gl, texImg)
 
 		// gl.activeTexture(gl.TEXTURE1);
