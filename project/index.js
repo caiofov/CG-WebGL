@@ -34,7 +34,7 @@ function createShader(gl, shaderType, shaderSrc) {
 }
 
 /**
- * 
+ * Cria o programa e linka os shaders
  * @param {WebGLRenderingContext} gl 
  * @param {WebGLShader} vtxShader 
  * @param {WebGLShader} fragShader 
@@ -42,12 +42,13 @@ function createShader(gl, shaderType, shaderSrc) {
  */
 function createProgram(gl, vtxShader, fragShader) {
 	var prog = gl.createProgram();
+	if (!prog) throw "Erro de criação do programa"
+
 	gl.attachShader(prog, vtxShader);
 	gl.attachShader(prog, fragShader);
 	gl.linkProgram(prog);
 
-	if (prog && gl.getProgramParameter(prog, gl.LINK_STATUS))
-		return prog;
+	if (gl.getProgramParameter(prog, gl.LINK_STATUS)) return prog;
 
 	gl.deleteProgram(prog);
 
