@@ -109,7 +109,8 @@ function square() {
 	]);
 }
 
-function square_with_text() {
+/** Quadrado com textura */
+function square_with_tex() {
 	return new Float32Array([
 		-0.5, 0.5, 0.0, 0.0,
 		-0.5, -0.5, 0.0, 1.0,
@@ -162,6 +163,17 @@ function setAttributePointer(gl, prog, attributeName, dataQtde, blockSize, initi
 	);
 }
 
+/**
+ * Cria buffer na GPU e copia coordenadas para ele
+ * @param {WebGLRenderingContext} gl 
+ * @param {Float32Array} coord 
+ */
+function addCoordinatesToBuffer(gl, coord) {
+	var bufPtr = gl.createBuffer();
+	gl.bindBuffer(gl.ARRAY_BUFFER, bufPtr);
+	gl.bufferData(gl.ARRAY_BUFFER, coord, gl.STATIC_DRAW);
+}
+
 function init() {
 
 	/** @type {HTMLCanvasElement} */
@@ -173,15 +185,9 @@ function init() {
 
 	initScreen(gl)
 
-	//Define coordenadas dos triângulos
+	//Define coordenadas dos triângulos e adiciona ao buffer
 	var coordTriangles = square()
-
-	//Cria buffer na GPU e copia coordenadas para ele
-	var bufPtr = gl.createBuffer();
-	gl.bindBuffer(gl.ARRAY_BUFFER, bufPtr);
-	gl.bufferData(gl.ARRAY_BUFFER, coordTriangles, gl.STATIC_DRAW);
-
-	//Pega ponteiro para o atributo "position" do vertex shader
+	addCoordinatesToBuffer(gl, coordTriangles)
 
 	setAttributePointer(gl, prog, "position", 2, 6, 0)
 	setAttributePointer(gl, prog, "color", 4, 6, 2)
