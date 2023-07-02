@@ -1,7 +1,7 @@
 /**
  * Retorna o elemento do webgl
  * @param {HTMLCanvasElement} canvas 
- * @returns {WebGLRenderingContext | false}
+ * @returns {WebGLRenderingContext}
  */
 function getGL(canvas) {
 	var gl = canvas.getContext("webgl");
@@ -10,8 +10,7 @@ function getGL(canvas) {
 	gl = canvas.getContext("experimental-webgl");
 	if (gl) return gl;
 
-	alert("Contexto WebGL inexistente! Troque de navegador!");
-	return false;
+	throw "Contexto WebGL inexistente! Troque de navegador!"
 }
 
 /**
@@ -29,9 +28,9 @@ function createShader(gl, shaderType, shaderSrc) {
 	if (gl.getShaderParameter(shader, gl.COMPILE_STATUS))
 		return shader;
 
-	alert("Erro de compilação: " + gl.getShaderInfoLog(shader));
-
 	gl.deleteShader(shader);
+	throw "Erro de compilação: " + gl.getShaderInfoLog(shader);
+
 }
 
 /**
@@ -50,9 +49,10 @@ function createProgram(gl, vtxShader, fragShader) {
 	if (prog && gl.getProgramParameter(prog, gl.LINK_STATUS))
 		return prog;
 
-	alert("Erro de linkagem: " + gl.getProgramInfoLog(prog));
-
 	gl.deleteProgram(prog);
+
+	throw "Erro de linkagem: " + gl.getProgramInfoLog(prog)
+
 }
 
 function init() {
@@ -62,28 +62,27 @@ function init() {
 
 	var gl = getGL(canvas);
 
-	if (gl) {
-		//Inicializa shaders
+	//Inicializa shaders
 
-		/** @type {string} */
-		var vtxShSrc = document.getElementById("vertex-shader").text;
+	/** @type {string} */
+	var vtxShSrc = document.getElementById("vertex-shader").text;
 
-		/** @type {string} */
-		var fragShSrc = document.getElementById("frag-shader").text;
+	/** @type {string} */
+	var fragShSrc = document.getElementById("frag-shader").text;
 
-		var vtxShader = createShader(gl, gl.VERTEX_SHADER, vtxShSrc);
-		var fragShader = createShader(gl, gl.FRAGMENT_SHADER, fragShSrc);
-		var prog = createProgram(gl, vtxShader, fragShader);
+	var vtxShader = createShader(gl, gl.VERTEX_SHADER, vtxShSrc);
+	var fragShader = createShader(gl, gl.FRAGMENT_SHADER, fragShSrc);
+	var prog = createProgram(gl, vtxShader, fragShader);
 
-		gl.useProgram(prog);
+	gl.useProgram(prog);
 
-		//Inicializa área de desenho: viewport e cor de limpeza; limpa a tela
-		gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-		gl.clearColor(0, 0, 0, 1);
-		gl.enable(gl.BLEND);
-		gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+	//Inicializa área de desenho: viewport e cor de limpeza; limpa a tela
+	gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+	gl.clearColor(0, 0, 0, 1);
+	gl.enable(gl.BLEND);
+	gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-	}
+
 
 	//Define coordenadas dos triângulos
 	var coordTriangles = new Float32Array([
@@ -96,7 +95,6 @@ function init() {
 	]);
 
 	//Cria buffer na GPU e copia coordenadas para ele
-	/** @type {WebGLBuffer | null} */
 	var bufPtr = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, bufPtr);
 	gl.bufferData(gl.ARRAY_BUFFER, coordTriangles, gl.STATIC_DRAW);
@@ -115,6 +113,7 @@ function init() {
 		0         //salto inicial (em bytes)
 	);
 
+	//Pega ponteiro para o atributo "color" do vertex shader
 	var colorPtr = gl.getAttribLocation(prog, "color");
 	gl.enableVertexAttribArray(colorPtr);
 	//Especifica a cópia dos valores do buffer para o atributo
