@@ -83,6 +83,7 @@ function getProgram(gl) {
 function initScreen(gl) {
 	gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 	gl.clearColor(0, 0, 0, 1);
+	gl.clear(gl.COLOR_BUFFER_BIT);
 	gl.enable(gl.BLEND);
 	gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 }
@@ -174,17 +175,12 @@ function addCoordinatesToBuffer(gl, coord) {
 	gl.bufferData(gl.ARRAY_BUFFER, coord, gl.STATIC_DRAW);
 }
 
-function init() {
-
-	/** @type {HTMLCanvasElement} */
-	var canvas = document.getElementById("glcanvas1");
-	var gl = getGL(canvas);
-	var prog = getProgram(gl)
-
-	gl.useProgram(prog);
-
-	initScreen(gl)
-
+/**
+ * 
+ * @param {WebGLRenderingContext} gl 
+ * @param {WebGLProgram} prog
+ */
+function drawNoTex(gl, prog) {
 	//Define coordenadas dos triângulos e adiciona ao buffer
 	var coordTriangles = square()
 	addCoordinatesToBuffer(gl, coordTriangles)
@@ -192,6 +188,48 @@ function init() {
 	setAttributePointer(gl, prog, "position", 2, 6, 0)
 	setAttributePointer(gl, prog, "color", 4, 6, 2)
 
-	gl.clear(gl.COLOR_BUFFER_BIT);
+	initScreen(gl)
 	draw_square(gl)
+}
+
+/**
+ * 
+ * @param {WebGLRenderingContext} gl 
+ * @param {WebGLProgram} prog
+ */
+function drawWithTex(gl, prog) {
+	var texImg = new Image()
+	texImg.src = "img/stick.png"
+
+	texImg.onload = () => {
+		//Define coordenadas dos triângulos e adiciona ao buffer
+		var coordTriangles = square_with_tex()
+		addCoordinatesToBuffer(gl, coordTriangles)
+
+		setAttributePointer(gl, prog, "position", 2, 6, 0)
+		setAttributePointer(gl, prog, "texCoord", 2, 4, 2)
+
+		gl.activeTexture(gl.TEXTURE0);
+		submitTexture(gl, texImg)
+
+		// gl.activeTexture(gl.TEXTURE1);
+		// submitTexture(gl, texImg)
+
+		initScreen(gl)
+		draw_square(gl)
+	}
+
+
+}
+
+function init() {
+	/** @type {HTMLCanvasElement} */
+	var canvas = document.getElementById("glcanvas1");
+
+	var gl = getGL(canvas);
+	var prog = getProgram(gl)
+
+	gl.useProgram(prog);
+
+	drawWithTex(gl, prog)
 }
