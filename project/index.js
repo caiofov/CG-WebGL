@@ -87,6 +87,27 @@ function initScreen(gl) {
 	gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 }
 
+function triangles() {
+	return new Float32Array([
+		-0.5, -0.5, 1.0, 0.0, 0.0, 1.0,
+		0.5, -0.5, 0.0, 1.0, 0.0, 1.0,
+		0.0, 1.0, 0.0, 0.0, 1.0, 1.0,
+		-1.0, 0.0, 1.0, 1.0, 0.0, 0.7,
+		1.0, 0.0, 1.0, 0.0, 1.0, 0.7,
+		0.0, 0.5, 0.0, 1.0, 1.0, 0.7
+	]);
+}
+function square() {
+	return new Float32Array([
+		-0.5, 0.5, 1.0, 0.0, 0.0, 1.0,
+		-0.5, -0.5, 0.0, 1.0, 0.0, 1.0,
+		0.5, -0.5, 0.0, 0.0, 1.0, 1.0,
+		0.5, -0.5, 1.0, 1.0, 0.0, 0.7,
+		0.5, 0.5, 1.0, 0.0, 1.0, 0.7,
+		-0.5, 0.5, 0.0, 1.0, 1.0, 0.7
+	]);
+}
+
 function init() {
 
 	/** @type {HTMLCanvasElement} */
@@ -99,14 +120,7 @@ function init() {
 	initScreen(gl)
 
 	//Define coordenadas dos triângulos
-	var coordTriangles = new Float32Array([
-		-0.5, -0.5, 1.0, 0.0, 0.0, 1.0,
-		0.5, -0.5, 0.0, 1.0, 0.0, 1.0,
-		0.0, 1.0, 0.0, 0.0, 1.0, 1.0,
-		-1.0, 0.0, 1.0, 1.0, 0.0, 0.7,
-		1.0, 0.0, 1.0, 0.0, 1.0, 0.7,
-		0.0, 0.5, 0.0, 1.0, 1.0, 0.7
-	]);
+	var coordTriangles = square()
 
 	//Cria buffer na GPU e copia coordenadas para ele
 	var bufPtr = gl.createBuffer();
