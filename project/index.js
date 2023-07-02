@@ -27,9 +27,9 @@ function createShader(gl, shaderType, shaderSrc) {
 
 	if (gl.getShaderParameter(shader, gl.COMPILE_STATUS))
 		return shader;
+	throw "Erro de compilação: " + gl.getShaderInfoLog(shader);
 
 	gl.deleteShader(shader);
-	throw "Erro de compilação: " + gl.getShaderInfoLog(shader);
 
 }
 
@@ -49,10 +49,10 @@ function createProgram(gl, vtxShader, fragShader) {
 	gl.linkProgram(prog);
 
 	if (gl.getProgramParameter(prog, gl.LINK_STATUS)) return prog;
+	throw "Erro de linkagem: " + gl.getProgramInfoLog(prog)
 
 	gl.deleteProgram(prog);
 
-	throw "Erro de linkagem: " + gl.getProgramInfoLog(prog)
 
 }
 
@@ -109,6 +109,16 @@ function square() {
 	]);
 }
 
+function square_with_text() {
+	return new Float32Array([
+		-0.5, 0.5, 0.0, 0.0,
+		-0.5, -0.5, 0.0, 1.0,
+		0.5, -0.5, 1.0, 1.0,
+		0.5, 0.5, 1.0, 0.0,
+		-0.5, 0.5, 1.0, 1.0,
+	]);
+}
+
 /**
  * Desenha dois triângulos
  * @param {WebGLRenderingContext} gl 
@@ -124,6 +134,32 @@ function draw_triangles(gl) {
 function draw_square(gl) {
 	gl.drawArrays(gl.TRIANGLES, 0, 3);
 	gl.drawArrays(gl.TRIANGLES, 2, 6); // vai repetir o vértice 3 (para não precisar ser redundante no quadrado)
+}
+
+/**
+ * 
+ * @param {WebGLRenderingContext} gl 
+ * @param {WebGLProgram} prog
+ * @param {string} attributeName 
+ * @param {number} dataQtde 
+ * @param {number} blockSize 
+ * @param {number} initialJump 
+ */
+function setAttributePointer(gl, prog, attributeName, dataQtde, blockSize, initialJump) {
+	//Pega ponteiro para o atributo do vertex shader
+	var pointer = gl.getAttribLocation(prog, attributeName);
+
+	gl.enableVertexAttribArray(pointer);
+	//Especifica a cópia dos valores do buffer para o atributo
+	gl.vertexAttribPointer(pointer,
+		dataQtde,        //quantidade de dados em cada processamento
+		gl.FLOAT, //tipo de cada dado (tamanho)
+		false,    //não normalizar
+		blockSize * 4,      //tamanho do bloco de dados a processar em cada passo
+		//0 indica que o tamanho do bloco é igual a tamanho
+		//lido (2 floats, ou seja, 2*4 bytes = 8 bytes)
+		initialJump * 4         //salto inicial (em bytes)
+	);
 }
 
 function init() {
@@ -146,33 +182,9 @@ function init() {
 	gl.bufferData(gl.ARRAY_BUFFER, coordTriangles, gl.STATIC_DRAW);
 
 	//Pega ponteiro para o atributo "position" do vertex shader
-	var positionPtr = gl.getAttribLocation(prog, "position");
-	gl.enableVertexAttribArray(positionPtr);
-	//Especifica a cópia dos valores do buffer para o atributo
-	gl.vertexAttribPointer(positionPtr,
-		2,        //quantidade de dados em cada processamento
-		gl.FLOAT, //tipo de cada dado (tamanho)
-		false,    //não normalizar
-		6 * 4,      //tamanho do bloco de dados a processar em cada passo
-		//0 indica que o tamanho do bloco é igual a tamanho
-		//lido (2 floats, ou seja, 2*4 bytes = 8 bytes)
-		0         //salto inicial (em bytes)
-	);
 
-	//Pega ponteiro para o atributo "color" do vertex shader
-	var colorPtr = gl.getAttribLocation(prog, "color");
-	gl.enableVertexAttribArray(colorPtr);
-	//Especifica a cópia dos valores do buffer para o atributo
-	gl.vertexAttribPointer(colorPtr,
-		4,        //quantidade de dados em cada processamento
-		gl.FLOAT, //tipo de cada dado (tamanho)
-		false,    //não normalizar
-		6 * 4,      //tamanho do bloco de dados a processar em cada passo
-		//0 indica que o tamanho do bloco é igual a tamanho
-		//lido (2 floats, ou seja, 2*4 bytes = 8 bytes)
-		2 * 4       //salto inicial (em bytes)
-	);
-
+	setAttributePointer(gl, prog, "position", 2, 6, 0)
+	setAttributePointer(gl, prog, "color", 4, 6, 2)
 
 	gl.clear(gl.COLOR_BUFFER_BIT);
 	draw_square(gl)
