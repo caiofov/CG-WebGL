@@ -38,7 +38,7 @@ function createShader(gl, shaderType, shaderSrc) {
  * @param {WebGLRenderingContext} gl 
  * @param {WebGLShader} vtxShader 
  * @param {WebGLShader} fragShader 
- * @returns {WebGLProgram | undefined}
+ * @returns {WebGLProgram}
  */
 function createProgram(gl, vtxShader, fragShader) {
 	var prog = gl.createProgram();
@@ -55,13 +55,12 @@ function createProgram(gl, vtxShader, fragShader) {
 
 }
 
-function init() {
-
-	/** @type {HTMLCanvasElement} */
-	var canvas = document.getElementById("glcanvas1");
-
-	var gl = getGL(canvas);
-
+/**
+ * Inicializa os shaders e cria o programa
+ * @param {WebGLRenderingContext} gl 
+ * @returns {WebGLProgram}
+ */
+function getProgram(gl) {
 	//Inicializa shaders
 
 	/** @type {string} */
@@ -72,17 +71,31 @@ function init() {
 
 	var vtxShader = createShader(gl, gl.VERTEX_SHADER, vtxShSrc);
 	var fragShader = createShader(gl, gl.FRAGMENT_SHADER, fragShSrc);
-	var prog = createProgram(gl, vtxShader, fragShader);
 
-	gl.useProgram(prog);
+	return createProgram(gl, vtxShader, fragShader);
+}
 
-	//Inicializa área de desenho: viewport e cor de limpeza; limpa a tela
+/**
+ * Inicializa área de desenho: viewport e cor de limpeza; limpa a tela
+ * @param {WebGLRenderingContext} gl 
+ */
+function initScreen(gl) {
 	gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 	gl.clearColor(0, 0, 0, 1);
 	gl.enable(gl.BLEND);
 	gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+}
 
+function init() {
 
+	/** @type {HTMLCanvasElement} */
+	var canvas = document.getElementById("glcanvas1");
+	var gl = getGL(canvas);
+	var prog = getProgram(gl)
+
+	gl.useProgram(prog);
+
+	initScreen(gl)
 
 	//Define coordenadas dos triângulos
 	var coordTriangles = new Float32Array([
