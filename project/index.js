@@ -97,15 +97,33 @@ function triangles() {
 		0.0, 0.5, 0.0, 1.0, 1.0, 0.7
 	]);
 }
+
 function square() {
 	return new Float32Array([
-		-0.5, 0.5, 1.0, 0.0, 0.0, 1.0,
-		-0.5, -0.5, 0.0, 1.0, 0.0, 1.0,
-		0.5, -0.5, 0.0, 0.0, 1.0, 1.0,
-		0.5, -0.5, 1.0, 1.0, 0.0, 0.7,
-		0.5, 0.5, 1.0, 0.0, 1.0, 0.7,
-		-0.5, 0.5, 0.0, 1.0, 1.0, 0.7
+		-0.5, 0.5, 1.0, 1.0, 1.0, 1.0,
+		-0.5, -0.5, 1.0, 1.0, 1.0, 1.0,
+		0.5, -0.5, 1.0, 1.0, 1.0, 1.0,
+		// 0.5, -0.5, 1.0, 1.0, 1.0, 1.0, --> Repetindo o drawArrays do webgl não precisa dessa redundância
+		0.5, 0.5, 1.0, 1.0, 1.0, 1.0,
+		-0.5, 0.5, 1.0, 1.0, 1.0, 1.0
 	]);
+}
+
+/**
+ * Desenha dois triângulos
+ * @param {WebGLRenderingContext} gl 
+ */
+function draw_triangles(gl) {
+	gl.drawArrays(gl.TRIANGLES, 0, 6); // a partir do vértice 0, desenha 2 triângulos (6 vértices)
+}
+
+/**
+ * Desenha um quadrado
+ * @param {WebGLRenderingContext} gl 
+ */
+function draw_square(gl) {
+	gl.drawArrays(gl.TRIANGLES, 0, 3);
+	gl.drawArrays(gl.TRIANGLES, 2, 6); // vai repetir o vértice 3 (para não precisar ser redundante no quadrado)
 }
 
 function init() {
@@ -157,6 +175,5 @@ function init() {
 
 
 	gl.clear(gl.COLOR_BUFFER_BIT);
-
-	gl.drawArrays(gl.TRIANGLES, 0, 6);
+	draw_square(gl)
 }
