@@ -1,10 +1,12 @@
 var teximg = [];
 var texSrc = ["gato.jpg", "cachorro.png"].map(e => `img/${e}`);
 var loadTexs = 0;
-var gl;
-var prog;
-
 var angle = 0;
+
+/** @type {WebGLRenderingContext}*/
+var gl;
+/** @type {WebGLProgram}*/
+var prog;
 
 /**
  * Retorna o elemento do webgl
@@ -94,6 +96,7 @@ function initGL() {
         gl.clearColor(0, 0, 0, 1);
         gl.enable(gl.BLEND);
         gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        gl.enable(gl.DEPTH_TEST);
 
     }
 }
@@ -173,22 +176,21 @@ function configScene() {
     submitTexture(1, teximg[1])
 }
 
+/**
+ * Desenha um quadrado (dois triângulos)
+ * @param {number} startIdx índice do primeiro vértice do quadrado no array de vértices
+ */
 function drawSquare(startIdx) {
     gl.drawArrays(gl.TRIANGLES, startIdx, 3);
     gl.drawArrays(gl.TRIANGLES, startIdx + 2, 3);
 }
 
-function draw() {
-    var matrotZ = [Math.cos(angle * Math.PI / 180.0), -Math.sin(angle * Math.PI / 180.0), 0.0, 0.0,
-    Math.sin(angle * Math.PI / 180.0), Math.cos(angle * Math.PI / 180.0), 0.0, 0.0,
-        0.0, 0.0, 1.0, 0.0,
-        0.0, 0.0, 0.0, 1.0];
 
-    var matrotY = [Math.cos(angle * Math.PI / 180.0), 0.0, -Math.sin(angle * Math.PI / 180.0), 0.0,
-        0.0, 1.0, 0.0, 0.0,
-    Math.sin(angle * Math.PI / 180.0), 0.0, Math.cos(angle * Math.PI / 180.0), 0.0,
-        0.0, 0.0, 0.0, 1.0];
-
+/**
+ * Rotação para o eixo X
+ * @param {number} angle ângulo de rotação
+ */
+function rotateX(angle) {
     var matrotX = [1.0, 0.0, 0.0, 0.0,
         0.0, Math.cos(angle * Math.PI / 180.0), -Math.sin(angle * Math.PI / 180.0), 0.0,
         0.0, Math.sin(angle * Math.PI / 180.0), Math.cos(angle * Math.PI / 180.0), 0.0,
@@ -196,14 +198,41 @@ function draw() {
 
     rotXPtr = gl.getUniformLocation(prog, "rotX");
     gl.uniformMatrix4fv(rotXPtr, false, matrotX);
+}
 
+/**
+ * Rotação para o eixo Y
+ * @param {number} angle ângulo de rotação
+ */
+function rotateY(angle) {
+    var matrotY = [Math.cos(angle * Math.PI / 180.0), 0.0, -Math.sin(angle * Math.PI / 180.0), 0.0,
+        0.0, 1.0, 0.0, 0.0,
+    Math.sin(angle * Math.PI / 180.0), 0.0, Math.cos(angle * Math.PI / 180.0), 0.0,
+        0.0, 0.0, 0.0, 1.0];
     rotYPtr = gl.getUniformLocation(prog, "rotY");
     gl.uniformMatrix4fv(rotYPtr, false, matrotY);
+}
 
+/**
+ * Rotação para o eixo Z
+ * @param {number} angle ângulo de rotação
+ */
+function rotateZ(angle) {
+    var matrotZ = [Math.cos(angle * Math.PI / 180.0), -Math.sin(angle * Math.PI / 180.0), 0.0, 0.0,
+    Math.sin(angle * Math.PI / 180.0), Math.cos(angle * Math.PI / 180.0), 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0,
+        0.0, 0.0, 0.0, 1.0];
     rotZPtr = gl.getUniformLocation(prog, "rotZ");
     gl.uniformMatrix4fv(rotZPtr, false, matrotZ);
+}
 
-    gl.clear(gl.COLOR_BUFFER_BIT);
+function draw() {
+
+    rotateX(angle)
+    rotateY(angle)
+    rotateZ(angle)
+
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     //desenha triângulos - executa shaders
     var texPtr = gl.getUniformLocation(prog, "tex");
