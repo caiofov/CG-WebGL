@@ -137,11 +137,27 @@ function setAttributePointer(attributeName, dataQtde, blockSize, initialJump) {
 function configScene() {
     //Define coordenadas dos triângulos
     var coordTriangles = new Float32Array([
-        -0.5, 0.5, 0.0, 0.0,
-        -0.5, -0.5, 0.0, 1.0,
-        0.5, -0.5, 1.0, 1.0,
-        0.5, 0.5, 1.0, 0.0,
-        -0.5, 0.5, 0.0, 0.0
+        //Quad 1
+        //x   y    z    tx   ty
+        -0.5, 0.5, 0.0, 0.0, 0.0,
+        -0.5, -0.5, 0.0, 0.0, 1.0,
+        0.5, -0.5, 0.0, 1.0, 1.0,
+        0.5, 0.5, 0.0, 1.0, 0.0,
+        -0.5, 0.5, 0.0, 0.0, 0.0,
+
+        //Quad 2
+        -0.5, -0.5, 0.0, 1.0, 1.0,
+        -0.5, 0.5, 0.0, 1.0, 0.0,
+        -0.5, 0.5, 1.0, 0.0, 0.0,
+        -0.5, -0.5, 1.0, 0.0, 1.0,
+        -0.5, -0.5, 0.0, 1.0, 1.0,
+
+        //Quad 3
+        0.5, -0.5, 1.0, 1.0, 1.0,
+        0.5, -0.5, 0.0, 1.0, 0.0,
+        -0.5, -0.5, 0.0, 0.0, 0.0,
+        -0.5, -0.5, 1.0, 0.0, 1.0,
+        0.5, -0.5, 1.0, 1.0, 1.0
     ]);
 
     //Cria buffer na GPU e copia coordenadas para ele
@@ -149,31 +165,51 @@ function configScene() {
     gl.bindBuffer(gl.ARRAY_BUFFER, bufPtr);
     gl.bufferData(gl.ARRAY_BUFFER, coordTriangles, gl.STATIC_DRAW);
 
-    setAttributePointer("position", 2, 4, 0)
-    setAttributePointer("texCoord", 2, 4, 2)
+    setAttributePointer("position", 3, 5, 0)
+    setAttributePointer("texCoord", 2, 5, 3)
 
     //submeter textura para gpu
     submitTexture(0, teximg[0])
     submitTexture(1, teximg[1])
 }
 
+function drawSquare(startIdx) {
+    gl.drawArrays(gl.TRIANGLES, startIdx, 3);
+    gl.drawArrays(gl.TRIANGLES, startIdx + 2, 3);
+}
+
 function draw() {
-    var matrot = [Math.cos(angle * Math.PI / 180.0), -Math.sin(angle * Math.PI / 180.0), 0.0, 0.0,
+    var matrotZ = [Math.cos(angle * Math.PI / 180.0), -Math.sin(angle * Math.PI / 180.0), 0.0, 0.0,
     Math.sin(angle * Math.PI / 180.0), Math.cos(angle * Math.PI / 180.0), 0.0, 0.0,
         0.0, 0.0, 1.0, 0.0,
         0.0, 0.0, 0.0, 1.0];
 
-    transfPtr = gl.getUniformLocation(prog, "transf");
-    gl.uniformMatrix4fv(transfPtr, false, matrot);
+    var matrotY = [Math.cos(angle * Math.PI / 180.0), 0.0, -Math.sin(angle * Math.PI / 180.0), 0.0,
+        0.0, 1.0, 0.0, 0.0,
+    Math.sin(angle * Math.PI / 180.0), 0.0, Math.cos(angle * Math.PI / 180.0), 0.0,
+        0.0, 0.0, 0.0, 1.0];
 
+    var matrotX = [1.0, 0.0, 0.0, 0.0,
+        0.0, Math.cos(angle * Math.PI / 180.0), -Math.sin(angle * Math.PI / 180.0), 0.0,
+        0.0, Math.sin(angle * Math.PI / 180.0), Math.cos(angle * Math.PI / 180.0), 0.0,
+        0.0, 0.0, 0.0, 1.0];
+
+    transfPtr = gl.getUniformLocation(prog, "transf");
+    gl.uniformMatrix4fv(transfPtr, false, matrotX);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     //desenha triângulos - executa shaders
     var texPtr = gl.getUniformLocation(prog, "tex");
     gl.uniform1i(texPtr, 0);
-    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    drawSquare(0)
+
     gl.uniform1i(texPtr, 1);
-    gl.drawArrays(gl.TRIANGLES, 2, 3);
+    drawSquare(5)
+
+    gl.uniform1i(texPtr, 0);
+    gl.drawArrays(gl.TRIANGLES, 10, 3);
+    gl.uniform1i(texPtr, 1);
+    gl.drawArrays(gl.TRIANGLES, 12, 3);
 
     angle++;
 
