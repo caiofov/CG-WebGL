@@ -102,7 +102,7 @@ function initGL() {
         gl.enable(gl.BLEND);
         gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
         gl.enable(gl.DEPTH_TEST); // profundidade, perspectiva
-        gl.enable(gl.CULL_FACE); // não renderiza faces que estão de costas
+        gl.enable(gl.CULL_FACE); // não renderiza faces que estão de costas -> util para polígonos fechados
 
     }
 }
@@ -198,53 +198,48 @@ function drawSquare(startIdx) {
  * Rotação para o eixo X
  * @param {number} angle ângulo de rotação
  */
-function rotateX(angle) {
-    var matrotX = [
-        1.0, 0.0, 0.0, 0.0,
-        0.0, Math.cos(angle * Math.PI / 180.0), -Math.sin(angle * Math.PI / 180.0), 0.0,
-        0.0, Math.sin(angle * Math.PI / 180.0), Math.cos(angle * Math.PI / 180.0), 0.0,
-        0.0, 0.0, 0.0, 1.0
-    ];
-
-    rotXPtr = gl.getUniformLocation(prog, "rotX");
-    gl.uniformMatrix4fv(rotXPtr, false, matrotX);
+function matrotX(angle) {
+    return math.matrix(
+        [[1.0, 0.0, 0.0, 0.0],
+        [0.0, Math.cos(angle * Math.PI / 180.0), -Math.sin(angle * Math.PI / 180.0), 0.0],
+        [0.0, Math.sin(angle * Math.PI / 180.0), Math.cos(angle * Math.PI / 180.0), 0.0],
+        [0.0, 0.0, 0.0, 1.0]]
+    )
 }
 
 /**
  * Rotação para o eixo Y
  * @param {number} angle ângulo de rotação
  */
-function rotateY(angle) {
-    var matrotY = [
-        Math.cos(angle * Math.PI / 180.0), 0.0, -Math.sin(angle * Math.PI / 180.0), 0.0,
-        0.0, 1.0, 0.0, 0.0,
-        Math.sin(angle * Math.PI / 180.0), 0.0, Math.cos(angle * Math.PI / 180.0), 0.0,
-        0.0, 0.0, 0.0, 1.0
-    ];
-    rotYPtr = gl.getUniformLocation(prog, "rotY");
-    gl.uniformMatrix4fv(rotYPtr, false, matrotY);
+function matrotY(angle) {
+    return math.matrix(
+        [[Math.cos(angle * Math.PI / 180.0), 0.0, -Math.sin(angle * Math.PI / 180.0), 0.0],
+        [0.0, 1.0, 0.0, 0.0],
+        [Math.sin(angle * Math.PI / 180.0), 0.0, Math.cos(angle * Math.PI / 180.0), 0.0],
+        [0.0, 0.0, 0.0, 1.0]]
+    )
 }
 
 /**
  * Rotação para o eixo Z
  * @param {number} angle ângulo de rotação
  */
-function rotateZ(angle) {
-    var matrotZ = [
-        Math.cos(angle * Math.PI / 180.0), -Math.sin(angle * Math.PI / 180.0), 0.0, 0.0,
-        Math.sin(angle * Math.PI / 180.0), Math.cos(angle * Math.PI / 180.0), 0.0, 0.0,
-        0.0, 0.0, 1.0, 0.0,
-        0.0, 0.0, 0.0, 1.0
-    ];
-    rotZPtr = gl.getUniformLocation(prog, "rotZ");
-    gl.uniformMatrix4fv(rotZPtr, false, matrotZ);
+function matrotZ(angle) {
+    return math.matrix(
+        [[Math.cos(angle * Math.PI / 180.0), -Math.sin(angle * Math.PI / 180.0), 0.0, 0.0],
+        [Math.sin(angle * Math.PI / 180.0), Math.cos(angle * Math.PI / 180.0), 0.0, 0.0],
+        [0.0, 0.0, 1.0, 0.0],
+        [0.0, 0.0, 0.0, 1.0]]
+    )
 }
 
 function draw() {
+    var transforma = math.multiply(matrotX(angle), matrotY(angle))
+    transforma = math.multiply(transforma, matrotZ(angle))
+    transforma = math.flatten(transforma)._data
 
-    rotateX(angle)
-    rotateY(angle)
-    rotateZ(angle)
+    transfPtr = gl.getUniformLocation(prog, "transf");
+    gl.uniformMatrix4fv(transfPtr, false, transforma);
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
