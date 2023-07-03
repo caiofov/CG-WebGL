@@ -194,8 +194,15 @@ function draw() {
         0.0, Math.sin(angle * Math.PI / 180.0), Math.cos(angle * Math.PI / 180.0), 0.0,
         0.0, 0.0, 0.0, 1.0];
 
-    transfPtr = gl.getUniformLocation(prog, "transf");
-    gl.uniformMatrix4fv(transfPtr, false, matrotX);
+    rotXPtr = gl.getUniformLocation(prog, "rotX");
+    gl.uniformMatrix4fv(rotXPtr, false, matrotX);
+
+    rotYPtr = gl.getUniformLocation(prog, "rotY");
+    gl.uniformMatrix4fv(rotYPtr, false, matrotY);
+
+    rotZPtr = gl.getUniformLocation(prog, "rotZ");
+    gl.uniformMatrix4fv(rotZPtr, false, matrotZ);
+
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     //desenha triângulos - executa shaders

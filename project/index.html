@@ -7,14 +7,14 @@
         // attribute -> muda para cada vértice
         attribute vec4 position;
         attribute vec2 texCoord;
-        uniform mat4 transf;
+        uniform mat4 rotX, rotY, rotZ;
 
         varying vec2 v_texCoord;
 
         void main()
         {
             v_texCoord = texCoord;
-            gl_Position = transf*position;
+            gl_Position = rotX*rotY*rotZ*position;
         }
     </script>
 
