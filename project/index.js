@@ -1,7 +1,12 @@
 var teximg = [];
 var texSrc = ["gato.jpg", "cachorro.png"].map(e => `img/${e}`);
 var loadTexs = 0;
+
+/** Ângulo de rotação*/
 var angle = 0;
+
+/**Distância focal */
+var df = 2.0
 
 /** @type {WebGLRenderingContext}*/
 var gl;
@@ -96,7 +101,8 @@ function initGL() {
         gl.clearColor(0, 0, 0, 1);
         gl.enable(gl.BLEND);
         gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-        gl.enable(gl.DEPTH_TEST);
+        gl.enable(gl.DEPTH_TEST); // profundidade, perspectiva
+        gl.enable(gl.CULL_FACE); // não renderiza faces que estão de costas
 
     }
 }
@@ -127,13 +133,11 @@ function setAttributePointer(attributeName, dataQtde, blockSize, initialJump) {
     gl.enableVertexAttribArray(pointer);
     //Especifica a cópia dos valores do buffer para o atributo
     gl.vertexAttribPointer(pointer,
-        dataQtde,        //quantidade de dados em cada processamento
-        gl.FLOAT, //tipo de cada dado (tamanho)
-        false,    //não normalizar
-        blockSize * 4,      //tamanho do bloco de dados a processar em cada passo
-        //0 indica que o tamanho do bloco é igual a tamanho
-        //lido (2 floats, ou seja, 2*4 bytes = 8 bytes)
-        initialJump * 4         //salto inicial (em bytes)
+        dataQtde,       //quantidade de dados em cada processamento
+        gl.FLOAT,       //tipo de cada dado (tamanho)
+        false,          //não normalizar
+        blockSize * 4,  //tamanho do bloco de dados a processar em cada passo (2 floats, ou seja, 2*4 bytes = 8 bytes)
+        initialJump * 4 // salto inicial (em bytes)
     );
 }
 
@@ -174,6 +178,10 @@ function configScene() {
     //submeter textura para gpu
     submitTexture(0, teximg[0])
     submitTexture(1, teximg[1])
+
+    //insere o valor da distância focal
+    dfPtr = gl.getUniformLocation(prog, "df")
+    gl.uniform1f(dfPtr, df)
 }
 
 /**
@@ -191,10 +199,12 @@ function drawSquare(startIdx) {
  * @param {number} angle ângulo de rotação
  */
 function rotateX(angle) {
-    var matrotX = [1.0, 0.0, 0.0, 0.0,
+    var matrotX = [
+        1.0, 0.0, 0.0, 0.0,
         0.0, Math.cos(angle * Math.PI / 180.0), -Math.sin(angle * Math.PI / 180.0), 0.0,
         0.0, Math.sin(angle * Math.PI / 180.0), Math.cos(angle * Math.PI / 180.0), 0.0,
-        0.0, 0.0, 0.0, 1.0];
+        0.0, 0.0, 0.0, 1.0
+    ];
 
     rotXPtr = gl.getUniformLocation(prog, "rotX");
     gl.uniformMatrix4fv(rotXPtr, false, matrotX);
@@ -205,10 +215,12 @@ function rotateX(angle) {
  * @param {number} angle ângulo de rotação
  */
 function rotateY(angle) {
-    var matrotY = [Math.cos(angle * Math.PI / 180.0), 0.0, -Math.sin(angle * Math.PI / 180.0), 0.0,
+    var matrotY = [
+        Math.cos(angle * Math.PI / 180.0), 0.0, -Math.sin(angle * Math.PI / 180.0), 0.0,
         0.0, 1.0, 0.0, 0.0,
-    Math.sin(angle * Math.PI / 180.0), 0.0, Math.cos(angle * Math.PI / 180.0), 0.0,
-        0.0, 0.0, 0.0, 1.0];
+        Math.sin(angle * Math.PI / 180.0), 0.0, Math.cos(angle * Math.PI / 180.0), 0.0,
+        0.0, 0.0, 0.0, 1.0
+    ];
     rotYPtr = gl.getUniformLocation(prog, "rotY");
     gl.uniformMatrix4fv(rotYPtr, false, matrotY);
 }
@@ -218,10 +230,12 @@ function rotateY(angle) {
  * @param {number} angle ângulo de rotação
  */
 function rotateZ(angle) {
-    var matrotZ = [Math.cos(angle * Math.PI / 180.0), -Math.sin(angle * Math.PI / 180.0), 0.0, 0.0,
-    Math.sin(angle * Math.PI / 180.0), Math.cos(angle * Math.PI / 180.0), 0.0, 0.0,
+    var matrotZ = [
+        Math.cos(angle * Math.PI / 180.0), -Math.sin(angle * Math.PI / 180.0), 0.0, 0.0,
+        Math.sin(angle * Math.PI / 180.0), Math.cos(angle * Math.PI / 180.0), 0.0, 0.0,
         0.0, 0.0, 1.0, 0.0,
-        0.0, 0.0, 0.0, 1.0];
+        0.0, 0.0, 0.0, 1.0
+    ];
     rotZPtr = gl.getUniformLocation(prog, "rotZ");
     gl.uniformMatrix4fv(rotZPtr, false, matrotZ);
 }
