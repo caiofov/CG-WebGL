@@ -71,6 +71,6 @@ function createCamera() {
  */
 function moveCamera(move) {
     for (let idx = 0; idx < move.length; idx++) {
-        camera.pos[0] += move[idx]
+        camera.pos[idx] += move[idx]
     }
 }
