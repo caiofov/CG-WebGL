@@ -68,7 +68,6 @@ function createProgram(gl, vtxShader, fragShader) {
 }
 
 
-
 function loadTextures() {
     if (loadTexs == texSrc.length) {
         initGL();
@@ -78,32 +77,37 @@ function loadTextures() {
 }
 
 function initGL() {
-
+    /**@type {HTMLCanvasElement} */
     var canvas = document.getElementById("glcanvas1");
 
     gl = getGL(canvas);
-    if (gl) {
-        //Inicializa shaders
-        var vtxShSrc = document.getElementById("vertex-shader").text;
-        var fragShSrc = document.getElementById("frag-shader").text;
 
-        var vtxShader = createShader(gl, gl.VERTEX_SHADER, vtxShSrc);
-        var fragShader = createShader(gl, gl.FRAGMENT_SHADER, fragShSrc);
-        prog = createProgram(gl, vtxShader, fragShader);
+    //Inicializa shaders
+    var vtxShSrc = document.getElementById("vertex-shader").text;
+    var fragShSrc = document.getElementById("frag-shader").text;
 
-        gl.useProgram(prog);
+    var vtxShader = createShader(gl, gl.VERTEX_SHADER, vtxShSrc);
+    var fragShader = createShader(gl, gl.FRAGMENT_SHADER, fragShSrc);
+    prog = createProgram(gl, vtxShader, fragShader);
 
-        //Inicializa área de desenho: viewport e cor de limpeza; limpa a tela
-        gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-        gl.clearColor(0, 0, 0, 1);
-        gl.enable(gl.BLEND);
-        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-        gl.enable(gl.DEPTH_TEST); // profundidade, perspectiva
-        //gl.enable(gl.CULL_FACE); // não renderiza faces que estão de costas -> util para polígonos fechados
+    gl.useProgram(prog);
 
-    }
+    //Inicializa área de desenho: viewport e cor de limpeza; limpa a tela
+    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+    gl.clearColor(0, 0, 0, 1);
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.enable(gl.DEPTH_TEST); // profundidade, perspectiva
+    //gl.enable(gl.CULL_FACE); // não renderiza faces que estão de costas -> util para polígonos fechados
+
+
 }
 
+/**
+ * Carrega uma textura específica
+ * @param {number} idx índice onde irá guardar a textura na memória
+ * @param {string} img path para o arquivo de imagem
+ */
 function submitTexture(idx, img) {
     var tex0 = gl.createTexture();
     gl.activeTexture(gl.TEXTURE0 + idx);
@@ -227,70 +231,81 @@ function matrotZ(angle) {
     )
 }
 
-/*
+/**
+ * 
+ * @param {number} fovy 
+ * @param {number} aspect 
+ * @param {number} near 
+ * @param {number} far 
+ * @returns {any} Matriz
+ */
+function createPerspective(fovy, aspect, near, far) {
+    fovy = fovy * Math.PI / 180.0;
 
-*/
-function createPerspective(fovy,aspect,near,far){
-    fovy = fovy * Math.PI/180.0;
-
-    var fy = 1/math.tan(fovy/2.0);
-    var fx = fy/aspect;
-    var B = -2*far*near/(far-near);
-    var A = -(far+near)/(far-near);
+    var fy = 1 / math.tan(fovy / 2.0);
+    var fx = fy / aspect;
+    var B = -2 * far * near / (far - near);
+    var A = -(far + near) / (far - near);
     var proj = math.matrix(
-                           [[fx, 0.0, 0.0, 0.0],
-                            [0.0, fy, 0.0, 0.0],
-                            [0.0, 0.0, A, B],
-                            [0.0, 0.0, -1.0, 0.0]]);//garante divisão por -z
+        [[fx, 0.0, 0.0, 0.0],
+        [0.0, fy, 0.0, 0.0],
+        [0.0, 0.0, A, B],
+        [0.0, 0.0, -1.0, 0.0]]);//garante divisão por -z
     return proj;
 }
 
-function createCamera(pos, target, up)
-{  
-  var zc = math.subtract(pos, target);
-  zc = math.divide(zc, math.norm(zc));
-  
-  var yt = math.subtract(up, pos);
-  yt = math.divide(yt, math.norm(yt));
-  
-  var xc = math.cross(yt, zc);
-  xc = math.divide(xc, math.norm(xc));
-  
-  var yc = math.cross(zc, xc);
-  yc = math.divide(yc,math.norm(yc));
-  
-  var mt = math.inv(math.transpose(math.matrix([xc,yc,zc])));
-  
-  mt = math.resize(mt, [4,4], 0);
-  mt._data[3][3] = 1;
-  
-  var mov = math.matrix([[1, 0, 0, -pos[0]], 
-                         [0, 1, 0, -pos[1]],
-                         [0, 0, 1, -pos[2]],
-                         [0, 0, 0, 1]]);
-  
-  var cam = math.multiply(mt, mov);
-  
-  return cam;
-}       
+/**
+ * Cria uma câmera
+ * @param {*} pos 
+ * @param {*} target 
+ * @param {*} up 
+ * @returns {any} Matriz da câmera
+ */
+function createCamera(pos, target, up) {
+    var zc = math.subtract(pos, target);
+    zc = math.divide(zc, math.norm(zc));
+
+    var yt = math.subtract(up, pos);
+    yt = math.divide(yt, math.norm(yt));
+
+    var xc = math.cross(yt, zc);
+    xc = math.divide(xc, math.norm(xc));
+
+    var yc = math.cross(zc, xc);
+    yc = math.divide(yc, math.norm(yc));
+
+    var mt = math.inv(math.transpose(math.matrix([xc, yc, zc])));
+
+    mt = math.resize(mt, [4, 4], 0);
+    mt._data[3][3] = 1;
+
+    var mov = math.matrix([[1, 0, 0, -pos[0]],
+    [0, 1, 0, -pos[1]],
+    [0, 0, 1, -pos[2]],
+    [0, 0, 0, 1]]);
+
+    var cam = math.multiply(mt, mov);
+
+    return cam;
+}
 
 function draw() {
-    var mproj = createPerspective(10, gl.canvas.width/gl.canvas.height, 1, 50);
-    var cam = createCamera([5,5,5],[0,0,0],[5,6,5])
+    var mproj = createPerspective(10, gl.canvas.width / gl.canvas.height, 1, 50);
+    var cam = createCamera([5, 5, 5], [0, 0, 0], [5, 6, 5])
     //translacao em z
     var tz = math.matrix(
         [[1.0, 0.0, 0.0, 0.0],
-         [0.0, 1.0, 0.0, 0.0],
-         [0.0, 0.0, 1.0, -5.0],
-         [0.0, 0.0, 0.0, 1.0]]);
+        [0.0, 1.0, 0.0, 0.0],
+        [0.0, 0.0, 1.0, -5.0],
+        [0.0, 0.0, 0.0, 1.0]]);
 
-    
+
     var transforma = math.multiply(matrotY(angle), matrotX(angle));// Multiplicaçao de matr não é comutativa
-    transforma = math.multiply(matrotZ(angle),transforma);
-    transforma = math.multiply(cam,transforma);
-    transforma = math.multiply(mproj,transforma);
+    transforma = math.multiply(matrotZ(angle), transforma);
+    transforma = math.multiply(cam, transforma);
+    transforma = math.multiply(mproj, transforma);
 
-    
+
 
     transforma = math.flatten(math.transpose(transforma))._data;//webGL multiplica por colunas (transpose necessario)
 
@@ -306,7 +321,7 @@ function draw() {
 
     gl.uniform1i(texPtr, 1);
     drawSquare(5)
-  
+
 
     gl.uniform1i(texPtr, 0);
     gl.drawArrays(gl.TRIANGLES, 10, 3);
