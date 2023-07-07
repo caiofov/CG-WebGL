@@ -11,6 +11,8 @@ var gl;
 /** @type {WebGLProgram}*/
 var prog;
 
+
+
 function loadTextures() {
     if (loadTexs == texSrc.length) {
         initGL();
@@ -41,7 +43,7 @@ function configScene() {
 
 function draw() {
     var mproj = createPerspective(10, gl.canvas.width / gl.canvas.height, 1, 50);
-    var cam = createCamera([5, 5, 5], [0, 0, 0], [5, 6, 5])
+    var cam = createCamera()
     //translacao em z
     var tz = math.matrix(
         [[1.0, 0.0, 0.0, 0.0],
@@ -91,4 +93,5 @@ function init() {
             loadTextures();
         }
     }
+    addListeners()
 }

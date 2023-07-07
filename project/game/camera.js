@@ -1,3 +1,9 @@
+var camera = {
+    pos: [5, 5, 5],
+    target: [0, 0, 0],
+    up: [5, 6, 5]
+}
+
 /**
  * Faz o cálculo da perspectiva
  * @param {number} fovy Ângulo (*em ângulos*) do campo de visão do eixo Y *(igual ao `fovx` se a tela for quadrada)*
@@ -26,16 +32,13 @@ function createPerspective(fovy, aspect, near, far) {
 
 /**
  * Cria uma câmera
- * @param {{_data: number[][]}} pos 
- * @param {{_data: number[][]}} target 
- * @param {{_data: number[][]}} up 
  * @returns {{_data: number[][]}} Matriz da câmera
  */
-function createCamera(pos, target, up) {
-    var zc = math.subtract(pos, target);
+function createCamera() {
+    var zc = math.subtract(camera.pos, camera.target);
     zc = math.divide(zc, math.norm(zc));
 
-    var yt = math.subtract(up, pos);
+    var yt = math.subtract(camera.up, camera.pos);
     yt = math.divide(yt, math.norm(yt));
 
     var xc = math.cross(yt, zc);
@@ -51,13 +54,23 @@ function createCamera(pos, target, up) {
     mt._data[3][3] = 1;
 
     /**@type {{_data: number[][]}} */
-    var mov = math.matrix([[1, 0, 0, -pos[0]],
-    [0, 1, 0, -pos[1]],
-    [0, 0, 1, -pos[2]],
+    var mov = math.matrix([[1, 0, 0, -camera.pos[0]],
+    [0, 1, 0, -camera.pos[1]],
+    [0, 0, 1, -camera.pos[2]],
     [0, 0, 0, 1]]);
 
     /**@type {{_data: number[][]}} */
     var cam = math.multiply(mt, mov);
 
     return cam;
+}
+
+/**
+ * Movimenta a câmera
+ * @param {number[]} move 
+ */
+function moveCamera(move) {
+    for (let idx = 0; idx < move.length; idx++) {
+        camera.pos[0] += move[idx]
+    }
 }
