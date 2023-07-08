@@ -11,13 +11,15 @@ var player = {
     z: 0
 }
 
-function configScene() {
+
+function configScene(playerShape) {
     //Define coordenadas dos triângulos
+    console.log(playerShape)
     var coordTriangles = Float32Array.of(
         ...parallelepiped([0, 0, 0], 0.5, 0.5, 1),
         ...parallelepiped([0.8, 0, 0], 0.5, 0.5, 1),
         ...parallelepiped([1.6, 0, 0], 0.5, 0.5, 1),
-        ...parallelepiped([0.0, 0.0, 0.0], 0.5, 0.5, 1));
+        ...playerShape);
 
     //Cria buffer na GPU e copia coordenadas para ele
     var bufPtr = gl.createBuffer();
@@ -79,9 +81,12 @@ function draw() {
 
 function init() {
     initImages().then(() => {
-        initGL();
-        configScene();
-        draw();
+        readObjFile("obj/player.obj").then((shape) => {
+            initGL();
+            configScene(shape);
+            draw();
+        })
+
     })
     addListeners()
 }
