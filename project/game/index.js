@@ -1,8 +1,3 @@
-// import { createCamera, createPerspective } from "./camera";
-var teximg = [];
-var texSrc = ["gato.jpg", "cachorro.png"].map(e => `img/${e}`);
-var loadTexs = 0;
-
 /** Ângulo de rotação*/
 var angle = 0;
 
@@ -14,11 +9,9 @@ var prog;
 
 
 function loadTextures() {
-    if (loadTexs == texSrc.length) {
-        initGL();
-        configScene();
-        draw();
-    }
+    // if (loadTexs == texSrc.length) {
+
+    // }
 }
 
 
@@ -35,9 +28,7 @@ function configScene() {
     setAttributePointer("texCoord", 2, 5, 3)
 
     //submeter textura para gpu
-    submitTexture(0, teximg[0])
-    submitTexture(1, teximg[1])
-
+    submitTextures()
 }
 
 
@@ -66,20 +57,16 @@ function draw() {
 
     drawHexahedron(0, [0, 1, 0, 1])
 
-    angle += 0.1;
+    // angle += 0.1;
 
     requestAnimationFrame(draw);
 }
 
 
 function init() {
-    for (i = 0; i < texSrc.length; i++) {
-        teximg[i] = new Image();
-        teximg[i].src = texSrc[i];
-        teximg[i].onload = function () {
-            loadTexs++;
-            loadTextures();
-        }
-    }
-    addListeners()
+    initImages().then(() => {
+        initGL();
+        configScene();
+        draw();
+    })
 }
