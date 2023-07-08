@@ -9,30 +9,29 @@ function readObjFile(filePath) {
             .then((r) => r.text())
             .then((content) => {
                 const vertices = [];
+                const lines = content.split('\n')
+                for (const line of lines) {
+                    const vs = line.trim().split(' ');
+                    const type = vs.shift();
 
-                for (const lines of content.split('\n')) {
-                    for (let i = 0; i < lines.length; i++) {
-                        const line = lines[i].trim().split(' ');
-                        const type = line.shift();
-
-                        switch (type) {
-                            case "v":
-                                for (let i = 0; i < 5; i++) {
-                                    vertices.push(parseFloat(line[i]))
-                                }
-                                break;
-                            default:
-                                break;
-                        }
+                    switch (type) {
+                        case "v":
+                            for (let i = 0; i < 5; i++) {
+                                vertices.push(parseFloat(vs[i]))
+                            }
+                            break;
+                        default:
+                            break;
                     }
                 }
-
                 resolve(vertices);
+
                 return vertices
             })
-            .catch((erro) => {
-                reject(erro);
-            });
+
+
+    }).catch((erro) => {
+        reject(erro);
     });
 }
 
