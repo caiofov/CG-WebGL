@@ -12,6 +12,8 @@ function addListeners() {
         else if (["d", "D"].includes(key)) x = 1
         z1+=0.8*z 
         x1+=0.8*x
+        //restriçoes de movimento, casas para mover personagem: 0.0 , 0.8 e 1.6
+        x1 = Math.max(0,Math.min(x1,1.6))
         moveCamera([x, 0, z])
     });
 }

@@ -75,6 +75,8 @@ function moveCamera(move) {
     camera.target[0] += move[0]
     camera.target[1] += move[1]
     camera.target[2] += move[2]
-
+    // Restriçoes de movimento, so 3 casas para mover a camera 0.0 , 0.8 e 1.6
+    camera.target[0] = Math.max(0,Math.min(camera.target[0],1.6))
+    camera.pos[0] = Math.max(0,Math.min(camera.pos[0],1.6))    
     camera.up = [camera.pos[0], camera.pos[1] + 1, camera.pos[2]]
 }
