@@ -1,7 +1,7 @@
 var camera = {
-    pos: [5, 5, 5],
+    pos: [5, 5, 15],
     target: [0, 0, 0],
-    up: [5, 6, 5]
+    up: [5, 6, 15]
 }
 
 /**
@@ -72,5 +72,12 @@ function createCamera() {
 function moveCamera(move) {
     for (let idx = 0; idx < move.length; idx++) {
         camera.pos[idx] += move[idx]
+        // camera.up[idx] += move[idx] / 2
     }
+
+    camera.target[0] += move[0]
+    camera.target[1] += move[1] / 2
+    camera.up = [...camera.pos]
+    camera.up[1] += 1
+
 }
