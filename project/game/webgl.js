@@ -14,6 +14,7 @@ function getGL(canvas) {
 }
 /**
  * Cria o programa e linka os shaders
+ * @param {WebGLRenderingContext} gl
  * @param {WebGLShader} vtxShader 
  * @param {WebGLShader} fragShader 
  * @returns {WebGLProgram}
