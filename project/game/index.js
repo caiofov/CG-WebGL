@@ -7,17 +7,9 @@ var gl;
 var prog;
 
 
-
-function loadTextures() {
-    // if (loadTexs == texSrc.length) {
-
-    // }
-}
-
-
 function configScene() {
     //Define coordenadas dos triângulos
-    var coordTriangles = parallelepiped([0.5, 0.5, 0], 1, 0.5, 0.5)
+    var coordTriangles = parallelepiped([0.5, 0.5, 0], 0.5, 0.5, 1)
 
     //Cria buffer na GPU e copia coordenadas para ele
     var bufPtr = gl.createBuffer();
@@ -55,7 +47,7 @@ function draw() {
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    drawHexahedron(0, [0, 1, 0, 1])
+    drawHexahedron(0, [1, 0, 1])
 
     // angle += 0.1;
 
