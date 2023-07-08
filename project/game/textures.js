@@ -5,7 +5,8 @@ var loadTexs = 0;
 const TEXTURES = {
     thomasFace: ["img/thomas_face.png"],
     thomasSide: ["img/thomas_side.png"],
-    sticker:["img/stick.png"]
+    sticker:["img/stick.png"],
+    rail:["img/trilho.jpg"]
 }
 
 /**
@@ -23,6 +24,8 @@ function submitTexture(idx, img) {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
 }
+
+
 
 function loadImage(src) {
     return new Promise((resolve, reject) => {

@@ -14,10 +14,16 @@ var player = {
 function configScene() {
     //Define coordenadas dos triângulos
     var coordTriangles = Float32Array.of(
+        // Trens
         ...parallelepiped([0, 0, 0], 0.5, 0.5, 1),
         ...parallelepiped([0.8, 0, 0], 0.5, 0.5, 1),
         ...parallelepiped([1.6, 0, 0], 0.5, 0.5, 1),
-        ...parallelepiped([0.0, 0.0, 0.0], 0.5, 0.5, 1));
+        // Personagem
+        ...parallelepiped([0.0, 0.0, 0.0], 0.5, 0.5, 1),
+        // Cenario(Trilhos)
+        ...parallelepiped([1.8, -0.5, 0.0], 0.9, 0.1, 45),
+        ...parallelepiped([1, -0.5, 0.0], 0.9, 0.1, 45),
+        ...parallelepiped([0.1, -0.5, 0.0], 0.9, 0.1, 45));
 
     //Cria buffer na GPU e copia coordenadas para ele
     var bufPtr = gl.createBuffer();
@@ -43,13 +49,12 @@ function draw() {
         [0.0, 0.0, 1.0, player.z],
         [0.0, 0.0, 0.0, 1.0]]);
 
-    //trens
+    // Trens
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     var transforma = math.multiply(matrotY(angle), matrotX(angle));// Multiplicaçao de matr não é comutativa
     transforma = math.multiply(matrotZ(angle), transforma);
     transforma = math.multiply(cam, transforma);
     transforma = math.multiply(mproj, transforma);
-
     transforma = math.flatten(math.transpose(transforma))._data; //webGL multiplica por colunas (transpose necessario)
 
     transfPtr = gl.getUniformLocation(prog, "transf");
@@ -59,9 +64,7 @@ function draw() {
     drawHexahedron(30, [1, 0, 1])
     drawHexahedron(60, [1, 0, 1])
 
-
-
-    //personagem 
+    // Personagem 
     var transforma2 = math.multiply(cam, txz);
     transforma2 = math.multiply(mproj, transforma2);
     transforma2 = math.flatten(math.transpose(transforma2))._data;
@@ -69,6 +72,30 @@ function draw() {
     gl.uniformMatrix4fv(transf2Ptr, false, transforma2);
     //gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     drawHexahedron(90, [2])
+
+    // Trilhos
+    var trilho = math.matrix(
+        [[1.0, 0.0, 0.0, 0.0],
+        [0.0, 1.0, 0.0, 0.0],
+        [0.0, 0.0, 1.0, 0.0],
+        [0.0, 0.0, 0.0, 1.0]]);
+    trilho = math.multiply(cam, trilho);
+    trilho = math.multiply(mproj, trilho);
+    trilho = math.flatten(math.transpose(trilho))._data;
+    transf3Ptr = gl.getUniformLocation(prog, "transf");
+    gl.uniformMatrix4fv(transf2Ptr, false, trilho);
+    //gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    drawHexahedron(120, [3])
+
+    transf3Ptr = gl.getUniformLocation(prog, "transf");
+    gl.uniformMatrix4fv(transf2Ptr, false, trilho);
+    //gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    drawHexahedron(150, [3])
+
+    transf3Ptr = gl.getUniformLocation(prog, "transf");
+    gl.uniformMatrix4fv(transf2Ptr, false, trilho);
+    //gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    drawHexahedron(180, [3])
 
 
     // angle += 0.1;
