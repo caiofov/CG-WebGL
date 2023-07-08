@@ -24,7 +24,7 @@ function loadTextures() {
 
 function configScene() {
     //Define coordenadas dos triângulos
-    var coordTriangles = box()
+    var coordTriangles = box([0.5, 0.5, 0], 1)
 
     //Cria buffer na GPU e copia coordenadas para ele
     var bufPtr = gl.createBuffer();
