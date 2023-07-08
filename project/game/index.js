@@ -9,7 +9,9 @@ var prog;
 
 function configScene() {
     //Define coordenadas dos triângulos
-    var coordTriangles = parallelepiped([0.5, 0.5, 0], 0.5, 0.5, 1)
+    var coordTriangles = Float32Array.of(
+        ...parallelepiped([0, 0, 0], 0.5, 0.5, 1),
+        ...parallelepiped([0.8, 0, 0], 0.5, 0.5, 1))
 
     //Cria buffer na GPU e copia coordenadas para ele
     var bufPtr = gl.createBuffer();
@@ -48,6 +50,7 @@ function draw() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     drawHexahedron(0, [1, 0, 1])
+    drawHexahedron(30, [1, 0, 1])
 
     // angle += 0.1;
 
@@ -61,4 +64,5 @@ function init() {
         configScene();
         draw();
     })
+    addListeners()
 }

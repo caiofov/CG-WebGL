@@ -16,7 +16,7 @@ function drawHexahedron(startIdx, texIdxOrder) {
     var texPtr = gl.getUniformLocation(prog, "tex");
     var count = 0
     texIdxOrder = texIdxOrder || []
-    for (let i = startIdx; i < 5 * 6; i += 5) {
+    for (let i = startIdx; i < startIdx + (5 * 6); i += 5) {
         var texIdx = Math.min(count, texIdxOrder.length - 1)
         gl.uniform1i(texPtr, texIdxOrder[texIdx]);
         drawSquare(i)
@@ -25,7 +25,7 @@ function drawHexahedron(startIdx, texIdxOrder) {
 }
 
 /**
- * Cálcula os vértices de um paralelepípedo
+ * Calcula os vértices de um paralelepípedo
  * @param {number[]} pos Posição inicial do paralelepípedo
  * @param {number} h altura
  * @param {number} w largura
