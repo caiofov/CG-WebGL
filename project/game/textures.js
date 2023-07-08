@@ -36,11 +36,9 @@ async function initImages() {
     let count = 0
     for (const key in TEXTURES) {
         var img = await loadImage(TEXTURES[key][0]);
-        // img.src = TEXTURES[key][0]
-
         TEXTURES[key].push(count)
         TEXTURES[key].push(img)
-
+        count++
     }
 }
 function submitTextures() {
