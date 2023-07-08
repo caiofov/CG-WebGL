@@ -8,6 +8,23 @@ function drawSquare(startIdx) {
 }
 
 /**
+ * Desenha um hexaedro
+ * @param {number} startIdx Índice do primeiro vértice do hexaedro no array de vértices do webgl
+ * @param {number[]} texIdxOrder Ordem dos índices da textura para aplicar em cada quadrado desenhado
+ */
+function drawHexahedron(startIdx, texIdxOrder) {
+    var texPtr = gl.getUniformLocation(prog, "tex");
+    var count = 0
+    texIdxOrder = texIdxOrder || []
+    for (let i = startIdx; i < 5 * 6; i += 5) {
+        var texIdx = Math.min(texIdxOrder[count], texIdxOrder.length - 1)
+        gl.uniform1i(texPtr, texIdx);
+        drawSquare(i)
+        count++
+    }
+}
+
+/**
  * Cálcula os vértices de um paralelepípedo
  * @param {number[]} pos Posição inicial do paralelepípedo
  * @param {number} h altura

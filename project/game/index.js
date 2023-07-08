@@ -24,7 +24,7 @@ function loadTextures() {
 
 function configScene() {
     //Define coordenadas dos triângulos
-    var coordTriangles = box([0.5, 0.5, 0], 1)
+    var coordTriangles = parallelepiped([0.5, 0.5, 0], 1, 0.5, 0.5)
 
     //Cria buffer na GPU e copia coordenadas para ele
     var bufPtr = gl.createBuffer();
@@ -64,19 +64,7 @@ function draw() {
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    //desenha triângulos - executa shaders
-    var texPtr = gl.getUniformLocation(prog, "tex");
-    gl.uniform1i(texPtr, 0);
-    drawSquare(0)
-
-    gl.uniform1i(texPtr, 1);
-    drawSquare(5)
-
-
-    gl.uniform1i(texPtr, 0);
-    gl.drawArrays(gl.TRIANGLES, 10, 3);
-    gl.uniform1i(texPtr, 1);
-    gl.drawArrays(gl.TRIANGLES, 12, 3);
+    drawHexahedron(0, [0, 1, 0, 1])
 
     angle += 0.1;
 
