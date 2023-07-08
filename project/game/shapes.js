@@ -57,11 +57,11 @@ function parallelepiped(pos, h, w, d) {
         x - w, y - h, z, 1.0, 1.0,
 
         //Direita
-        x, y - h, z, 1.0, 1.0,
-        x, y, z, 1.0, 0.0,
-        x, y, z + d, 0.0, 0.0,
-        x, y - h, z + d, 0.0, 1.0,
-        x, y - h, z, 1.0, 1.0,
+        x, y - h, z, 0.0, 1.0,
+        x, y, z, 0.0, 0.0,
+        x, y, z + d, 1.0, 0.0,
+        x, y - h, z + d, 1.0, 1.0,
+        x, y - h, z, 0.0, 1.0,
 
         //Baixo
         x, y - h, z + d, 1.0, 1.0,
