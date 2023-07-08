@@ -31,7 +31,7 @@ function drawHexahedron(startIdx, texIdxOrder) {
  * @param {number} w largura
  * @param {number} d profundidade
  */
-function parallelepiped(pos, h, w, d) {
+function parallelepiped(pos, w, h, d) {
     const [x, y, z] = pos
     return new Float32Array([
         //Trás
