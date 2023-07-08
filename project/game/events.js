@@ -10,10 +10,11 @@ function addListeners() {
         //movimentar no eixo X
         if (["a", "A"].includes(key)) x = -1
         else if (["d", "D"].includes(key)) x = 1
-        z1+=0.8*z 
-        x1+=0.8*x
+        player.z += 0.8 * z
+        player.x += 0.8 * x
+
         //restriçoes de movimento, casas para mover personagem: 0.0 , 0.8 e 1.6
-        x1 = Math.max(0,Math.min(x1,1.6))
+        player.x = Math.max(0, Math.min(player.x, 1.6))
         moveCamera([x, 0, z])
     });
 }
