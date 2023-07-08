@@ -17,8 +17,8 @@ function drawHexahedron(startIdx, texIdxOrder) {
     var count = 0
     texIdxOrder = texIdxOrder || []
     for (let i = startIdx; i < 5 * 6; i += 5) {
-        var texIdx = Math.min(texIdxOrder[count], texIdxOrder.length - 1)
-        gl.uniform1i(texPtr, texIdx);
+        var texIdx = Math.min(count, texIdxOrder.length - 1)
+        gl.uniform1i(texPtr, texIdxOrder[texIdx]);
         drawSquare(i)
         count++
     }
