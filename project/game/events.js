@@ -10,8 +10,8 @@ function addListeners() {
         //movimentar no eixo X
         if (["a", "A"].includes(key)) x = -1
         else if (["d", "D"].includes(key)) x = 1
-        z1+=z 
-        x1+=x
+        z1+=0.8*z 
+        x1+=0.8*x
         moveCamera([x, 0, z])
     });
 }
