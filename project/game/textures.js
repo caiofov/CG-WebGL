@@ -5,9 +5,9 @@ var loadTexs = 0;
 const TEXTURES = {
     thomasFace: ["img/thomas_face.png"],
     thomasSide: ["img/thomas_side.png"],
-    sticker:["img/stick.png"],
-    rail:["img/trilho.jpg"],
-    campo1:["img/campo1.jpg"]
+    sticker: ["img/stick.png"],
+    rail: ["img/trilho.jpg"],
+    campo1: ["img/campo1.jpg"]
 }
 
 /**
@@ -27,7 +27,11 @@ function submitTexture(idx, img) {
 }
 
 
-
+/**
+ * Carrega uma imagem
+ * @param {string} src caminho para o arquivo de imagem
+ * @returns 
+ */
 function loadImage(src) {
     return new Promise((resolve, reject) => {
         const img = new Image();
@@ -37,6 +41,9 @@ function loadImage(src) {
     });
 }
 
+/**
+ * Inicializa todas as imagens
+ */
 async function initImages() {
     let count = 0
     for (const key in TEXTURES) {
@@ -46,6 +53,10 @@ async function initImages() {
         count++
     }
 }
+
+/**
+ * Submete todas as texturas
+ */
 function submitTextures() {
     for (const key in TEXTURES) {
         submitTexture(TEXTURES[key][1], TEXTURES[key][2])

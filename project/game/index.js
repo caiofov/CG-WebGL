@@ -6,13 +6,8 @@ var gl;
 /** @type {WebGLProgram}*/
 var prog;
 
-var player = {
-    x: 0,
-    z: 0
-}
 
-
-function configScene(playerShape) {
+function configScene() {
     //Define coordenadas dos triângulos
     var coordTriangles = Float32Array.of(
         // Trens
@@ -20,13 +15,13 @@ function configScene(playerShape) {
         ...parallelepiped([0.8, 0, 0], 0.5, 0.5, 1),
         ...parallelepiped([1.6, 0, 0], 0.5, 0.5, 1),
         // Personagem
-        ...playerShape,
+        ...player.shape,
         // Cenario(Trilhos)
         ...parallelepiped([1.8, -0.5, 0.0], 0.9, 0.1, 45),
         ...parallelepiped([1, -0.5, 0.0], 0.9, 0.1, 45),
         ...parallelepiped([0.1, -0.5, 0.0], 0.9, 0.1, 45),
         // Cenario(esquerda e direita)
-        ...parallelepiped([4.9, 2.5, 0.0], 3.1, 3.0, 45),        
+        ...parallelepiped([4.9, 2.5, 0.0], 3.1, 3.0, 45),
         ...parallelepiped([-0.8, 2.5, 0.0], 3.1, 3.0, 45));
 
     //Cria buffer na GPU e copia coordenadas para ele
@@ -119,16 +114,19 @@ function draw() {
     requestAnimationFrame(draw);
 }
 
+async function loadAllElements() {
+    await initImages()
+    await initPlayer()
+}
 
 
 function init() {
-    initImages().then(() => {
-        readObjFile("obj/player.obj").then((shape) => {
-            initGL();
-            configScene(shape);
-            draw();
-        })
-
+    loadAllElements().then(() => {
+        initGL();
+        configScene();
+        draw();
     })
+
+
     addListeners()
 }
