@@ -36,3 +36,12 @@ function matrotZ(angle) {
         [0.0, 0.0, 0.0, 1.0]]
     )
 }
+
+function identityMatrix(){
+    m = math.matrix(
+        [[1.0, 0.0, 0.0, 0.0],
+        [0.0, 1.0, 0.0, 0.0],
+        [0.0, 0.0, 1.0, 0.0],
+        [0.0, 0.0, 0.0, 1.0]]);
+    return m;
+}

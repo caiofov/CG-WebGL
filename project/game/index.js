@@ -24,7 +24,10 @@ function configScene(playerShape) {
         // Cenario(Trilhos)
         ...parallelepiped([1.8, -0.5, 0.0], 0.9, 0.1, 45),
         ...parallelepiped([1, -0.5, 0.0], 0.9, 0.1, 45),
-        ...parallelepiped([0.1, -0.5, 0.0], 0.9, 0.1, 45));
+        ...parallelepiped([0.1, -0.5, 0.0], 0.9, 0.1, 45),
+        // Cenario(esquerda e direita)
+        ...parallelepiped([4.9, 2.5, 0.0], 3.1, 3.0, 45),        
+        ...parallelepiped([-0.8, 2.5, 0.0], 3.1, 3.0, 45));
 
     //Cria buffer na GPU e copia coordenadas para ele
     var bufPtr = gl.createBuffer();
@@ -75,34 +78,47 @@ function draw() {
     drawHexahedron(90, [2])
 
     // Trilhos
-    var trilho = math.matrix(
-        [[1.0, 0.0, 0.0, 0.0],
-        [0.0, 1.0, 0.0, 0.0],
-        [0.0, 0.0, 1.0, 0.0],
-        [0.0, 0.0, 0.0, 1.0]]);
+    var trilho = identityMatrix()
     trilho = math.multiply(cam, trilho);
     trilho = math.multiply(mproj, trilho);
     trilho = math.flatten(math.transpose(trilho))._data;
     transf3Ptr = gl.getUniformLocation(prog, "transf");
-    gl.uniformMatrix4fv(transf2Ptr, false, trilho);
+    gl.uniformMatrix4fv(transf3Ptr, false, trilho);
     //gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     drawHexahedron(120, [3])
 
     transf3Ptr = gl.getUniformLocation(prog, "transf");
-    gl.uniformMatrix4fv(transf2Ptr, false, trilho);
+    gl.uniformMatrix4fv(transf3Ptr, false, trilho);
     //gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     drawHexahedron(150, [3])
 
     transf3Ptr = gl.getUniformLocation(prog, "transf");
-    gl.uniformMatrix4fv(transf2Ptr, false, trilho);
+    gl.uniformMatrix4fv(transf3Ptr, false, trilho);
     //gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     drawHexahedron(180, [3])
+
+
+    // Cenario
+    var campo = identityMatrix();
+    campo = math.multiply(cam, campo);
+    campo = math.multiply(mproj, campo);
+    campo = math.flatten(math.transpose(campo))._data;
+    transf4Ptr = gl.getUniformLocation(prog, "transf");
+    gl.uniformMatrix4fv(transf4Ptr, false, campo);
+    //gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    drawHexahedron(210, [4])
+
+    transf4Ptr = gl.getUniformLocation(prog, "transf");
+    gl.uniformMatrix4fv(transf4Ptr, false, campo);
+    //gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    drawHexahedron(240, [4])
 
 
     // angle += 0.1;
 
     requestAnimationFrame(draw);
 }
+
 
 
 function init() {
