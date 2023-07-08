@@ -4,7 +4,8 @@ var loadTexs = 0;
 
 const TEXTURES = {
     thomasFace: ["img/thomas_face.png"],
-    thomasSide: ["img/thomas_side.png"]
+    thomasSide: ["img/thomas_side.png"],
+    sticker:["img/stick.png"]
 }
 
 /**
