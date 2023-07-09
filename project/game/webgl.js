@@ -1,3 +1,8 @@
+/** @type {WebGLRenderingContext}*/
+var gl;
+/** @type {WebGLProgram}*/
+var prog;
+
 /**
  * Retorna o elemento do webgl
  * @param {HTMLCanvasElement} canvas 

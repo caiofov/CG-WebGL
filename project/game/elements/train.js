@@ -8,20 +8,22 @@ const TRAIN_DEFAULTS = {
 var trains = []
 var currentTrains = []
 
-function addNewTrains() {
-    for (let i = 0; i < 1; i++) {
-        // gera número aleatório de -1 a 2
-        //Se for -1, nenhum trem vai ser adicionado àquele trilho
-        var idx = Math.floor(Math.random() * 4) - 1;
-
-        if (idx > -1) currentTrains.push(trains[idx])
-
-    }
-    if (!currentTrains.length) currentTrains.push(trains[0])
-}
 
 /**
- * 
+ * Adiciona o trem de número `idx` do array `trains` para o `currentTrains`
+ * @param {number} idx Número do trem (0 a 2)
+ */
+function addNewTrain(idx) {
+    if (idx > -1) {
+        currentTrains.push(trains[idx])
+        return true
+    }
+    return false
+}
+
+
+/**
+ * Gera a estrutura do trem para o índice dado
  * @param {number} num Número do trem (0 a 2)
  */
 function makeTrain(num) {
@@ -32,7 +34,8 @@ function makeTrain(num) {
             [x, 0, 0],
             TRAIN_DEFAULTS.width,
             TRAIN_DEFAULTS.height,
-            TRAIN_DEFAULTS.depth)
+            TRAIN_DEFAULTS.depth),
+        vertexIdx: num * 30
     }
 }
 
@@ -40,7 +43,7 @@ function makeTrains() {
     for (let i = 0; i < 3; i++) {
         trains.push(makeTrain(i))
     }
-    addNewTrains()
+    addNewTrain(Math.floor(Math.random() * 4) - 1)
 }
 
 function getAllTrainShapes() {
@@ -49,14 +52,12 @@ function getAllTrainShapes() {
 
 function drawTrains(cam, mproj) {
     for (const train of currentTrains) {
-        var m = translationMatrix(train.x, 0, train.z)
-
+        var m = translationMatrix(0, 0, train.z)
         var transforma = math.multiply(cam, m);
         transforma = math.multiply(mproj, transforma);
         setTransf(transforma)
 
-        drawHexahedron(0, TRAIN_DEFAULTS.texture)
-        drawHexahedron(30, TRAIN_DEFAULTS.texture)
-        drawHexahedron(60, TRAIN_DEFAULTS.texture)
+        drawHexahedron(train.vertexIdx, TRAIN_DEFAULTS.texture)
+
     }
 }
