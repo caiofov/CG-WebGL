@@ -88,7 +88,8 @@ function moveTrain(train) {
 
     //checar colisão com o jogador
     if (playerCollided(train)) {
-        console.log("game OVER")
+        gameOver()
+        return
     }
 
     // caso o Z seja maior do que o meio do cenário, tentar gerar mais um trem. Isso só pode ocorrer uma vez para cada trem

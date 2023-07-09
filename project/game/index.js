@@ -56,7 +56,8 @@ function draw() {
     // Personagem - parado em relação à câmera
     drawPlayer(cam, mproj)
 
-    requestAnimationFrame(draw);
+    if (IS_RUNNING) requestAnimationFrame(draw)
+
 }
 
 async function loadAllElements() {

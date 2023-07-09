@@ -2,6 +2,8 @@
 var gl;
 /** @type {WebGLProgram}*/
 var prog;
+/**@type {HTMLCanvasElement} */
+var canvas = document.getElementById("glcanvas1");
 
 /**
  * Retorna o elemento do webgl
@@ -81,9 +83,6 @@ function createShader(gl, shaderType, shaderSrc) {
 }
 
 function initGL() {
-    /**@type {HTMLCanvasElement} */
-    var canvas = document.getElementById("glcanvas1");
-
     gl = getGL(canvas);
 
     //Inicializa shaders
