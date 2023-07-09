@@ -11,9 +11,8 @@ function configScene() {
     //Define coordenadas dos triângulos
     var coordTriangles = Float32Array.of(
         // Trens
-        ...parallelepiped([0, 0, 0], 0.5, 0.5, 1),
-        ...parallelepiped([0.8, 0, 0], 0.5, 0.5, 1),
-        ...parallelepiped([1.6, 0, 0], 0.5, 0.5, 1),
+        ...getAllTrainShapes(),
+
         // Personagem
         ...player.shape,
         // Cenario(Trilhos)
@@ -123,6 +122,7 @@ async function loadAllElements() {
 function init() {
     loadAllElements().then(() => {
         initGL();
+        makeTrains()
         configScene();
         draw();
     })
