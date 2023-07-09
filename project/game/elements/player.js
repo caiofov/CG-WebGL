@@ -23,3 +23,12 @@ function drawPlayer(cam, mproj) {
 
     drawHexahedron(90, [TEXTURES.sticker[1]])
 }
+
+function movePlayer(x, y, z) {
+    player.z += z
+    player.y += y
+    player.x += x
+
+    //restriçoes de movimento, casas para mover personagem: 0.0 , 0.8 e 1.6
+    player.x = Math.max(0, Math.min(player.x, 1.6))
+}

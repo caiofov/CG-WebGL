@@ -67,10 +67,14 @@ function createCamera() {
 
 /**
  * Movimenta a câmera
- * @param {number[]} move O quanto deve movimentar em cada eixo
+ * @param {number} x 
+ * @param {number} y
+ * @param {number} z 
  */
-function moveCamera(move) {
-    for (let idx = 0; idx < move.length; idx++)  camera.pos[idx] += move[idx]
+function moveCamera(x, y, z) {
+    camera.pos[0] += x
+    camera.pos[1] += y
+    camera.pos[2] += z
 
     camera.target[0] = player.x
     camera.target[2] = player.z
