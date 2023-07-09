@@ -3,7 +3,7 @@
  */
 var player = {
     x: 0,
-    z: 0,
+    z: 25,
     /**@type {undefined | number[]} Array de vértices */
     shape: undefined,
     objPath: "obj/player.obj"
@@ -11,18 +11,13 @@ var player = {
 
 async function initPlayer() {
     player.shape = await readObjFile(player.objPath)
+    camera.target = [player.x, 0, player.z]
+    // camera.pos[3] = player.z + 20
 }
 
-function playerTranslationMatrix() {
-    return math.matrix(
-        [[1.0, 0.0, 0.0, player.x],
-        [0.0, 1.0, 0.0, 0.0],
-        [0.0, 0.0, 1.0, player.z],
-        [0.0, 0.0, 0.0, 1.0]]);
-}
 
 function drawPlayer(cam, mproj) {
-    var transMatrix = math.multiply(cam, playerTranslationMatrix());
+    var transMatrix = math.multiply(cam, translationMatrix(player.x, 0, player.z));
     transMatrix = math.multiply(mproj, transMatrix);
     setTransf(transMatrix)
 
