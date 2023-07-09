@@ -41,15 +41,13 @@ function draw() {
     var cam = createCamera()
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
+    drawTrains(cam, mproj)
     // Trens
     var transforma = identityMatrix();
     transforma = math.multiply(cam, transforma);
     transforma = math.multiply(mproj, transforma);
     setTransf(transforma)
 
-    drawHexahedron(0, [TEXTURES.thomasSide[1], TEXTURES.thomasFace[1], TEXTURES.thomasSide[1]])
-    drawHexahedron(30, [TEXTURES.thomasSide[1], TEXTURES.thomasFace[1], TEXTURES.thomasSide[1]])
-    drawHexahedron(60, [TEXTURES.thomasSide[1], TEXTURES.thomasFace[1], TEXTURES.thomasSide[1]])
 
     // Trilhos
     drawHexahedron(120, [TEXTURES.rail[1]])

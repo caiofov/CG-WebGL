@@ -31,3 +31,17 @@ function makeTrains() {
 function getAllTrainShapes() {
     return [...trains[0].shape, ...trains[1].shape, ...trains[2].shape]
 }
+
+function drawTrains(cam, mproj) {
+    for (const train of currentTrains) {
+        var m = translationMatrix(train.x, 0, train.z)
+
+        var transforma = math.multiply(cam, m);
+        transforma = math.multiply(mproj, transforma);
+        setTransf(transforma)
+
+        drawHexahedron(0, TRAIN_DEFAULTS.texture)
+        drawHexahedron(30, TRAIN_DEFAULTS.texture)
+        drawHexahedron(60, TRAIN_DEFAULTS.texture)
+    }
+}
