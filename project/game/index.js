@@ -51,18 +51,12 @@ function draw() {
 
     gl.uniformMatrix4fv(transfPtr, false, transforma);
 
-    drawHexahedron(0, [1, 0, 1])
-    drawHexahedron(30, [1, 0, 1])
-    drawHexahedron(60, [1, 0, 1])
+    drawHexahedron(0, [TEXTURES.thomasSide[1], TEXTURES.thomasFace[1], TEXTURES.thomasSide[1]])
+    drawHexahedron(30, [TEXTURES.thomasSide[1], TEXTURES.thomasFace[1], TEXTURES.thomasSide[1]])
+    drawHexahedron(60, [TEXTURES.thomasSide[1], TEXTURES.thomasFace[1], TEXTURES.thomasSide[1]])
 
     // Personagem - parado em relação à câmera
-    var transforma2 = math.multiply(cam, playerTranslationMatrix());
-    transforma2 = math.multiply(mproj, transforma2);
-    transforma2 = math.flatten(math.transpose(transforma2))._data;
-
-    gl.uniformMatrix4fv(transfPtr, false, transforma2);
-
-    drawHexahedron(90, [2])
+    drawPlayer(cam, mproj)
 
     // Trilhos
     var trilho = identityMatrix()
@@ -72,9 +66,9 @@ function draw() {
 
     gl.uniformMatrix4fv(transfPtr, false, trilho);
 
-    drawHexahedron(120, [3])
-    drawHexahedron(150, [3])
-    drawHexahedron(180, [3])
+    drawHexahedron(120, [TEXTURES.rail[1]])
+    drawHexahedron(150, [TEXTURES.rail[1]])
+    drawHexahedron(180, [TEXTURES.rail[1]])
 
 
     // Cenario
@@ -85,8 +79,8 @@ function draw() {
 
     gl.uniformMatrix4fv(transfPtr, false, campo);
 
-    drawHexahedron(210, [4])
-    drawHexahedron(240, [4])
+    drawHexahedron(210, [TEXTURES.campo1[1]])
+    drawHexahedron(240, [TEXTURES.campo1[1]])
 
     requestAnimationFrame(draw);
 }

@@ -20,3 +20,14 @@ function playerTranslationMatrix() {
         [0.0, 0.0, 1.0, player.z],
         [0.0, 0.0, 0.0, 1.0]]);
 }
+
+function drawPlayer(cam, mproj) {
+    var transforma2 = math.multiply(cam, playerTranslationMatrix());
+    transforma2 = math.multiply(mproj, transforma2);
+    transforma2 = math.flatten(math.transpose(transforma2))._data;
+
+    var transfPtr = gl.getUniformLocation(prog, "transf");
+    gl.uniformMatrix4fv(transfPtr, false, transforma2);
+
+    drawHexahedron(90, [TEXTURES.sticker[1]])
+}
