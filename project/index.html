@@ -1,7 +1,8 @@
 <head>
     <title>Trabalho 2 - CG</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.2/math.js"></script>
-    <script src="index.js"></script>
+    <script src="game/index.js"></script>
+
 
     <script id="vertex-shader" type="notjs">
         // attribute -> muda para cada vértice
@@ -45,55 +46,13 @@
 </body>
 
 
+<script src="game/camera.js"></script>
+<script src="game/events.js"></script>
+<script src="game/utils.js"></script>
+<script src="game/shapes.js"></script>
+<script src="game/textures.js"></script>
+<script src="game/readObj.js"></script>
+<script src="game/webgl.js"></script>
 
-
-<!-- SEM TEXTURA
-
-    <head>
-    <title>Trabalho 2 - CG</title>
-    <script src="index.js"></script>
-
-    <script id="vertex-shader" type="notjs">
-        attribute vec4 position;
-        attribute vec2 texCoord;
-
-        uniform mat4 transf;
-        uniform float df;
-
-        varying vec2 v_texCoord;
-
-        void main()
-        {
-            v_texCoord = texCoord;
-            gl_Position = transf*position;
-
-            gl_Position[3] = 1.0 + gl_Position[2]/df;
-        }
-    </script>
-
-    <script id="frag-shader" type="notjs">
-        precision mediump float;
-
-        uniform sampler2D tex;
-        
-        varying vec2 v_texCoord;
-
-        void main()
-        {
-            gl_FragColor = texture2D(tex,v_texCoord);
-        }
-    </script>
-</head>
-
-
-<body onload="init()">
-    <ul>
-        <li>Caio de Freitas Oliveira - 501375</li>
-        <li>Matheus Ribeiro Alencar - 494711</li>
-    </ul>
-
-    <canvas id="glcanvas1" width="400" height="300">
-
-</body>
-
- -->
+<script src="game/elements/player.js"></script>
+<script src="game/elements/train.js"></script>
