@@ -30,11 +30,12 @@ function configScene() {
 
 
 function draw() {
+
     var mproj = createPerspective(10, gl.canvas.width / gl.canvas.height, 1, 50);
     var cam = createCamera()
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    drawTrains(cam, mproj)
+    updateTrains(cam, mproj)
     // Trens
     var transforma = identityMatrix();
     transforma = math.multiply(cam, transforma);

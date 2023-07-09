@@ -1,9 +1,11 @@
 const TRAIN_DEFAULTS = {
     width: 0.5,
     height: 0.5,
-    depth: 1,
+    depth: 5,
     gap: 0.3,
-    texture: [TEXTURES.thomasSide[1], TEXTURES.thomasFace[1], TEXTURES.thomasSide[1]]
+    speed: 0.1,
+    /**@type {number[]} Array de texturas */
+    texture: undefined //(não pode ser setado aqui porque as texturas ainda não foram carregadas) 
 }
 var trains = []
 var currentTrains = []
@@ -40,24 +42,34 @@ function makeTrain(num) {
 }
 
 function makeTrains() {
+    TRAIN_DEFAULTS.texture = [TEXTURES.thomasSide, TEXTURES.thomasFace, TEXTURES.thomasSide].map(t => t[1])
     for (let i = 0; i < 3; i++) {
         trains.push(makeTrain(i))
     }
-    addNewTrain(Math.floor(Math.random() * 4) - 1)
+    while (!addNewTrain(Math.floor(Math.random() * 4) - 1)) { }
+
 }
 
 function getAllTrainShapes() {
     return [...trains[0].shape, ...trains[1].shape, ...trains[2].shape]
 }
 
-function drawTrains(cam, mproj) {
+function drawTrain(cam, mproj, train) {
+    var m = translationMatrix(0, 0, train.z)
+    var transforma = math.multiply(cam, m);
+    transforma = math.multiply(mproj, transforma);
+    setTransf(transforma)
+
+    drawHexahedron(train.vertexIdx, TRAIN_DEFAULTS.texture)
+}
+
+function moveTrain(train) {
+    train.z += TRAIN_DEFAULTS.speed
+}
+
+function updateTrains(cam, mproj) {
     for (const train of currentTrains) {
-        var m = translationMatrix(0, 0, train.z)
-        var transforma = math.multiply(cam, m);
-        transforma = math.multiply(mproj, transforma);
-        setTransf(transforma)
-
-        drawHexahedron(train.vertexIdx, TRAIN_DEFAULTS.texture)
-
+        moveTrain(train)
+        drawTrain(cam, mproj, train)
     }
 }
