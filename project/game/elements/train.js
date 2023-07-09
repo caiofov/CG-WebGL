@@ -2,9 +2,23 @@ const TRAIN_DEFAULTS = {
     width: 0.5,
     height: 0.5,
     depth: 1,
-    gap: 0.3
+    gap: 0.3,
+    texture: [TEXTURES.thomasSide[1], TEXTURES.thomasFace[1], TEXTURES.thomasSide[1]]
 }
 var trains = []
+var currentTrains = []
+
+function addNewTrains() {
+    for (let i = 0; i < 1; i++) {
+        // gera número aleatório de -1 a 2
+        //Se for -1, nenhum trem vai ser adicionado àquele trilho
+        var idx = Math.floor(Math.random() * 4) - 1;
+
+        if (idx > -1) currentTrains.push(trains[idx])
+
+    }
+    if (!currentTrains.length) currentTrains.push(trains[0])
+}
 
 /**
  * 
@@ -26,6 +40,7 @@ function makeTrains() {
     for (let i = 0; i < 3; i++) {
         trains.push(makeTrain(i))
     }
+    addNewTrains()
 }
 
 function getAllTrainShapes() {
