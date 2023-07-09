@@ -46,7 +46,7 @@ function makeTrain(num) {
             TRAIN_DEFAULTS.width,
             TRAIN_DEFAULTS.height,
             TRAIN_DEFAULTS.depth),
-        vertexIdx: num * 30
+        idx: num
     }
 }
 
@@ -76,7 +76,7 @@ function drawTrain(cam, mproj, train) {
     transforma = math.multiply(mproj, transforma);
     setTransf(transforma)
 
-    drawHexahedron(train.vertexIdx, TRAIN_DEFAULTS.texture)
+    drawHexahedron(train.idx * 30, TRAIN_DEFAULTS.texture)
 }
 
 /**
@@ -85,6 +85,11 @@ function drawTrain(cam, mproj, train) {
  */
 function moveTrain(train) {
     train.z += TRAIN_DEFAULTS.speed
+
+    //checar colisão com o jogador
+    if (playerCollided(train)) {
+        console.log("game OVER")
+    }
 
     // caso o Z seja maior do que o meio do cenário, tentar gerar mais um trem. Isso só pode ocorrer uma vez para cada trem
     if (train.z > SCENARIO_DEFAULTS.middleZ && !train.middleAdded) {

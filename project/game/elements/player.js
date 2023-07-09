@@ -51,3 +51,11 @@ function movePlayer(x, y, z) {
 function getPlayerRail() {
     return player.x / 0.8
 }
+
+/**
+ * Verifica se o player colidiu com o trem
+ * @param {{z:number idx:number}} train 
+ */
+function playerCollided(train) {
+    return train.z <= player.z && player.z <= (train.z + TRAIN_DEFAULTS.depth) && getPlayerRail() == train.idx
+}
