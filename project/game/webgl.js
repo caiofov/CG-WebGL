@@ -115,3 +115,16 @@ function setTransf(value) {
 
     gl.uniformMatrix4fv(transfPtr, false, value);
 }
+
+/**
+ * Carrega os vértices para o webgl
+ * @param {number[]} vertices array com os vértices
+ */
+function loadVertices(vertices) {
+    var bufPtr = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, bufPtr);
+    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+    setAttributePointer("position", 3, 5, 0)
+    setAttributePointer("texCoord", 2, 5, 3)
+}

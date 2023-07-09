@@ -1,28 +1,6 @@
 function configScene() {
-    //Define coordenadas dos triângulos
-    var coordTriangles = Float32Array.of(
-        // Trens
-        ...getAllTrainShapes(),
-
-        // Personagem
-        ...player.shape,
-
-        // Cenario(Trilhos)
-        ...parallelepiped([1.8, -0.5, 0.0], 0.9, 0.1, 45),
-        ...parallelepiped([1, -0.5, 0.0], 0.9, 0.1, 45),
-        ...parallelepiped([0.1, -0.5, 0.0], 0.9, 0.1, 45),
-
-        // Cenario(esquerda e direita)
-        ...parallelepiped([4.9, 2.5, 0.0], 3.1, 3.0, 45),
-        ...parallelepiped([-0.8, 2.5, 0.0], 3.1, 3.0, 45));
-
     //Cria buffer na GPU e copia coordenadas para ele
-    var bufPtr = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, bufPtr);
-    gl.bufferData(gl.ARRAY_BUFFER, coordTriangles, gl.STATIC_DRAW);
-
-    setAttributePointer("position", 3, 5, 0)
-    setAttributePointer("texCoord", 2, 5, 3)
+    loadVertices(getAllShapes())
 
     //submeter textura para gpu
     submitTextures()
@@ -56,7 +34,7 @@ function draw() {
     // Personagem - parado em relação à câmera
     drawPlayer(cam, mproj)
 
-    if (IS_RUNNING) requestAnimationFrame(draw)
+    if (GAME.isRunning) requestAnimationFrame(draw)
 
 }
 
