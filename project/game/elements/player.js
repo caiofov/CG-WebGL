@@ -12,3 +12,11 @@ var player = {
 async function initPlayer() {
     player.shape = await readObjFile(player.objPath)
 }
+
+function playerTranslationMatrix() {
+    return math.matrix(
+        [[1.0, 0.0, 0.0, player.x],
+        [0.0, 1.0, 0.0, 0.0],
+        [0.0, 0.0, 1.0, player.z],
+        [0.0, 0.0, 0.0, 1.0]]);
+}
