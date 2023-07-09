@@ -36,7 +36,7 @@ function draw() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     updateTrains(cam, mproj)
-    // Trens
+
     var transforma = identityMatrix();
     transforma = math.multiply(cam, transforma);
     transforma = math.multiply(mproj, transforma);

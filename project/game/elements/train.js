@@ -16,13 +16,18 @@ var currentTrains = []
  * @param {number} idx Número do trem (0 a 2)
  */
 function addNewTrain(idx) {
+    if (currentTrains.length >= 2) { return true }
+    idx = idx || Math.floor(Math.random() * 4) - 1
     if (idx > -1) {
-        currentTrains.push(trains[idx])
+        currentTrains.push({ ...trains[idx] })
         return true
     }
     return false
 }
 
+function forceAddNewTrain() {
+    while (!addNewTrain()) { }
+}
 
 /**
  * Gera a estrutura do trem para o índice dado
@@ -31,7 +36,7 @@ function addNewTrain(idx) {
 function makeTrain(num) {
     const x = num * (TRAIN_DEFAULTS.width + TRAIN_DEFAULTS.gap)
     return {
-        x, z: 0,
+        x, z: SCENARIO_DEFAULTS.minZ,
         shape: parallelepiped(
             [x, 0, 0],
             TRAIN_DEFAULTS.width,
@@ -46,8 +51,8 @@ function makeTrains() {
     for (let i = 0; i < 3; i++) {
         trains.push(makeTrain(i))
     }
-    while (!addNewTrain(Math.floor(Math.random() * 4) - 1)) { }
 
+    forceAddNewTrain()
 }
 
 function getAllTrainShapes() {
@@ -65,8 +70,24 @@ function drawTrain(cam, mproj, train) {
 
 function moveTrain(train) {
     train.z += TRAIN_DEFAULTS.speed
+
+    // caso o Z seja maior do que o limite do cenário, descartar o trem e gerar um novo
+    if (train.z > SCENARIO_DEFAULTS.middleZ && !train.middleAdded) {
+        train.middleAdded = true
+        addNewTrain()
+    }
+    else if (train.z > SCENARIO_DEFAULTS.maxZ) {
+        train.z = 0
+        currentTrains.splice(currentTrains.indexOf(train), 1)
+        forceAddNewTrain()
+    }
 }
 
+/**
+ * Atualiza a posição dos trens e os desenha
+ * @param {*} cam 
+ * @param {*} mproj 
+ */
 function updateTrains(cam, mproj) {
     for (const train of currentTrains) {
         moveTrain(train)
