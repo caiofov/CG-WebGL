@@ -39,48 +39,30 @@ function configScene() {
 function draw() {
     var mproj = createPerspective(10, gl.canvas.width / gl.canvas.height, 1, 50);
     var cam = createCamera()
-    var transfPtr = gl.getUniformLocation(prog, "transf");
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     // Trens
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    var transforma = math.multiply(matrotY(angle), matrotX(angle));// Multiplicaçao de matr não é comutativa
-    transforma = math.multiply(matrotZ(angle), transforma);
+    var transforma = identityMatrix();
     transforma = math.multiply(cam, transforma);
     transforma = math.multiply(mproj, transforma);
-    transforma = math.flatten(math.transpose(transforma))._data; //webGL multiplica por colunas (transpose necessario)
-
-    gl.uniformMatrix4fv(transfPtr, false, transforma);
+    setTransf(transforma)
 
     drawHexahedron(0, [TEXTURES.thomasSide[1], TEXTURES.thomasFace[1], TEXTURES.thomasSide[1]])
     drawHexahedron(30, [TEXTURES.thomasSide[1], TEXTURES.thomasFace[1], TEXTURES.thomasSide[1]])
     drawHexahedron(60, [TEXTURES.thomasSide[1], TEXTURES.thomasFace[1], TEXTURES.thomasSide[1]])
 
-    // Personagem - parado em relação à câmera
-    drawPlayer(cam, mproj)
-
     // Trilhos
-    var trilho = identityMatrix()
-    trilho = math.multiply(cam, trilho);
-    trilho = math.multiply(mproj, trilho);
-    trilho = math.flatten(math.transpose(trilho))._data;
-
-    gl.uniformMatrix4fv(transfPtr, false, trilho);
-
     drawHexahedron(120, [TEXTURES.rail[1]])
     drawHexahedron(150, [TEXTURES.rail[1]])
     drawHexahedron(180, [TEXTURES.rail[1]])
 
-
-    // Cenario
-    var campo = identityMatrix();
-    campo = math.multiply(cam, campo);
-    campo = math.multiply(mproj, campo);
-    campo = math.flatten(math.transpose(campo))._data;
-
-    gl.uniformMatrix4fv(transfPtr, false, campo);
-
+    //Cenário
     drawHexahedron(210, [TEXTURES.campo1[1]])
     drawHexahedron(240, [TEXTURES.campo1[1]])
+
+
+    // Personagem - parado em relação à câmera
+    drawPlayer(cam, mproj)
 
     requestAnimationFrame(draw);
 }

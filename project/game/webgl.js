@@ -101,3 +101,13 @@ function initGL() {
 
 }
 
+/**
+ * Trata e altera o valor da variável `transf`
+ * @param {{_data:number[][]}} value 
+ */
+function setTransf(value) {
+    var transfPtr = gl.getUniformLocation(prog, "transf");
+    value = math.flatten(math.transpose(value))._data; //webGL multiplica por colunas (transpose necessario)
+
+    gl.uniformMatrix4fv(transfPtr, false, value);
+}

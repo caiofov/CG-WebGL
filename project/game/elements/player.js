@@ -22,12 +22,9 @@ function playerTranslationMatrix() {
 }
 
 function drawPlayer(cam, mproj) {
-    var transforma2 = math.multiply(cam, playerTranslationMatrix());
-    transforma2 = math.multiply(mproj, transforma2);
-    transforma2 = math.flatten(math.transpose(transforma2))._data;
-
-    var transfPtr = gl.getUniformLocation(prog, "transf");
-    gl.uniformMatrix4fv(transfPtr, false, transforma2);
+    var transMatrix = math.multiply(cam, playerTranslationMatrix());
+    transMatrix = math.multiply(mproj, transMatrix);
+    setTransf(transMatrix)
 
     drawHexahedron(90, [TEXTURES.sticker[1]])
 }
