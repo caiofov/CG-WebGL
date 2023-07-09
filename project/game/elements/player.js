@@ -4,7 +4,6 @@
 var player = {
     x: 0,
     z: 25,
-    points: 0,
     /**@type {undefined | number[]} Array de vértices */
     shape: undefined,
     objPath: "obj/player.obj"

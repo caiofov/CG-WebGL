@@ -100,7 +100,7 @@ function moveTrain(train) {
     else if (train.z > SCENARIO_DEFAULTS.maxZ) {
         train.z = 0
         currentTrains.splice(currentTrains.indexOf(train), 1)
-        player.points += 1
+        score()
         forceAddNewTrain()
     }
 }
