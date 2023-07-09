@@ -10,6 +10,8 @@ function addListeners() {
         //movimentar no eixo X
         if (["a", "A"].includes(key)) x = -0.8
         else if (["d", "D"].includes(key)) x = 0.8
+
+        //Movimentar câmera e jogador
         movePlayer(x, 0, z)
         moveCamera(x, 0, z)
     });

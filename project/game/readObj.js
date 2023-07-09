@@ -1,10 +1,10 @@
 /**
  * Ler um arquivo `.obj`
- * @param {string} filePath 
+ * @param {string} filePath Caminho ate o arquivo
  * @returns 
  */
 function readObjFile(filePath) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         fetch(filePath)
             .then((r) => r.text())
             .then((content) => {

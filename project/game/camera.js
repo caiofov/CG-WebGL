@@ -66,10 +66,10 @@ function createCamera() {
 }
 
 /**
- * Movimenta a câmera
- * @param {number} x 
- * @param {number} y
- * @param {number} z 
+ * Movimenta a câmera, respeitando os limites
+ * @param {number} x o quanto mover no eixo X
+ * @param {number} y o quanto mover no eixo Y
+ * @param {number} z o quanto mover no eixo Z
  */
 function moveCamera(x, y, z) {
     camera.pos[0] += x

@@ -1,4 +1,11 @@
 
+/**
+ * Retorna uma matriz de translação para as coordenadas dadas
+ * @param {number} x 
+ * @param {number} y 
+ * @param {number} z 
+ * @returns 
+ */
 function translationMatrix(x, y, z) {
     return math.matrix(
         [[1.0, 0.0, 0.0, x],
@@ -45,6 +52,7 @@ function matrotZ(angle) {
     )
 }
 
+/**Retorna uma matriz identidade */
 function identityMatrix() {
     m = math.matrix(
         [[1.0, 0.0, 0.0, 0.0],
