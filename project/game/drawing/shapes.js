@@ -47,53 +47,77 @@ function drawHexahedron(startIdx, texIdxOrder) {
 /**
  * Calcula os vértices de um paralelepípedo
  * @param {number[]} pos Posição inicial do paralelepípedo
- * @param {number} h altura
  * @param {number} w largura
+ * @param {number} h altura
  * @param {number} d profundidade
  */
 function parallelepiped(pos, w, h, d) {
     const [x, y, z] = pos
+    const vertices = [
+        [x - w, y - h, z + d],
+        [x, y - h, z + d],
+        [x - w, y, z + d],
+        [x, y, z + d],
+
+        [x - w, y, z],
+        [x, y, z],
+        [x - w, y - h, z],
+        [x, y - h, z]
+    ]
     return new Float32Array([
-        //Trás
-        //x    y  z  tx   ty
-        x - w, y, z, 0.0, 0.0,
-        x - w, y - h, z, 0.0, 1.0,
-        x, y - h, z, 1.0, 1.0,
-        x, y, z, 1.0, 0.0,
-        x - w, y, z, 0.0, 0.0,
 
-        //Esquerda
-        x - w, y - h, z, 1.0, 1.0,
-        x - w, y, z, 1.0, 0.0,
-        x - w, y, z + d, 0.0, 0.0,
-        x - w, y - h, z + d, 0.0, 1.0,
-        x - w, y - h, z, 1.0, 1.0,
+        // frente esquerdo
+        ...vertices[0], 0.0, 1.0,
+        ...vertices[1], 1.0, 1.0,
+        ...vertices[2], 0.0, 0.0,
+        //frente direito
+        ...vertices[2], 0.0, 0.0,
+        ...vertices[1], 1.0, 1.0,
+        ...vertices[3], 1.0, 0.0,
 
-        //Frente
-        x - w, y, z + d, 0.0, 0.0,
-        x - w, y - h, z + d, 0.0, 1.0,
-        x, y - h, z + d, 1.0, 1.0,
-        x, y, z + d, 1.0, 0.0,
-        x - w, y, z + d, 0.0, 0.0,
+        //cima esquerdo
+        ...vertices[2], 0.0, 0.0,
+        ...vertices[3], 0.0, 1.0,
+        ...vertices[4], 1.0, 0.0,
+        //cima direito
+        ...vertices[4], 1.0, 0.0,
+        ...vertices[3], 0.0, 1.0,
+        ...vertices[5], 1.0, 1.0,
 
-        //Baixo
-        x, y - h, z + d, 1.0, 1.0,
-        x, y - h, z, 1.0, 0.0,
-        x - w, y - h, z, 0.0, 0.0,
-        x - w, y - h, z + d, 0.0, 1.0,
-        x, y - h, z + d, 1.0, 1.0,
+        //trás
+        ...vertices[4], 0.0, 1.0,
+        ...vertices[5], 0.0, 1.0,
+        ...vertices[6], 0.0, 1.0,
 
-        //Direita
-        x, y - h, z, 0.0, 1.0,
-        x, y, z, 0.0, 0.0,
-        x, y, z + d, 1.0, 0.0,
-        x, y - h, z + d, 1.0, 1.0,
-        x, y - h, z, 0.0, 1.0,
-        //Cima
-        x, y, z + d, 1.0, 1.0,
-        x, y, z, 1.0, 0.0,
-        x - w, y, z, 0.0, 0.0,
-        x - w, y, z + d, 0.0, 1.0,
-        x, y, z + d, 1.0, 1.0
+        ...vertices[6], 0.0, 1.0,
+        ...vertices[5], 0.0, 1.0,
+        ...vertices[7], 0.0, 1.0,
+
+        // baixo
+        ...vertices[6], 0.0, 1.0,
+        ...vertices[7], 0.0, 1.0,
+        ...vertices[0], 0.0, 1.0,
+
+        ...vertices[0], 0.0, 1.0,
+        ...vertices[7], 0.0, 1.0,
+        ...vertices[1], 0.0, 1.0,
+
+        //direito esquerdo
+        ...vertices[1], 0.0, 1.0,
+        ...vertices[7], 1.0, 1.0,
+        ...vertices[3], 0.0, 0.0,
+
+        ...vertices[3], 0.0, 0.0,
+        ...vertices[7], 1.0, 1.0,
+        ...vertices[5], 1.0, 0.0,
+
+        //esquerdo esquerdo
+        ...vertices[6], 0.0, 1.0,
+        ...vertices[0], 1.0, 1.0,
+        ...vertices[4], 0.0, 0.0,
+
+        ...vertices[4], 0.0, 0.0,
+        ...vertices[0], 1.0, 1.0,
+        ...vertices[2], 1.0, 0.0,
     ]);
 }
