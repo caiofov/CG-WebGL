@@ -3,9 +3,17 @@
  * @param {number} startIdx índice do vértice que irá começar a figura
  * @param {number} endIdx índice do vértice que irá terminar a figura
  */
-function drawInterval(startIdx, endIdx) { //TODO; textura
+function drawInterval(startIdx, endIdx, textures) { //TODO; textura
+    var texPtr = gl.getUniformLocation(prog, "tex");
+    let nextIdx = 0
+
+
     for (let i = startIdx; i <= endIdx; i += 3) {
-        console.log(i)
+        if (textures.length > nextIdx && textures[nextIdx][0] <= i) {
+            gl.uniform1i(texPtr, textures[nextIdx][1]);
+            nextIdx += 1
+        }
+
         gl.drawArrays(gl.TRIANGLES, i, 3);
     }
 }
@@ -54,13 +62,6 @@ function parallelepiped(pos, w, h, d) {
         x, y, z, 1.0, 0.0,
         x - w, y, z, 0.0, 0.0,
 
-        //Frente
-        x - w, y, z + d, 0.0, 0.0,
-        x - w, y - h, z + d, 0.0, 1.0,
-        x, y - h, z + d, 1.0, 1.0,
-        x, y, z + d, 1.0, 0.0,
-        x - w, y, z + d, 0.0, 0.0,
-
         //Esquerda
         x - w, y - h, z, 1.0, 1.0,
         x - w, y, z, 1.0, 0.0,
@@ -68,12 +69,12 @@ function parallelepiped(pos, w, h, d) {
         x - w, y - h, z + d, 0.0, 1.0,
         x - w, y - h, z, 1.0, 1.0,
 
-        //Direita
-        x, y - h, z, 0.0, 1.0,
-        x, y, z, 0.0, 0.0,
-        x, y, z + d, 1.0, 0.0,
+        //Frente
+        x - w, y, z + d, 0.0, 0.0,
+        x - w, y - h, z + d, 0.0, 1.0,
         x, y - h, z + d, 1.0, 1.0,
-        x, y - h, z, 0.0, 1.0,
+        x, y, z + d, 1.0, 0.0,
+        x - w, y, z + d, 0.0, 0.0,
 
         //Baixo
         x, y - h, z + d, 1.0, 1.0,
@@ -82,6 +83,12 @@ function parallelepiped(pos, w, h, d) {
         x - w, y - h, z + d, 0.0, 1.0,
         x, y - h, z + d, 1.0, 1.0,
 
+        //Direita
+        x, y - h, z, 0.0, 1.0,
+        x, y, z, 0.0, 0.0,
+        x, y, z + d, 1.0, 0.0,
+        x, y - h, z + d, 1.0, 1.0,
+        x, y - h, z, 0.0, 1.0,
         //Cima
         x, y, z + d, 1.0, 1.0,
         x, y, z, 1.0, 0.0,
