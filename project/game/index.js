@@ -1,6 +1,6 @@
 function configScene() {
     //Cria buffer na GPU e copia coordenadas para ele
-    loadVertices(getAllShapes())
+    loadVertices()
 
     //submeter textura para gpu
     submitTextures()
@@ -20,16 +20,7 @@ function draw() {
     transforma = math.multiply(mproj, transforma);
     setTransf(transforma)
 
-
-    // Trilhos
-    drawHexahedron(120, [TEXTURES.rail[1]])
-    drawHexahedron(150, [TEXTURES.rail[1]])
-    drawHexahedron(180, [TEXTURES.rail[1]])
-
-    //Cenário
-    drawHexahedron(210, [TEXTURES.campo1[1]])
-    drawHexahedron(240, [TEXTURES.campo1[1]])
-
+    drawScenario()
 
     // Personagem - parado em relação à câmera
     drawPlayer(cam, mproj)
@@ -41,6 +32,7 @@ function draw() {
 async function loadAllElements() {
     await initImages()
     await initPlayer()
+    await initScenario()
 }
 
 
@@ -51,7 +43,6 @@ function init() {
         configScene();
         draw();
     })
-
 
     addListeners()
 }
