@@ -1,3 +1,16 @@
+
+/**
+ * Desenha todos os vértices dentro de um intervalo
+ * @param {number} startIdx índice do vértice que irá começar a figura
+ * @param {number} endIdx índice do vértice que irá terminar a figura
+ */
+function drawInterval(startIdx, endIdx) {
+    for (let i = startIdx; i <= endIdx; i += 3) {
+        console.log(i)
+        gl.drawArrays(gl.TRIANGLES, i, 3);
+    }
+}
+
 /**
  * Desenha um quadrado (dois triângulos)
  * @param {number} startIdx índice do primeiro vértice do quadrado no array de vértices
