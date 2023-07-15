@@ -116,23 +116,10 @@ function setTransf(value) {
     gl.uniformMatrix4fv(transfPtr, false, value);
 }
 
-/**
- * Carrega os vértices para o webgl
- * @param {number[]} vertices array com os vértices
- */
-function loadVertices(vertices) {
-    var bufPtr = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, bufPtr);
-    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-
-    setAttributePointer("position", 3, 5, 0)
-    setAttributePointer("texCoord", 2, 5, 3)
-}
-
 
 // ILUMINAÇÃO
 
-function loadNormals(){
+function loadNormals() {
 
     /*
      Normais só necessitam ser do tipo  0,0,1,
@@ -147,7 +134,7 @@ function loadNormals(){
                                         0,1,0,
                                         0,1,0
                                     cima e baixo do player.. analogo para x
-     */ 
+     */
     var aux = [
         //normais 
         //Quad 1
@@ -168,7 +155,7 @@ function loadNormals(){
         0, 1, 0,
         0, 1, 0,
         0, 1, 0,
-        
+
         0, 0, 1,
         0, 0, 1,
         0, 0, 1,
@@ -185,23 +172,23 @@ function loadNormals(){
         0, 1, 0,
         0, 1, 0,
         0, 1, 0,
-        0, 1, 0 
+        0, 1, 0
     ]
-    var normals = Float32Array.of(...aux,...aux,...aux,
-        ...aux,...aux,...aux,
-        ...aux,...aux,...aux,
-        ...aux,...aux,...aux,
-        ...aux,...aux,...aux,
-        ...aux,...aux,...aux,
-        ...aux,...aux,...aux,
-        ...aux,...aux,...aux,
-        ...aux,...aux,...aux,
-              )
+    var normals = Float32Array.of(...aux, ...aux, ...aux,
+        ...aux, ...aux, ...aux,
+        ...aux, ...aux, ...aux,
+        ...aux, ...aux, ...aux,
+        ...aux, ...aux, ...aux,
+        ...aux, ...aux, ...aux,
+        ...aux, ...aux, ...aux,
+        ...aux, ...aux, ...aux,
+        ...aux, ...aux, ...aux,
+    )
     var bufnormalPtr = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, bufnormalPtr);
     gl.bufferData(gl.ARRAY_BUFFER, normals, gl.STATIC_DRAW);
     setAttributePointer("normal", 3, 0, 0);
-    
+
     var lightDirectionPtr = gl.getUniformLocation(prog, "lightDirection");
     gl.uniform3fv(lightDirectionPtr, [-0.5, -1, -0.7]); //direçao da luz
     //necessario inverter vetor (negativo)

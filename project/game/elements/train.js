@@ -46,15 +46,19 @@ function makeTrain(num) {
             TRAIN_DEFAULTS.width,
             TRAIN_DEFAULTS.height,
             TRAIN_DEFAULTS.depth),
-        idx: num
+        idx: num,
+        vPosition: { start: 0, end: 0 },
+        texture: []
     }
 }
 
 /** Inicializa todos os trens */
 function makeTrains() {
-    TRAIN_DEFAULTS.texture = [TEXTURES.thomasSide, TEXTURES.thomasFace, TEXTURES.thomasSide].map(t => t[1])
     for (let i = 0; i < 3; i++) {
-        trains.push(makeTrain(i))
+        const t = makeTrain(i)
+        t.vPosition = addVertices(t.shape)
+        t.texture = [[t.vPosition.start, TEXTURES.thomasSide], [t.vPosition.start, TEXTURES.thomasFace]]
+        trains.push(t)
     }
     forceAddNewTrain()
 }
@@ -76,7 +80,8 @@ function drawTrain(cam, mproj, train) {
     transforma = math.multiply(mproj, transforma);
     setTransf(transforma)
 
-    drawHexahedron(train.idx * 30, TRAIN_DEFAULTS.texture)
+    drawInterval(train.vPosition.start, train.vPosition.end, train.texture)
+    // drawHexahedron(train.idx * 30, TRAIN_DEFAULTS.texture)
 }
 
 /**
