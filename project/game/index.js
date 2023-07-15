@@ -1,7 +1,7 @@
 function configScene() {
     //Cria buffer na GPU e copia coordenadas para ele
     loadVertices(getAllShapes())
-
+    loadNormals()
     //submeter textura para gpu
     submitTextures()
 }
@@ -47,7 +47,7 @@ async function loadAllElements() {
 function init() {
     loadAllElements().then(() => {
         initGL();
-        makeTrains()
+        makeTrains();
         configScene();
         draw();
     })

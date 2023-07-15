@@ -13,8 +13,12 @@
 
         varying vec2 v_texCoord;
 
+        attribute vec3 normal;
+        varying vec3 v_normal;
+
         void main()
         {
+            v_normal = normal;
             v_texCoord = texCoord;
             gl_Position = transf*position; 
         }
@@ -27,9 +31,19 @@
 
         varying vec2 v_texCoord;
 
+        varying vec3 v_normal;
+        uniform vec3 lightDirection;
+
         void main()
         {
-            gl_FragColor = texture2D(tex, v_texCoord);
+            vec3 v_normal_n = normalize(v_normal);
+            vec3 lightDirection_n = normalize(-lightDirection);
+
+            float light = dot(lightDirection_n,v_normal_n);
+
+            if (light<0.0) light = 0.0;
+
+            gl_FragColor = vec4(light*texture2D(tex, v_texCoord).rgb, 1);
         }
     </script>
 </head>
