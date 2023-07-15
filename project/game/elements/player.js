@@ -6,7 +6,8 @@ var player = {
     z: 25,
     /**@type {undefined | number[]} Array de vértices */
     shape: undefined,
-    objPath: "obj/player.obj"
+    objPath: "obj/player.obj",
+    vPosition: { start: 0, end: 0 }
 }
 
 /**
@@ -15,6 +16,7 @@ var player = {
 async function initPlayer() {
     player.shape = await readObjFile(player.objPath)
     camera.target = [player.x, 0, player.z]
+    player.vPosition = addVertices(player.shape)
     // camera.pos[3] = player.z + 20
 }
 
