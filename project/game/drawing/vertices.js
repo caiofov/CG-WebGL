@@ -18,7 +18,7 @@ function loadVertices() {
 function addVertices(vertices) {
     const oldLength = vertexManager.vertices.length
     const newLength = vertexManager.vertices.push(...vertices)
-    return { start: oldLength / 5, end: newLength / 5 }
+    return { start: oldLength / 5, end: (newLength / 5) - 1 }
 }
 
 function prepareVertices() {
