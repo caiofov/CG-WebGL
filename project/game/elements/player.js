@@ -6,7 +6,7 @@ var player = {
     z: 25,
     /**@type {undefined | number[]} Array de vértices */
     shape: undefined,
-    objPath: "obj/player.obj",
+    objPath: "obj/cubo.obj",
     vPosition: { start: 0, end: 0 }
 }
 
@@ -17,6 +17,8 @@ async function initPlayer() {
     player.shape = await readObjFile(player.objPath)
     camera.target = [player.x, 0, player.z]
     player.vPosition = addVertices(player.shape)
+    player.texture = [[player.vPosition.start, TEXTURES.sticker[1]]]
+
     // camera.pos[3] = player.z + 20
 }
 
@@ -31,7 +33,8 @@ function drawPlayer(cam, mproj) {
     transMatrix = math.multiply(mproj, transMatrix);
     setTransf(transMatrix)
 
-    drawHexahedron(90, [TEXTURES.sticker[1]])
+    // drawHexahedron(90, [TEXTURES.sticker[1]])
+    drawInterval(player.vPosition.start, player.vPosition.end, player.texture)
 }
 
 /**
