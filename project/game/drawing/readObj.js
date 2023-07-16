@@ -15,7 +15,7 @@ function readObjFile(filePath) {
             content = content.replace('//', ' ')
             for (const line of content.split('\n')) { //separa o conteúdo em linhas
                 if (line.startsWith("#")) continue //comentários
-                const vs = line.trim().split(' ');
+                const vs = line.replace('//', ' ').replace("/", " ").trim().split(' ');
                 const type = vs.shift()
 
                 switch (type) { // vê o tipo do primeiro elemento da linha
@@ -26,7 +26,7 @@ function readObjFile(filePath) {
                         break;
 
                     case "vn": //normal:
-                        for (const n of vs) normals.push(n)
+                        for (const n of vs) normals.push(parseFloat(n))
                         break
 
                     case "vt": //textura
