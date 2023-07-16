@@ -79,7 +79,9 @@ function drawTrain(cam, mproj, train) {
     var m = translationMatrix(0, 0, train.z)
     var transforma = math.multiply(cam, m);
     transforma = math.multiply(mproj, transforma);
-    setTransf(transforma)
+    
+    setTransfproj(transforma)
+    //setTransf(m)
 
     drawInterval(train.vPosition.start, train.vPosition.end, train.texture)
     // drawHexahedron(train.idx * 30, TRAIN_DEFAULTS.texture)
