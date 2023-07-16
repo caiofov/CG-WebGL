@@ -21,6 +21,10 @@ async function initPlayer() {
     player.normals = file.normals
     camera.target = [player.x, 0, player.z]
     player.vPosition = addVertices(player.shape, player.normals)
+    player.colors = {
+        body: [0, 0, 204, 255].map(c => c / 255),
+        head: [255, 255, 0, 255].map(c => c / 255)
+    }
 
 }
 
@@ -43,13 +47,13 @@ function drawPlayer(cam, mproj) {
     gl.uniform1i(isSolidPtr, 1.0);
 
 
-    gl.uniform4fv(colorPtr, [0.5, 0.5, 0.2, 1.0]);
+    gl.uniform4fv(colorPtr, player.colors.body);
     //corpo
-    drawInterval(player.vPosition.start, player.vPosition.end);
+    drawInterval(player.vPosition.start, player.vPosition.start + 35);
 
-    // gl.uniform4fv(colorPtr, [0.1, 0.1, 0.1, 1.0]);
+    gl.uniform4fv(colorPtr, player.colors.head);
     //cabeça
-    // drawInterval(player.vPosition.start + 36 * 5 + 1, player.vPosition.end);
+    drawInterval(player.vPosition.start + 36, player.vPosition.end);
 
     gl.uniform1i(isSolidPtr, 0);
 }
