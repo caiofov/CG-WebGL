@@ -23,7 +23,8 @@ async function initPlayer() {
     player.vPosition = addVertices(player.shape, player.normals)
     player.colors = {
         body: [0, 0, 204, 255].map(c => c / 255),
-        head: [255, 255, 0, 255].map(c => c / 255)
+        head: [255, 255, 0, 255].map(c => c / 255),
+        gameOver: [255, 0, 0, 255].map(c => c / 255)
     }
 
 }
@@ -42,11 +43,16 @@ function drawPlayer(cam, mproj) {
 
     //desenha os vértices com cor sólida
     withSolidColor((colorPtr) => {
-        gl.uniform4fv(colorPtr, player.colors.body);
-        drawInterval(player.vPosition.start, player.vPosition.start + 35);
+        if (GAME.isRunning) {
+            gl.uniform4fv(colorPtr, player.colors.body);
+            drawInterval(player.vPosition.start, player.vPosition.start + 35);
 
-        gl.uniform4fv(colorPtr, player.colors.head);
-        drawInterval(player.vPosition.start + 36, player.vPosition.end);
+            gl.uniform4fv(colorPtr, player.colors.head);
+            drawInterval(player.vPosition.start + 36, player.vPosition.end);
+        } else { //caso tenha dado Game Over, desenhar o player de outra cor
+            gl.uniform4fv(colorPtr, player.colors.gameOver);
+            drawInterval(player.vPosition.start, player.vPosition.end);
+        }
     })
 }
 
