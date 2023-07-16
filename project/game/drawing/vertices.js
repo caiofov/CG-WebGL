@@ -27,6 +27,9 @@ function loadVertices() {
     setAttributePointer("texCoord", 2, 5, 3)
 }
 
+/**
+ * Carrega as normais para o webgl e as luzes que serão utilizadas
+ */
 function loadNormals() {
     var bufnormalPtr = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, bufnormalPtr);
@@ -36,9 +39,9 @@ function loadNormals() {
     var lightDirectionPtr = gl.getUniformLocation(prog, "lightDirection");
     gl.uniform3fv(lightDirectionPtr, [-0.3, -0.5, -1.0]); //PARA ONDE APONTA
     //necessario inverter vetor (negativo)
-    var lightColorPtr = gl.getUniformLocation(prog,"lightColor");
-    gl.uniform3fv(lightColorPtr,[1,1,1]);
+    var lightColorPtr = gl.getUniformLocation(prog, "lightColor");
+    gl.uniform3fv(lightColorPtr, [1, 1, 1]);
 
-    var lightposPtr = gl.getUniformLocation(prog,"lightpos");
-    gl.uniform3fv(lightposPtr,[0.5,3,20]);//luz a direita da cena
+    var lightposPtr = gl.getUniformLocation(prog, "lightpos");
+    gl.uniform3fv(lightposPtr, [0.5, 3, 20]);//luz a direita da cena
 }

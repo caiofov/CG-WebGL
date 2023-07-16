@@ -7,8 +7,8 @@ const TRAIN_DEFAULTS = {
     /**@type {number[]} Array de texturas */
     texture: undefined //(não pode ser setado aqui porque as texturas ainda não foram carregadas) 
 }
-var trains = []
-var currentTrains = []
+const trains = []
+const currentTrains = []
 
 
 /**

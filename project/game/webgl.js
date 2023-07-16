@@ -117,10 +117,14 @@ function setTransf(value) {
     gl.uniformMatrix4fv(transfPtr, false, value);
 }
 
+/**
+ * Trata e altera o valor da variável `transfproj`
+ * @param {{_data:number[][]}} value 
+ */
 function setTransfproj(value) {
     value = math.flatten(math.transpose(value))._data;
     var transfPtr = gl.getUniformLocation(prog, "transfproj");
-     //webGL multiplica por colunas (transpose necessario)
+    //webGL multiplica por colunas (transpose necessario)
 
     gl.uniformMatrix4fv(transfPtr, false, value);
 }

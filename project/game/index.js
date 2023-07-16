@@ -8,6 +8,7 @@ function configScene() {
 }
 
 
+/**Funções responsável pela animação */
 function draw() {
 
     //elementos que se movem
@@ -36,18 +37,19 @@ function draw() {
 
 }
 
+/** Carrega os elementos que serão utilizados nos jogos */
 async function loadAllElements() {
     await initImages()
+    makeTrains();
     await initPlayer()
     await initScenario()
     await initCoin()
 }
 
-
+/**Função chamada quando o corpo do documento for carregado */
 function init() {
     loadAllElements().then(() => {
         initGL();
-        makeTrains();
         configScene();
         draw();
     })

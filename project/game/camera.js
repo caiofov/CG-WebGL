@@ -1,4 +1,4 @@
-var camera = {
+const camera = {
     pos: [0, 1, 40],
     target: [0, 0, 0],
     up: [0, 2, 40]
