@@ -32,9 +32,11 @@ async function initPlayer() {
  * @param {*} mproj matriz da perspectiva
  */
 function drawPlayer(cam, mproj) {
-    var transMatrix = math.multiply(cam, translationMatrix(player.x, 0, player.z));
+    var m = translationMatrix(player.x, 0, player.z)
+    var transMatrix = math.multiply(cam, m);
     transMatrix = math.multiply(mproj, transMatrix);
-    setTransf(transMatrix)
+    setTransfproj(transMatrix)
+    //setTransf(m)
 
     // drawHexahedron(90, [TEXTURES.sticker[1]])
     drawInterval(player.vPosition.start, player.vPosition.end, player.texture)
@@ -53,6 +55,8 @@ function movePlayer(x, y, z) {
 
     //restriçoes de movimento, casas para mover personagem: 0.0 , 0.8 e 1.6
     player.x = Math.max(0, Math.min(player.x, 1.6))
+    player.z = Math.max(6, Math.min(player.z, 37))
+    console.log(player.x,player.z)
 }
 
 function getPlayerRail() {
