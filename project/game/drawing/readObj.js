@@ -1,7 +1,7 @@
 /**
  * Ler um arquivo `.obj`
  * @param {string} filePath Caminho ate o arquivo
- * @returns {Promise<object>}
+ * @returns {PromiseLike<{faces: number[];normals: number[];}>}
  */
 function readObjFile(filePath) {
     return fetch(filePath)
@@ -11,7 +11,7 @@ function readObjFile(filePath) {
             const faces = []
             const textures = []
             const normals = []
-            const orderedNormals = []
+
             content = content.replace('//', ' ')
             for (const line of content.split('\n')) { //separa o conteúdo em linhas
                 if (line.startsWith("#")) continue //comentários
@@ -26,9 +26,7 @@ function readObjFile(filePath) {
                         break;
 
                     case "vn": //normal:
-                        const nrms = []
-                        for (const n of vs) nrms.push(parseFloat(n))
-                        normals.push(nrms)
+                        for (const n of vs) normals.push(n)
                         break
 
                     case "vt": //textura
@@ -40,7 +38,6 @@ function readObjFile(filePath) {
                             let li = parseInt(l) - 1
                             if (vertices[li]) for (const v of vertices[li]) faces.push(v)
                             if (textures[li]) for (const t of textures[li]) faces.push(t)
-                            if (normals[li]) for (const n of normals[li]) orderedNormals.push(n)
                         }
                         break
                     default:
@@ -48,7 +45,7 @@ function readObjFile(filePath) {
                 }
             }
 
-            return { faces: faces, normals: orderedNormals }
+            return { faces: faces, normals: normals }
         })
 
 
