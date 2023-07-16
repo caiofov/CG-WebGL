@@ -58,12 +58,12 @@ function initScenario() {
     //inicializa os trilhos
     for (const rail of rails) {
         rail.vPosition = addVertices(rail.shape, rail.normals)
-        rail.texture = [[rail.vPosition.start, TEXTURES.rail[1]]]
+        rail.texture = TEXTURES.rail[1]
     }
     //inicializa as paredes do mapa
     for (const wall of walls) {
         wall.vPosition = addVertices(wall.shape, wall.normals)
-        wall.texture = [[wall.vPosition.start, TEXTURES.campo1[1]]]
+        wall.texture = TEXTURES.campo1[1]
     }
     for (const t of tunnel_){
         t.vPosition = addVertices(t.shape,t.normals)
@@ -77,6 +77,7 @@ function initScenario() {
  */
 function drawScenario() {
     for (const element of scenarioElements) {
+        setTexture(element.texture)
         drawInterval(element.vPosition.start, element.vPosition.end, element.texture)
     }
 }

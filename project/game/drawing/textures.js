@@ -7,6 +7,11 @@ const TEXTURES = {
     tunnel: ["img/tunnel.png"]
 }
 
+function setTexture(texture) {
+    var texPtr = gl.getUniformLocation(prog, "tex");
+    gl.uniform1i(texPtr, texture);
+}
+
 /**
  * Carrega uma textura específica
  * @param {number} idx índice onde irá guardar a textura na memória

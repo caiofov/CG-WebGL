@@ -4,8 +4,6 @@ const vertexManager = {
     normals: []
 }
 
-
-
 function addNormals(normals) {
     vertexManager.normals.push(...normals)
 }

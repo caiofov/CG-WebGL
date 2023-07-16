@@ -58,9 +58,12 @@ function makeTrains() {
     for (let i = 0; i < 3; i++) {
         const t = makeTrain(i)
         t.vPosition = addVertices(t.shape, t.normals)
-        t.texture = [[t.vPosition.start, TEXTURES.thomasSide], [t.vPosition.start, TEXTURES.thomasFace]]
+        t.texture = {
+            side: TEXTURES.thomasSide[1], face: TEXTURES.thomasFace[1]
+        }
         trains.push(t)
     }
+
     forceAddNewTrain()
 }
 
@@ -83,8 +86,11 @@ function drawTrain(cam, mproj, train) {
     setTransfproj(transforma)
     //setTransf(m)
 
-    drawInterval(train.vPosition.start, train.vPosition.end, train.texture)
-    // drawHexahedron(train.idx * 30, TRAIN_DEFAULTS.texture)
+    setTexture(train.texture.face)
+    drawInterval(train.vPosition.start, train.vPosition.start + 4)
+
+    setTexture(train.texture.side)
+    drawInterval(train.vPosition.start + 6, train.vPosition.end)
 }
 
 /**

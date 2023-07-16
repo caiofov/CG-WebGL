@@ -21,7 +21,7 @@ async function initPlayer() {
     player.normals = file.normals
     camera.target = [player.x, 0, player.z]
     player.vPosition = addVertices(player.shape, player.normals)
-    player.texture = [[player.vPosition.start, TEXTURES.sticker[1]]]
+    player.texture = TEXTURES.sticker[1]
 
 }
 
@@ -38,8 +38,8 @@ function drawPlayer(cam, mproj) {
     setTransfproj(transMatrix)
     //setTransf(m)
 
-    // drawHexahedron(90, [TEXTURES.sticker[1]])
-    drawInterval(player.vPosition.start, player.vPosition.end, player.texture)
+    setTexture(player.texture)
+    drawInterval(player.vPosition.start, player.vPosition.end)
 }
 
 /**
