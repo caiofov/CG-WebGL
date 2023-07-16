@@ -82,7 +82,7 @@ function drawTrain(cam, mproj, train) {
     var m = translationMatrix(0, 0, train.z)
     var transforma = math.multiply(cam, m);
     transforma = math.multiply(mproj, transforma);
-    
+
     setTransfproj(transforma)
     //setTransf(m)
 
@@ -114,9 +114,10 @@ function moveTrain(train) {
     // caso o Z seja maior do que o limite do cenário, descartar o trem e gerar um novo
     else if (train.z > SCENARIO_DEFAULTS.maxZ) {
         train.z = 0
-        currentTrains.splice(currentTrains.indexOf(train), 1)
-        score()
-        forceAddNewTrain()
+        currentTrains.splice(currentTrains.indexOf(train), 1) //descarta o trem
+        score() // jogador fez ponto
+        TRAIN_DEFAULTS.speed += 0.01
+        forceAddNewTrain() //adiciona um trem novo
     }
 }
 
