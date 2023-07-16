@@ -36,6 +36,6 @@ function loadNormals() {
     setAttributePointer("normal", 3, 0, 0);
 
     var lightDirectionPtr = gl.getUniformLocation(prog, "lightDirection");
-    gl.uniform3fv(lightDirectionPtr, [-0.5, -1, -0.7]); //direçao da luz
+    gl.uniform3fv(lightDirectionPtr, [-0.3, -0.5, -1.0]); //PARA ONDE APONTA
     //necessario inverter vetor (negativo)
 }
