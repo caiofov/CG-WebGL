@@ -10,6 +10,22 @@ function drawInterval(startIdx, endIdx) { //TODO; textura
 }
 
 /**
+ * Habilita a cor sólida dos vértices para a execução da função recebida nos parâmetros
+ * @param {(p:WebGLUniformLocation)=>{}} drawFunc Função de desenho
+ */
+function withSolidColor(drawFunc) {
+    /**@type {WebGLUniformLocation} Ponteiro para variável que indica que o vértice deverá ser renderizado com cor sólida */
+    var isSolidPtr = gl.getUniformLocation(prog, "isSolid");
+
+    /**@type {WebGLUniformLocation} Ponteiro para variável que dá cor ao vértice */
+    var colorPtr = gl.getUniformLocation(prog, "color");
+
+    gl.uniform1i(isSolidPtr, 1.0);
+    drawFunc(colorPtr)
+    gl.uniform1i(isSolidPtr, 0.0);
+}
+
+/**
  * Desenha um quadrado (dois triângulos)
  * @param {number} startIdx índice do primeiro vértice do quadrado no array de vértices
  */

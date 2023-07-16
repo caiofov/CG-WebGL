@@ -39,23 +39,15 @@ function drawPlayer(cam, mproj) {
     var transMatrix = math.multiply(cam, m);
     transMatrix = math.multiply(mproj, transMatrix);
     setTransfproj(transMatrix)
-    //setTransf(m)
 
-    var colorPtr = gl.getUniformLocation(prog, "color");
-    var isSolidPtr = gl.getUniformLocation(prog, "isSolid");
+    //desenha os vértices com cor sólida
+    withSolidColor((colorPtr) => {
+        gl.uniform4fv(colorPtr, player.colors.body);
+        drawInterval(player.vPosition.start, player.vPosition.start + 35);
 
-    gl.uniform1i(isSolidPtr, 1.0);
-
-
-    gl.uniform4fv(colorPtr, player.colors.body);
-    //corpo
-    drawInterval(player.vPosition.start, player.vPosition.start + 35);
-
-    gl.uniform4fv(colorPtr, player.colors.head);
-    //cabeça
-    drawInterval(player.vPosition.start + 36, player.vPosition.end);
-
-    gl.uniform1i(isSolidPtr, 0);
+        gl.uniform4fv(colorPtr, player.colors.head);
+        drawInterval(player.vPosition.start + 36, player.vPosition.end);
+    })
 }
 
 /**
