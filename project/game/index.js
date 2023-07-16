@@ -19,7 +19,7 @@ function draw() {
     var transforma = identityMatrix();
     transforma = math.multiply(cam, transforma);
     transforma = math.multiply(mproj, transforma);
-    setTransf(transforma)
+    setTransfproj(transforma)
 
     drawScenario()
 
