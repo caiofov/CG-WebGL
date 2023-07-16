@@ -11,15 +11,24 @@
         uniform mat4 transfproj;
         //uniform mat4 transf;
 
-
         varying vec2 v_texCoord;
 
         attribute vec3 normal;
         varying vec3 v_normal;
 
+        uniform vec3 lightpos;
+        varying vec3 pointToLight;
+
+        uniform vec3 campos;
+        varying vec3 pointToCam;
+
         void main()
         {
+            pointToLight = lightpos - position.xyz;
+            pointToCam = campos - position.xyz;
+
             v_normal = (vec4(normal,1)).xyz;
+
             v_texCoord = texCoord;
             gl_Position = transfproj*position; 
         }
@@ -34,29 +43,50 @@
 
         varying vec3 v_normal;
         uniform vec3 lightDirection;
-        uniform vec3 light_color;
+        uniform vec3 lightColor;
         uniform vec4 color;
         uniform bool isSolid;
 
+        varying vec3 pointToLight;
+        varying vec3 pointToCam;
+
         void main()
         {
+            vec3 pToLight = normalize(pointToLight);
+            vec3 pToCam = normalize(pointToCam);
+
+            //vec3 halfVec = 
+
             vec3 v_normal_n = normalize(v_normal);
             vec3 lightDirection_n = normalize(-lightDirection);
 
-            float light = dot(lightDirection_n,v_normal_n);
+            float lightd = dot(lightDirection_n,v_normal_n);
+            float lightp = dot(pToLight,v_normal_n);
+            //float lighte = dot(pToCam,)
 
-            if (light<0.0) light = 0.0;
+            if (lightd<0.0) lightd = 0.0;
+            if (lightp<0.0) lightp = 0.0;
 
             if(isSolid){
                 gl_FragColor = color;
             }else{
-                //gl_FragColor = vec4(light*texture2D(tex, v_texCoord).rgb, 1);
-
+                //Com luz de cor
+                //gl_FragColor = vec4(lightColor*light*texture2D(tex, v_texCoord).rgb, 1);
+                
                 // Modelo de reflexão de Phong:
                 // Ambiente:
-                gl_FragColor = 0.6 * texture2D(tex, v_texCoord);
+                //gl_FragColor = 0.6 * texture2D(tex, v_texCoord);
                 // Direcional:
-                gl_FragColor += 0.5 * light * texture2D(tex, v_texCoord);
+                //gl_FragColor += 0.5 * lightp * texture2D(tex, v_texCoord);
+                
+
+                vec3 texColor = texture2D(tex, v_texCoord).rgb;
+                //gl_FragColor = vec4(lightColor*lightp*texture2D(tex, v_texCoord).rgb, 1);
+                
+                
+                gl_FragColor.rgb = 0.2*lightColor*lightd*texColor;
+                gl_FragColor.rgb += 0.8*lightColor*lightp*texColor;
+                gl_FragColor.a = texture2D(tex, v_texCoord).a;
             }
         }
     </script>
@@ -71,7 +101,7 @@
     <p>Desvie dos trens!</p>
     <p>Pontuação atual: <b id="scoreboard">0</b></p>
     <p style="display: none;" id="game-over"> GAME OVER </p>
-    <canvas id="glcanvas1" width="400" height="300">
+    <canvas id="glcanvas1" width="500" height="500">
 
 </body>
 
