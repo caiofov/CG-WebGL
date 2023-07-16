@@ -4,11 +4,15 @@
 var player = {
     x: 0,
     z: 25,
-    /**@type {undefined | number[]} Array de vértices */
-    shape: [],
-    normals: [],
+    shape: new Float32Array(),
+    normals: new Float32Array(),
     objPath: "obj/tinker.obj",
-    vPosition: { start: 0, end: 0 }
+    vPosition: { start: 0, end: 0 },
+    colors: {
+        body: [0, 0, 204, 255].map(c => c / 255),
+        head: [255, 255, 0, 255].map(c => c / 255),
+        gameOver: [255, 0, 0, 255].map(c => c / 255)
+    }
 }
 
 /**
@@ -21,12 +25,6 @@ async function initPlayer() {
     player.normals = file.normals
     camera.target = [player.x, 0, player.z]
     player.vPosition = addVertices(player.shape, player.normals)
-    player.colors = {
-        body: [0, 0, 204, 255].map(c => c / 255),
-        head: [255, 255, 0, 255].map(c => c / 255),
-        gameOver: [255, 0, 0, 255].map(c => c / 255)
-    }
-
 }
 
 
@@ -72,13 +70,16 @@ function movePlayer(x, y, z) {
     player.z = Math.max(6, Math.min(player.z, 37))
 }
 
+/**
+ * @returns {number}  número do trilho que o player está
+ */
 function getPlayerRail() {
     return player.x / 0.8
 }
 
 /**
- * Verifica se o player colidiu com o trem
  * @param {{z:number idx:number}} train 
+ * @returns {boolean} se o player colidiu com o trem
  */
 function playerCollided(train) {
     return train.z <= player.z && player.z <= (train.z + TRAIN_DEFAULTS.depth) && getPlayerRail() == train.idx
