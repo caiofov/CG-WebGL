@@ -28,13 +28,16 @@
     <script id="frag-shader" type="notjs">
         precision mediump float;
 
-        uniform sampler2D tex; //imagem da textura será guardada nesta variável
-
+        //texturas
+        uniform sampler2D tex;
         varying vec2 v_texCoord;
 
+        //iluminação:
         varying vec3 v_normal;
         uniform vec3 lightDirection;
         uniform vec3 light_color;
+
+        //cores sólidas:
         uniform vec4 color;
         uniform bool isSolid;
 
@@ -47,7 +50,7 @@
 
             if (light<0.0) light = 0.0;
 
-            if(isSolid){
+            if(isSolid){ //Caso verdadeiro, objeto deve ser renderizado com cor sólida
                 gl_FragColor = color;
             }else{
                 //gl_FragColor = vec4(light*texture2D(tex, v_texCoord).rgb, 1);
