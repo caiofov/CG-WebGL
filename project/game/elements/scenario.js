@@ -20,7 +20,7 @@ const rail2 = {
     texture: []
 }
 const rail3 = {
-    shape: parallelepiped([0.1, -0.5, 0.0], 0.9, 0.1, 45),
+    shape: parallelepiped([1.8, -0.5, 0.0], 2.7, 0.1, 45),
     normals: parallelepipedNormals(),
     vPosition: { start: 0, end: 0 },
     texture: []
@@ -41,9 +41,18 @@ const wallRight = {
     texture: []
 }
 
-const rails = [rail1, rail2, rail3]
+const tunnel = {
+    shape: parallelepiped([2, 3, 0.0], 3, 4.5, 4),
+    normals: parallelepipedNormals(),
+    vPosition: { start: 0, end: 0 },
+    texture: []
+
+}
+
+const rails = [rail3]
 const walls = [wallLeft, wallRight]
-const scenarioElements = [...rails, ...walls]
+const tunnel_ = [tunnel]
+const scenarioElements = [...rails, ...walls,...tunnel_]
 
 function initScenario() {
     //inicializa os trilhos
@@ -55,6 +64,10 @@ function initScenario() {
     for (const wall of walls) {
         wall.vPosition = addVertices(wall.shape, wall.normals)
         wall.texture = [[wall.vPosition.start, TEXTURES.campo1[1]]]
+    }
+    for (const t of tunnel_){
+        t.vPosition = addVertices(t.shape,t.normals)
+        t.texture = [[t.vPosition.start, TEXTURES.tunnel[1]]]
     }
 
 }
