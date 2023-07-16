@@ -5,7 +5,8 @@ var player = {
     x: 0,
     z: 25,
     /**@type {undefined | number[]} Array de vértices */
-    shape: undefined,
+    shape: [],
+    normals: [],
     objPath: "obj/cubo.obj",
     vPosition: { start: 0, end: 0 }
 }
@@ -14,12 +15,14 @@ var player = {
  * Inicializa o jogador (lê o arquivo `.obj` e atualizar o `target` da câmera)
  */
 async function initPlayer() {
-    player.shape = await readObjFile(player.objPath)
+    const file = await readObjFile(player.objPath)
+
+    player.shape = file.faces
+    player.normals = file.normals
     camera.target = [player.x, 0, player.z]
-    player.vPosition = addVertices(player.shape, parallelepipedNormals())
+    player.vPosition = addVertices(player.shape, player.normals)
     player.texture = [[player.vPosition.start, TEXTURES.sticker[1]]]
 
-    // camera.pos[3] = player.z + 20
 }
 
 
