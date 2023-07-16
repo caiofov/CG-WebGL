@@ -32,9 +32,11 @@ async function initPlayer() {
  * @param {*} mproj matriz da perspectiva
  */
 function drawPlayer(cam, mproj) {
-    var transMatrix = math.multiply(cam, translationMatrix(player.x, 0, player.z));
+    var m = translationMatrix(player.x, 0, player.z)
+    var transMatrix = math.multiply(cam, m);
     transMatrix = math.multiply(mproj, transMatrix);
-    setTransf(transMatrix)
+    setTransfproj(transMatrix)
+    //setTransf(m)
 
     // drawHexahedron(90, [TEXTURES.sticker[1]])
     drawInterval(player.vPosition.start, player.vPosition.end, player.texture)

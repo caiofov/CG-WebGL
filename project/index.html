@@ -8,6 +8,7 @@
         // attribute -> muda para cada vértice
         attribute vec4 position;
         attribute vec2 texCoord;
+        uniform mat4 transfproj;
         uniform mat4 transf;
 
 
@@ -18,9 +19,9 @@
 
         void main()
         {
-            v_normal = normal;
+            v_normal = (vec4(normal,1)).xyz;
             v_texCoord = texCoord;
-            gl_Position = transf*position; 
+            gl_Position = transfproj*position; 
         }
     </script>
 
@@ -43,7 +44,15 @@
 
             if (light<0.0) light = 0.0;
 
-            gl_FragColor = vec4(light*texture2D(tex, v_texCoord).rgb, 1);
+           //gl_FragColor = vec4(light*texture2D(tex, v_texCoord).rgb, 1);
+
+            // Modelo de reflexão de Phong:
+            // Ambiente:
+            gl_FragColor = 0.6 * texture2D(tex, v_texCoord);
+            // Direcional:
+            gl_FragColor += 0.5 * light * texture2D(tex, v_texCoord);
+                
+
         }
     </script>
 </head>
