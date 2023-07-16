@@ -16,7 +16,7 @@ var player = {
 async function initPlayer() {
     player.shape = await readObjFile(player.objPath)
     camera.target = [player.x, 0, player.z]
-    player.vPosition = addVertices(player.shape)
+    player.vPosition = addVertices(player.shape, parallelepipedNormals())
     player.texture = [[player.vPosition.start, TEXTURES.sticker[1]]]
 
     // camera.pos[3] = player.z + 20

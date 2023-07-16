@@ -46,6 +46,7 @@ function makeTrain(num) {
             TRAIN_DEFAULTS.width,
             TRAIN_DEFAULTS.height,
             TRAIN_DEFAULTS.depth),
+        normals: parallelepipedNormals(),
         idx: num,
         vPosition: { start: 0, end: 0 },
         texture: []
@@ -56,7 +57,7 @@ function makeTrain(num) {
 function makeTrains() {
     for (let i = 0; i < 3; i++) {
         const t = makeTrain(i)
-        t.vPosition = addVertices(t.shape)
+        t.vPosition = addVertices(t.shape, t.normals)
         t.texture = [[t.vPosition.start, TEXTURES.thomasSide], [t.vPosition.start, TEXTURES.thomasFace]]
         trains.push(t)
     }

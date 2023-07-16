@@ -9,22 +9,26 @@ const SCENARIO_DEFAULTS = {
 
 const rail1 = {
     shape: parallelepiped([1.8, -0.5, 0.0], 0.9, 0.1, 45),
+    normals: parallelepipedNormals(),
     vPosition: { start: 0, end: 0 },
     texture: []
 }
 const rail2 = {
     shape: parallelepiped([1, -0.5, 0.0], 0.9, 0.1, 45),
+    normals: parallelepipedNormals(),
     vPosition: { start: 0, end: 0 },
     texture: []
 }
 const rail3 = {
     shape: parallelepiped([0.1, -0.5, 0.0], 0.9, 0.1, 45),
+    normals: parallelepipedNormals(),
     vPosition: { start: 0, end: 0 },
     texture: []
 }
 
 const wallLeft = {
     shape: parallelepiped([4.9, 2.5, 0.0], 3.1, 3.0, 45),
+    normals: parallelepipedNormals(),
     vPosition: { start: 0, end: 0 },
     texture: []
 
@@ -32,6 +36,7 @@ const wallLeft = {
 
 const wallRight = {
     shape: parallelepiped([-0.8, 2.5, 0.0], 3.1, 3.0, 45),
+    normals: parallelepipedNormals(),
     vPosition: { start: 0, end: 0 },
     texture: []
 }
@@ -43,12 +48,12 @@ const scenarioElements = [...rails, ...walls]
 function initScenario() {
     //inicializa os trilhos
     for (const rail of rails) {
-        rail.vPosition = addVertices(rail.shape)
+        rail.vPosition = addVertices(rail.shape, rail.normals)
         rail.texture = [[rail.vPosition.start, TEXTURES.rail[1]]]
     }
     //inicializa as paredes do mapa
     for (const wall of walls) {
-        wall.vPosition = addVertices(wall.shape)
+        wall.vPosition = addVertices(wall.shape, wall.normals)
         wall.texture = [[wall.vPosition.start, TEXTURES.campo1[1]]]
     }
 

@@ -30,35 +30,9 @@ function loadVertices() {
 }
 
 function loadNormals() {
-
-    /*
-     Normais só necessitam ser do tipo  0,0,1,
-                                        0,0,1, 
-                                        0,0,1,
-                                        0,0,1,
-                                        0,0,1
-            normal apontando para o eixo z (frente e verso do player)
-                                        0,1,0,
-                                        0,1,0, 
-                                        0,1,0,
-                                        0,1,0,
-                                        0,1,0
-                                    cima e baixo do player.. analogo para x
-     */
-    var aux = parallelepipedNormals()
-    var normals = Float32Array.of(...aux, ...aux, ...aux,
-        ...aux, ...aux, ...aux,
-        ...aux, ...aux, ...aux,
-        ...aux, ...aux, ...aux,
-        ...aux, ...aux, ...aux,
-        ...aux, ...aux, ...aux,
-        ...aux, ...aux, ...aux,
-        ...aux, ...aux, ...aux,
-        ...aux, ...aux, ...aux,
-    )
     var bufnormalPtr = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, bufnormalPtr);
-    gl.bufferData(gl.ARRAY_BUFFER, normals, gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexManager.normals), gl.STATIC_DRAW);
     setAttributePointer("normal", 3, 0, 0);
 
     var lightDirectionPtr = gl.getUniformLocation(prog, "lightDirection");

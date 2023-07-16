@@ -123,6 +123,20 @@ function parallelepiped(pos, w, h, d) {
 }
 
 function parallelepipedNormals() {
+    /*
+    Normais só necessitam ser do tipo  0,0,1,
+                                       0,0,1, 
+                                       0,0,1,
+                                       0,0,1,
+                                       0,0,1
+           normal apontando para o eixo z (frente e verso do player)
+                                       0,1,0,
+                                       0,1,0, 
+                                       0,1,0,
+                                       0,1,0,
+                                       0,1,0
+                                   cima e baixo do player.. analogo para x
+    */
     return new Float32Array([
         0, 0, 1,
         0, 0, 1,
