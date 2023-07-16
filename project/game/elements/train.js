@@ -95,7 +95,7 @@ function moveTrain(train) {
     train.z += TRAIN_DEFAULTS.speed
 
     //checar colisão com o jogador
-    if (playerCollided(train)) {
+    if (playerCollided(train, TRAIN_DEFAULTS.depth)) {
         gameOver()
         return
     }

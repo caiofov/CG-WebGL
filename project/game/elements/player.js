@@ -78,9 +78,9 @@ function getPlayerRail() {
 }
 
 /**
- * @param {{z:number idx:number}} train 
- * @returns {boolean} se o player colidiu com o trem
+ * @param {{z:number idx:number}} object 
+ * @returns {boolean} se o player colidiu com algum objeto
  */
-function playerCollided(train) {
-    return train.z <= player.z && player.z <= (train.z + TRAIN_DEFAULTS.depth) && getPlayerRail() == train.idx
+function playerCollided(object, objDepth) {
+    return object.z <= player.z && player.z <= (object.z + objDepth) && getPlayerRail() == object.idx
 }
