@@ -1,7 +1,3 @@
-var teximg = [];
-var texSrc = ["gato.jpg", "cachorro.png"].map(e => `img/${e}`);
-var loadTexs = 0;
-
 const TEXTURES = {
     thomasFace: ["img/thomas_face.png"],
     thomasSide: ["img/thomas_side.png"],
