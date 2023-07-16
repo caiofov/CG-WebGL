@@ -52,7 +52,7 @@ const tunnel = {
 const rails = [rail3]
 const walls = [wallLeft, wallRight]
 const tunnel_ = [tunnel]
-const scenarioElements = [...rails, ...walls,...tunnel_]
+const scenarioElements = [...rails, ...walls, ...tunnel_]
 
 function initScenario() {
     //inicializa os trilhos
@@ -65,8 +65,8 @@ function initScenario() {
         wall.vPosition = addVertices(wall.shape, wall.normals)
         wall.texture = TEXTURES.campo1[1]
     }
-    for (const t of tunnel_){
-        t.vPosition = addVertices(t.shape,t.normals)
+    for (const t of tunnel_) {
+        t.vPosition = addVertices(t.shape, t.normals)
         t.texture = [[t.vPosition.start, TEXTURES.tunnel[1]]]
     }
 
