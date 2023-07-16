@@ -37,13 +37,17 @@
     <script id="frag-shader" type="notjs">
         precision mediump float;
 
-        uniform sampler2D tex; //imagem da textura será guardada nesta variável
-
+        //texturas
+        uniform sampler2D tex;
         varying vec2 v_texCoord;
 
+        //iluminação:
         varying vec3 v_normal;
         uniform vec3 lightDirection;
-        uniform vec3 lightColor;
+
+        uniform vec3 light_color;
+
+        //cores sólidas:
         uniform vec4 color;
         uniform bool isSolid;
 
@@ -67,7 +71,7 @@
             if (lightd<0.0) lightd = 0.0;
             if (lightp<0.0) lightp = 0.0;
 
-            if(isSolid){
+            if(isSolid){ //Caso verdadeiro, objeto deve ser renderizado com cor sólida
                 gl_FragColor = color;
             }else{
                 //Com luz de cor
@@ -98,7 +102,7 @@
         <li>Caio de Freitas Oliveira - 501375</li>
         <li>Matheus Ribeiro Alencar - 494711</li>
     </ul>
-    <p>Desvie dos trens!</p>
+    <p>Desvie dos trens! (Utilize as teclas WASD)</p>
     <p>Pontuação atual: <b id="scoreboard">0</b></p>
     <p style="display: none;" id="game-over"> GAME OVER </p>
     <canvas id="glcanvas1" width="500" height="500">
@@ -120,3 +124,4 @@
 <script src="game/elements/player.js"></script>
 <script src="game/elements/scenario.js"></script>
 <script src="game/elements/train.js"></script>
+<script src="game/elements/coin.js"></script>

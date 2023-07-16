@@ -4,11 +4,15 @@
 var player = {
     x: 0,
     z: 25,
-    /**@type {undefined | number[]} Array de vértices */
-    shape: [],
-    normals: [],
+    shape: new Float32Array(),
+    normals: new Float32Array(),
     objPath: "obj/tinker.obj",
-    vPosition: { start: 0, end: 0 }
+    vPosition: { start: 0, end: 0 },
+    colors: {
+        body: [0, 0, 204, 255].map(c => c / 255),
+        head: [255, 255, 0, 255].map(c => c / 255),
+        gameOver: [255, 0, 0, 255].map(c => c / 255)
+    }
 }
 
 /**
@@ -21,7 +25,6 @@ async function initPlayer() {
     player.normals = file.normals
     camera.target = [player.x, 0, player.z]
     player.vPosition = addVertices(player.shape, player.normals)
-
 }
 
 
@@ -35,23 +38,20 @@ function drawPlayer(cam, mproj) {
     var transMatrix = math.multiply(cam, m);
     transMatrix = math.multiply(mproj, transMatrix);
     setTransfproj(transMatrix)
-    //setTransf(m)
 
-    var colorPtr = gl.getUniformLocation(prog, "color");
-    var isSolidPtr = gl.getUniformLocation(prog, "isSolid");
+    //desenha os vértices com cor sólida
+    withSolidColor((colorPtr) => {
+        if (GAME.isRunning) {
+            gl.uniform4fv(colorPtr, player.colors.body);
+            drawInterval(player.vPosition.start, player.vPosition.start + 35);
 
-    gl.uniform1i(isSolidPtr, 1.0);
-
-
-    gl.uniform4fv(colorPtr, [0.5, 0.5, 0.2, 1.0]);
-    //corpo
-    drawInterval(player.vPosition.start, player.vPosition.end);
-
-    // gl.uniform4fv(colorPtr, [0.1, 0.1, 0.1, 1.0]);
-    //cabeça
-    // drawInterval(player.vPosition.start + 36 * 5 + 1, player.vPosition.end);
-
-    gl.uniform1i(isSolidPtr, 0);
+            gl.uniform4fv(colorPtr, player.colors.head);
+            drawInterval(player.vPosition.start + 36, player.vPosition.end);
+        } else { //caso tenha dado Game Over, desenhar o player de outra cor
+            gl.uniform4fv(colorPtr, player.colors.gameOver);
+            drawInterval(player.vPosition.start, player.vPosition.end);
+        }
+    })
 }
 
 /**
@@ -68,16 +68,22 @@ function movePlayer(x, y, z) {
     //restriçoes de movimento, casas para mover personagem: 0.0 , 0.8 e 1.6
     player.x = Math.max(0, Math.min(player.x, 1.6))
     player.z = Math.max(6, Math.min(player.z, 37))
+<<<<<<< HEAD
     //console.log(player.x,player.y,player.z)
+=======
+>>>>>>> 250bf4674f340098125a29c29febe4d39b50365c
 }
 
+/**
+ * @returns {number}  número do trilho que o player está
+ */
 function getPlayerRail() {
     return player.x / 0.8
 }
 
 /**
- * Verifica se o player colidiu com o trem
  * @param {{z:number idx:number}} train 
+ * @returns {boolean} se o player colidiu com o trem
  */
 function playerCollided(train) {
     return train.z <= player.z && player.z <= (train.z + TRAIN_DEFAULTS.depth) && getPlayerRail() == train.idx

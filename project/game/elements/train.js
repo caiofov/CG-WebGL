@@ -13,24 +13,19 @@ var currentTrains = []
 
 /**
  * Adiciona o trem de número `idx` do array `trains` para o `currentTrains`
- * @param {number} idx Número do trem (0 a 2)
+ * @param {boolean} force Indica se deve obrigatoriamente gerar um trem
  * @returns {boolean} Se foi adicionado com sucesso ou não
  */
-function addNewTrain(idx) {
-    if (currentTrains.length >= 2) { return true } // não deixa todas os trilhos ficarem ocupados (no máximo 2 por vêz)
-    idx = idx || Math.floor(Math.random() * 4) - 1
+function addNewTrain(force) {
+    if (currentTrains.length >= 2) { return true } // não deixa todas os trilhos ficarem ocupados (no máximo 2 por vez)
+
+    idx = force ? Math.floor(Math.random() * 3) : Math.floor(Math.random() * 4) - 1
+
     if (idx > -1) {
         currentTrains.push({ ...trains[idx] })
         return true
     }
     return false
-}
-
-/**
- * Só para quando adicionar um trem //TODO: Não utilizado o loop, implementar isso na função addNewTrain
- */
-function forceAddNewTrain() {
-    while (!addNewTrain()) { }
 }
 
 /**
@@ -64,7 +59,7 @@ function makeTrains() {
         trains.push(t)
     }
 
-    forceAddNewTrain()
+    addNewTrain(true)
 }
 
 /** Retorna todos os vértices de todos os trens */
@@ -82,10 +77,9 @@ function drawTrain(cam, mproj, train) {
     var m = translationMatrix(0, 0, train.z)
     var transforma = math.multiply(cam, m);
     transforma = math.multiply(mproj, transforma);
-    
+
     setTransfproj(transforma)
     //setTransf(m)
-
     setTexture(train.texture.face)
     drawInterval(train.vPosition.start, train.vPosition.start + 4)
 
@@ -109,14 +103,15 @@ function moveTrain(train) {
     // caso o Z seja maior do que o meio do cenário, tentar gerar mais um trem. Isso só pode ocorrer uma vez para cada trem
     if (train.z > SCENARIO_DEFAULTS.middleZ && !train.middleAdded) {
         train.middleAdded = true //garante que não vai ser mais gerado trens para este trem
-        addNewTrain()
+        addNewTrain(false)
     }
     // caso o Z seja maior do que o limite do cenário, descartar o trem e gerar um novo
     else if (train.z > SCENARIO_DEFAULTS.maxZ) {
         train.z = 0
-        currentTrains.splice(currentTrains.indexOf(train), 1)
-        score()
-        forceAddNewTrain()
+        currentTrains.splice(currentTrains.indexOf(train), 1) //descarta o trem
+        score() // jogador fez ponto
+        TRAIN_DEFAULTS.speed += 0.01
+        addNewTrain(true) //adiciona um trem novo
     }
 }
 
