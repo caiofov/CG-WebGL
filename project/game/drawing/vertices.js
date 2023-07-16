@@ -45,45 +45,7 @@ function loadNormals() {
                                         0,1,0
                                     cima e baixo do player.. analogo para x
      */
-    var aux = [
-        //normais 
-        //Quad 1
-        0, 0, 1,
-        0, 0, 1,
-        0, 0, 1,
-        0, 0, 1,
-        0, 0, 1,
-
-        1, 0, 0,
-        1, 0, 0,
-        1, 0, 0,
-        1, 0, 0,
-        1, 0, 0,
-
-        0, 1, 0,
-        0, 1, 0,
-        0, 1, 0,
-        0, 1, 0,
-        0, 1, 0,
-
-        0, 0, 1,
-        0, 0, 1,
-        0, 0, 1,
-        0, 0, 1,
-        0, 0, 1,
-
-        1, 0, 0,
-        1, 0, 0,
-        1, 0, 0,
-        1, 0, 0,
-        1, 0, 0,
-
-        0, 1, 0,
-        0, 1, 0,
-        0, 1, 0,
-        0, 1, 0,
-        0, 1, 0
-    ]
+    var aux = parallelepipedNormals()
     var normals = Float32Array.of(...aux, ...aux, ...aux,
         ...aux, ...aux, ...aux,
         ...aux, ...aux, ...aux,
