@@ -68,10 +68,7 @@ function movePlayer(x, y, z) {
     //restriçoes de movimento, casas para mover personagem: 0.0 , 0.8 e 1.6
     player.x = Math.max(0, Math.min(player.x, 1.6))
     player.z = Math.max(6, Math.min(player.z, 37))
-<<<<<<< HEAD
-    //console.log(player.x,player.y,player.z)
-=======
->>>>>>> 250bf4674f340098125a29c29febe4d39b50365c
+
 }
 
 /**
