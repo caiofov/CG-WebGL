@@ -14,7 +14,9 @@ const coin = {
     rotateAngle: 0,
     color: [255, 255, 0, 255].map(c => c / 255)
 }
-
+function randomCoinPosition() {
+    return { x: (Math.floor(Math.random() * 3) - 1) * (TRAIN_DEFAULTS.width + TRAIN_DEFAULTS.gap), z: Math.floor(Math.random() * 30) + 5 }
+}
 async function initCoin() {
     const file = await readObjFile("obj/coin.obj")
     coin.shape = file.faces
@@ -22,8 +24,11 @@ async function initCoin() {
     console.log(coin.shape)
     coin.vPosition = addVertices(coin.shape, coin.normals)
     coin.texture = TEXTURES.thomasFace[1]
-}
 
+    const randomPos = randomCoinPosition()
+    coin.x = randomPos.x
+    coin.z = randomPos.z
+}
 
 function drawCoin(cam, mproj) {
     var transforma = math.multiply(matrotY(coin.rotateAngle), matrotX(coin.rotateAngle))
@@ -33,7 +38,7 @@ function drawCoin(cam, mproj) {
     transformaproj = math.multiply(mproj, transformaproj);
 
     setTransfproj(transformaproj)
-    setTransf(transforma)
+    // setTransf(transforma)
     withSolidColor((colorPtr) => {
         gl.uniform4fv(colorPtr, coin.color);
         drawInterval(coin.vPosition.start, coin.vPosition.end, coin.texture)
