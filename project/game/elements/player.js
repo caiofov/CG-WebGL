@@ -7,7 +7,7 @@ var player = {
     /**@type {undefined | number[]} Array de vértices */
     shape: [],
     normals: [],
-    objPath: "obj/cubo.obj",
+    objPath: "obj/tinker.obj",
     vPosition: { start: 0, end: 0 }
 }
 
