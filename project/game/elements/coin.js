@@ -14,12 +14,11 @@ const coin = {
     rotateAngle: 0
 }
 
-
-
-
-function initCoin() {
-    coin.shape = parallelepiped([coin.x, coin.y, coin.z], 0.2, 0.2, 0.2)
-    coin.normals = parallelepipedNormals()
+async function initCoin() {
+    const file = await readObjFile("obj/coin.obj")
+    coin.shape = file.faces
+    coin.normals = file.normals
+    console.log(coin.shape)
     coin.vPosition = addVertices(coin.shape, coin.normals)
     coin.texture = TEXTURES.thomasFace[1]
 }
