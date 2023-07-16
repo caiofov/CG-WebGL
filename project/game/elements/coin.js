@@ -4,14 +4,15 @@ const COIN_DEFAULTS = {
     rotateSpeed: 1
 }
 const coin = {
-    x: 0.2,
-    y: -0.1,
-    z: 0,
+    x: 0,
+    y: -0.2,
+    z: 32,
     shape: new Float32Array(),
     normals: new Float32Array(),
     texture: undefined,
     vPosition: { start: 0, end: 0 },
-    rotateAngle: 0
+    rotateAngle: 0,
+    color: [255, 255, 0, 255].map(c => c / 255)
 }
 
 async function initCoin() {
@@ -25,11 +26,17 @@ async function initCoin() {
 
 
 function drawCoin(cam, mproj) {
-    var transforma = math.multiply(translationMatrix(0, 0, coin.z), matrotY(coin.rotateAngle));
-    transforma = math.multiply(cam, transforma);
-    transforma = math.multiply(mproj, transforma);
-    setTransfproj(transforma)
-    drawInterval(coin.vPosition.start, coin.vPosition.end, coin.texture)
-    coin.z += COIN_DEFAULTS.speed
+    var transforma = math.multiply(matrotY(coin.rotateAngle), matrotX(coin.rotateAngle))
+    var transforma = math.multiply(matrotZ(coin.rotateAngle), transforma)
+    var transforma = math.multiply(translationMatrix(coin.x, coin.y, coin.z), transforma)
+    var transformaproj = math.multiply(cam, transforma);
+    transformaproj = math.multiply(mproj, transformaproj);
+
+    setTransfproj(transformaproj)
+    setTransf(transforma)
+    withSolidColor((colorPtr) => {
+        gl.uniform4fv(colorPtr, coin.color);
+        drawInterval(coin.vPosition.start, coin.vPosition.end, coin.texture)
+    })
     coin.rotateAngle += COIN_DEFAULTS.rotateSpeed
 }
