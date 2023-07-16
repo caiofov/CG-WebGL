@@ -21,7 +21,6 @@ async function initPlayer() {
     player.normals = file.normals
     camera.target = [player.x, 0, player.z]
     player.vPosition = addVertices(player.shape, player.normals)
-    player.texture = TEXTURES.sticker[1]
 
 }
 

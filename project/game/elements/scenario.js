@@ -67,7 +67,7 @@ function initScenario() {
     }
     for (const t of tunnel_) {
         t.vPosition = addVertices(t.shape, t.normals)
-        t.texture = [[t.vPosition.start, TEXTURES.tunnel[1]]]
+        t.texture = TEXTURES.tunnel[1]
     }
 
 }
