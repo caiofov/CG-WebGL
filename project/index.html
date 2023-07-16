@@ -35,6 +35,8 @@
         varying vec3 v_normal;
         uniform vec3 lightDirection;
         uniform vec3 light_color;
+        uniform vec4 color;
+        uniform bool isSolid;
 
         void main()
         {
@@ -45,15 +47,17 @@
 
             if (light<0.0) light = 0.0;
 
-           //gl_FragColor = vec4(light*texture2D(tex, v_texCoord).rgb, 1);
+            if(isSolid){
+                gl_FragColor = color;
+            }else{
+                //gl_FragColor = vec4(light*texture2D(tex, v_texCoord).rgb, 1);
 
-            // Modelo de reflexão de Phong:
-            // Ambiente:
-            gl_FragColor = 0.6 * texture2D(tex, v_texCoord);
-            // Direcional:
-            gl_FragColor += 0.5 * light * texture2D(tex, v_texCoord);
-                
-
+                // Modelo de reflexão de Phong:
+                // Ambiente:
+                gl_FragColor = 0.6 * texture2D(tex, v_texCoord);
+                // Direcional:
+                gl_FragColor += 0.5 * light * texture2D(tex, v_texCoord);
+            }
         }
     </script>
 </head>

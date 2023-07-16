@@ -1,10 +1,14 @@
 const TEXTURES = {
     thomasFace: ["img/thomas_face.png"],
     thomasSide: ["img/thomas_side.png"],
-    sticker: ["img/stick.png"],
     rail: ["img/trilho.jpg"],
     campo1: ["img/campo1.jpg"],
     tunnel: ["img/tunnel.png"]
+}
+
+function setTexture(texture) {
+    var texPtr = gl.getUniformLocation(prog, "tex");
+    gl.uniform1i(texPtr, texture);
 }
 
 /**

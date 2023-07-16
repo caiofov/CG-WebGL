@@ -3,17 +3,8 @@
  * @param {number} startIdx índice do vértice que irá começar a figura
  * @param {number} endIdx índice do vértice que irá terminar a figura
  */
-function drawInterval(startIdx, endIdx, textures) { //TODO; textura
-    var texPtr = gl.getUniformLocation(prog, "tex");
-    let nextIdx = 0
-
-
+function drawInterval(startIdx, endIdx) { //TODO; textura
     for (let i = startIdx; i <= endIdx; i += 3) {
-        if (textures.length > nextIdx && textures[nextIdx][0] <= i) {
-            gl.uniform1i(texPtr, textures[nextIdx][1]);
-            nextIdx += 1
-        }
-
         gl.drawArrays(gl.TRIANGLES, i, 3);
     }
 }

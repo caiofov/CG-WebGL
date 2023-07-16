@@ -21,7 +21,6 @@ async function initPlayer() {
     player.normals = file.normals
     camera.target = [player.x, 0, player.z]
     player.vPosition = addVertices(player.shape, player.normals)
-    player.texture = [[player.vPosition.start, TEXTURES.sticker[1]]]
 
 }
 
@@ -38,8 +37,21 @@ function drawPlayer(cam, mproj) {
     setTransfproj(transMatrix)
     //setTransf(m)
 
-    // drawHexahedron(90, [TEXTURES.sticker[1]])
-    drawInterval(player.vPosition.start, player.vPosition.end, player.texture)
+    var colorPtr = gl.getUniformLocation(prog, "color");
+    var isSolidPtr = gl.getUniformLocation(prog, "isSolid");
+
+    gl.uniform1i(isSolidPtr, 1.0);
+
+
+    gl.uniform4fv(colorPtr, [0.5, 0.5, 0.2, 1.0]);
+    //corpo
+    drawInterval(player.vPosition.start, player.vPosition.end);
+
+    // gl.uniform4fv(colorPtr, [0.1, 0.1, 0.1, 1.0]);
+    //cabeça
+    // drawInterval(player.vPosition.start + 36 * 5 + 1, player.vPosition.end);
+
+    gl.uniform1i(isSolidPtr, 0);
 }
 
 /**
@@ -56,7 +68,7 @@ function movePlayer(x, y, z) {
     //restriçoes de movimento, casas para mover personagem: 0.0 , 0.8 e 1.6
     player.x = Math.max(0, Math.min(player.x, 1.6))
     player.z = Math.max(6, Math.min(player.z, 37))
-    console.log(player.x,player.z)
+    console.log(player.x, player.z)
 }
 
 function getPlayerRail() {
