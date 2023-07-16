@@ -7,6 +7,7 @@ const coin = {
     x: 0,
     y: -0.2,
     z: 32,
+    idx: 0,
     shape: new Float32Array(),
     normals: new Float32Array(),
     texture: undefined,
@@ -15,19 +16,19 @@ const coin = {
     color: [255, 255, 0, 255].map(c => c / 255)
 }
 function randomCoinPosition() {
-    return { x: (Math.floor(Math.random() * 3) - 1) * (TRAIN_DEFAULTS.width + TRAIN_DEFAULTS.gap), z: Math.floor(Math.random() * 30) + 5 }
+    coin.idx = Math.floor(Math.random() * 3)
+    coin.x = (coin.idx - 1) * (TRAIN_DEFAULTS.width + TRAIN_DEFAULTS.gap)
+    coin.z = Math.floor(Math.random() * 25) + 10
 }
 async function initCoin() {
     const file = await readObjFile("obj/coin.obj")
     coin.shape = file.faces
     coin.normals = file.normals
-    console.log(coin.shape)
+
     coin.vPosition = addVertices(coin.shape, coin.normals)
     coin.texture = TEXTURES.thomasFace[1]
 
-    const randomPos = randomCoinPosition()
-    coin.x = randomPos.x
-    coin.z = randomPos.z
+    randomCoinPosition()
 }
 
 function drawCoin(cam, mproj) {
@@ -43,5 +44,15 @@ function drawCoin(cam, mproj) {
         gl.uniform4fv(colorPtr, coin.color);
         drawInterval(coin.vPosition.start, coin.vPosition.end, coin.texture)
     })
+
+
+    if (playerCollided(coin, 0.5)) {
+        for (let i = 0; i < 5; i++) {
+            score()
+        }
+        TRAIN_DEFAULTS.speed += 0.01
+        randomCoinPosition()
+    }
+
     coin.rotateAngle += COIN_DEFAULTS.rotateSpeed
 }
