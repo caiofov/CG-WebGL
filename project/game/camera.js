@@ -3,7 +3,7 @@ const camera = {
     target: [0, 0, 0],
     up: [0, 2, 40]
 }
-var campos = [camera.pos[0]-3.5,camera.pos[1],camera.pos[2]];
+var campos = [camera.pos[0]-3.5,camera.pos[1],camera.pos[2]-5];
 
 /**
  * Faz o cálculo da perspectiva

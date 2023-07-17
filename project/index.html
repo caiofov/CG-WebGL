@@ -87,9 +87,9 @@
 
                 vec3 texColor = texture2D(tex, v_texCoord).rgb;
                 gl_FragColor.rgb = 0.2*lightColor*texColor;
-                gl_FragColor.rgb += 0.3*lightColor*lightd*texColor;
-                gl_FragColor.rgb += 0.2*lightColor*lightp*texColor;
-                gl_FragColor.rgb += 0.9* lightColor*pow(lighte,20.0)*texColor;
+                gl_FragColor.rgb += 0.2*lightColor*lightd*texColor;
+                gl_FragColor.rgb += 0.1*lightColor*lightp*texColor;
+                gl_FragColor.rgb += 0.5* lightColor*pow(lighte,20.0)*texColor;
                 gl_FragColor.a = texture2D(tex, v_texCoord).a;
             }
         }
