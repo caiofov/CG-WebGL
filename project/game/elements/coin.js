@@ -55,4 +55,7 @@ function drawCoin(cam, mproj) {
     }
 
     coin.rotateAngle += COIN_DEFAULTS.rotateSpeed
+
+    // var camposPtr = gl.getUniformLocation(prog,"campos");
+    // gl.uniform3fv(camposPtr,[coin.x,coin.y,coin.z]);
 }

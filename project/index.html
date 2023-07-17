@@ -23,14 +23,15 @@
         varying vec3 pointToCam;
 
         void main()
-        {
+        {   
+            gl_Position = transfproj*position; 
             pointToLight = lightpos - position.xyz;
-            pointToCam = campos - position.xyz;
+            pointToCam = campos - gl_Position.xyz;
 
             v_normal = (vec4(normal,1)).xyz;
 
             v_texCoord = texCoord;
-            gl_Position = transfproj*position; 
+            
         }
     </script>
 
@@ -44,7 +45,6 @@
         //iluminação:
         varying vec3 v_normal;
         uniform vec3 lightDirection;
-
         uniform vec3 lightColor;
 
         //cores sólidas:
@@ -59,17 +59,18 @@
             vec3 pToLight = normalize(pointToLight);
             vec3 pToCam = normalize(pointToCam);
 
-            //vec3 halfVec = 
+            vec3 halfVec = normalize(pToCam + pToLight);
 
             vec3 v_normal_n = normalize(v_normal);
             vec3 lightDirection_n = normalize(-lightDirection);
 
-            float lightd = dot(lightDirection_n,v_normal_n);
-            float lightp = dot(pToLight,v_normal_n);
-            //float lighte = dot(pToCam,)
+            float lightd = dot(v_normal_n,lightDirection_n);
+            float lightp = dot(v_normal_n,pToLight);
+            float lighte = dot(v_normal_n,halfVec);
 
             if (lightd<0.0) lightd = 0.0;
             if (lightp<0.0) lightp = 0.0;
+            if (lighte<0.0) lighte = 0.0;
 
             if(isSolid){ //Caso verdadeiro, objeto deve ser renderizado com cor sólida
                 gl_FragColor = color;
@@ -85,11 +86,10 @@
                 
 
                 vec3 texColor = texture2D(tex, v_texCoord).rgb;
-                //gl_FragColor = vec4(lightColor*lightp*texture2D(tex, v_texCoord).rgb, 1);
-                
-                
-                gl_FragColor.rgb = 0.2*lightColor*lightd*texColor;
-                gl_FragColor.rgb += 0.8*lightColor*lightp*texColor;
+                gl_FragColor.rgb = 0.2*lightColor*texColor;
+                gl_FragColor.rgb += 0.3*lightColor*lightd*texColor;
+                gl_FragColor.rgb += 0.2*lightColor*lightp*texColor;
+                gl_FragColor.rgb += 0.9* lightColor*pow(lighte,20.0)*texColor;
                 gl_FragColor.a = texture2D(tex, v_texCoord).a;
             }
         }

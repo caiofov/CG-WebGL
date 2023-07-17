@@ -38,6 +38,7 @@ function draw() {
 
 async function loadAllElements() {
     await initImages()
+    await makeTrains()
     await initPlayer()
     await initScenario()
     await initCoin()
@@ -47,7 +48,6 @@ async function loadAllElements() {
 function init() {
     loadAllElements().then(() => {
         initGL();
-        makeTrains();
         configScene();
         draw();
     })

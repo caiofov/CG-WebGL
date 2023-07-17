@@ -33,12 +33,25 @@ function loadNormals() {
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexManager.normals), gl.STATIC_DRAW);
     setAttributePointer("normal", 3, 0, 0);
 
+
+//Luzes
+
+    //DIRECIONAL
     var lightDirectionPtr = gl.getUniformLocation(prog, "lightDirection");
-    gl.uniform3fv(lightDirectionPtr, [-0.3, -0.5, -1.0]); //PARA ONDE APONTA
-    //necessario inverter vetor (negativo)
+    gl.uniform3fv(lightDirectionPtr, [-0.5, -7.0, -1]); //PARA ONDE APONTA
+   
+    //Cor da luz
     var lightColorPtr = gl.getUniformLocation(prog,"lightColor");
     gl.uniform3fv(lightColorPtr,[1,1,1]);
 
+    //Posição da luz Pontual
     var lightposPtr = gl.getUniformLocation(prog,"lightpos");
-    gl.uniform3fv(lightposPtr,[0.5,3,20]);//luz a direita da cena
+    gl.uniform3fv(lightposPtr,[-2,-3,30]);
+
+    var camposPtr = gl.getUniformLocation(prog,"campos");
+    gl.uniform3fv(camposPtr,campos);
+
+
+
+
 }
