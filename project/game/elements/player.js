@@ -1,7 +1,7 @@
 /**
  * Guarda as principais informações do jogador
  */
-var player = {
+const player = {
     x: 0,
     z: 25,
     shape: new Float32Array(),

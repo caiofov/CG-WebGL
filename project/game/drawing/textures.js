@@ -6,6 +6,10 @@ const TEXTURES = {
     tunnel: ["img/tunnel.png"]
 }
 
+/**
+ * Define qual textura será utilizada para os próximos vértices desenhados
+ * @param {number} texture 
+ */
 function setTexture(texture) {
     var texPtr = gl.getUniformLocation(prog, "tex");
     gl.uniform1i(texPtr, texture);

@@ -27,6 +27,9 @@ function loadVertices() {
     setAttributePointer("texCoord", 2, 5, 3)
 }
 
+/**
+ * Carrega as normais para o webgl e as luzes que serão utilizadas
+ */
 function loadNormals() {
     var bufnormalPtr = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, bufnormalPtr);

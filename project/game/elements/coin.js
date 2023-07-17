@@ -15,11 +15,14 @@ const coin = {
     rotateAngle: 0,
     color: [255, 255, 0, 255].map(c => c / 255)
 }
+/** Move a moeda para uma posição aleatória */
 function randomCoinPosition() {
     coin.idx = Math.floor(Math.random() * 3)
     coin.x = (coin.idx - 1) * (TRAIN_DEFAULTS.width + TRAIN_DEFAULTS.gap)
     coin.z = Math.floor(Math.random() * 25) + 10
 }
+
+/** Inicializa os vértices e a textura da moeda*/
 async function initCoin() {
     const file = await readObjFile("obj/coin.obj")
     coin.shape = file.faces
@@ -31,6 +34,11 @@ async function initCoin() {
     randomCoinPosition()
 }
 
+/**
+ * Atualiza a posição e rotação da moeda e a desenha
+ * @param {*} cam 
+ * @param {*} mproj 
+ */
 function drawCoin(cam, mproj) {
     var transforma = math.multiply(matrotY(coin.rotateAngle), matrotX(coin.rotateAngle))
     var transforma = math.multiply(matrotZ(coin.rotateAngle), transforma)
@@ -40,6 +48,8 @@ function drawCoin(cam, mproj) {
 
     setTransfproj(transformaproj)
     // setTransf(transforma)
+
+    //desenha a moeda com uma cor sólida
     withSolidColor((colorPtr) => {
         gl.uniform4fv(colorPtr, coin.color);
         drawInterval(coin.vPosition.start, coin.vPosition.end, coin.texture)
