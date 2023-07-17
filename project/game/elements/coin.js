@@ -13,13 +13,19 @@ const coin = {
     texture: undefined,
     vPosition: { start: 0, end: 0 },
     rotateAngle: 0,
-    color: [255, 255, 0, 255].map(c => c / 255)
+    color: [255, 255, 0, 255].map(c => c / 255),
+    timestamp: new Date()
 }
+
+var deltaLight = 0
+var lightDirection = 1
+
 /** Move a moeda para uma posição aleatória */
 function randomCoinPosition() {
     coin.idx = Math.floor(Math.random() * 3)
     coin.x = (coin.idx - 1) * (TRAIN_DEFAULTS.width + TRAIN_DEFAULTS.gap)
     coin.z = Math.floor(Math.random() * 25) + 10
+    coin.timestamp = new Date()
 }
 
 /** Inicializa os vértices e a textura da moeda*/
@@ -57,15 +63,25 @@ function drawCoin(cam, mproj) {
 
 
     if (playerCollided(coin, 0.5)) {
-        for (let i = 0; i < 5; i++) {
-            score()
-        }
+        for (let i = 0; i < 5; i++) score()
+
         TRAIN_DEFAULTS.speed += 0.01
         randomCoinPosition()
     }
 
     coin.rotateAngle += COIN_DEFAULTS.rotateSpeed
 
-    // var camposPtr = gl.getUniformLocation(prog,"campos");
-    // gl.uniform3fv(camposPtr,[coin.x,coin.y,coin.z]);
+    updateLight()
+
+    if ((new Date() - coin.timestamp) > 5000) {
+        randomCoinPosition()
+    }
+}
+
+function updateLight() {
+    var pointPtr = gl.getUniformLocation(prog, "lightpos");
+    gl.uniform3fv(pointPtr, [-coin.x + deltaLight, -(coin.y - 2), coin.z]);
+    deltaLight += 0.05 * lightDirection
+    if (deltaLight > 1) lightDirection = -1
+    else if (deltaLight < -1) lightDirection = 1
 }
