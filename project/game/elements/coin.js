@@ -15,6 +15,10 @@ const coin = {
     rotateAngle: 0,
     color: [255, 255, 0, 255].map(c => c / 255)
 }
+
+var deltaLight = 0
+var lightDirection = 1
+
 /** Move a moeda para uma posição aleatória */
 function randomCoinPosition() {
     coin.idx = Math.floor(Math.random() * 3)
@@ -66,6 +70,14 @@ function drawCoin(cam, mproj) {
 
     coin.rotateAngle += COIN_DEFAULTS.rotateSpeed
 
-    // var camposPtr = gl.getUniformLocation(prog,"campos");
-    // gl.uniform3fv(camposPtr,[coin.x,coin.y,coin.z]);
+    updateLight()
+
+}
+
+function updateLight() {
+    var pointPtr = gl.getUniformLocation(prog, "lightpos");
+    gl.uniform3fv(pointPtr, [-coin.x + deltaLight, -(coin.y - 2), coin.z]);
+    deltaLight += 0.05 * lightDirection
+    if (deltaLight > 1) lightDirection = -1
+    else if (deltaLight < -1) lightDirection = 1
 }
