@@ -4,7 +4,7 @@ const TEXTURES = {
     thomasCeil: ["img/teto.jpg"],
     rail: ["img/trilho.jpg"],
     campo1: ["img/campo1.jpg"],
-    tunnel: ["img/tunnel.png"]
+    tunnel: ["img/tunnel.jpg"]
 }
 
 /**
