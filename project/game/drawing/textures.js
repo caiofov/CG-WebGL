@@ -1,6 +1,7 @@
 const TEXTURES = {
     thomasFace: ["img/thomas_face.png"],
     thomasSide: ["img/thomas_side.png"],
+    thomasCeil: ["img/teto.jpg"],
     rail: ["img/trilho.jpg"],
     campo1: ["img/campo1.jpg"],
     tunnel: ["img/tunnel.png"]

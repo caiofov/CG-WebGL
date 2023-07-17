@@ -54,7 +54,7 @@ function makeTrains() {
         const t = makeTrain(i)
         t.vPosition = addVertices(t.shape, t.normals)
         t.texture = {
-            side: TEXTURES.thomasSide[1], face: TEXTURES.thomasFace[1]
+            side: TEXTURES.thomasSide[1], face: TEXTURES.thomasFace[1], ceil: TEXTURES.thomasCeil[1]
         }
         trains.push(t)
     }
@@ -79,12 +79,16 @@ function drawTrain(cam, mproj, train) {
     transforma = math.multiply(mproj, transforma);
 
     setTransfproj(transforma)
-    //setTransf(m)
+
     setTexture(train.texture.face)
     drawInterval(train.vPosition.start, train.vPosition.start + 4)
 
+    setTexture(train.texture.ceil)
+    drawInterval(train.vPosition.start + 6, train.vPosition.start + 11)
+
     setTexture(train.texture.side)
-    drawInterval(train.vPosition.start + 6, train.vPosition.end)
+    drawInterval(train.vPosition.start + 12, train.vPosition.end)
+
 }
 
 /**
