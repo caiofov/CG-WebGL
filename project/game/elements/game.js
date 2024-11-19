@@ -17,7 +17,7 @@ function score() {
 
 /** Exibe mensagem de game over e para de rodar a animação */
 function gameOver() {
-    over.style.display = "block"
+    over.style.visibility = "visible"
     GAME.isRunning = false
     // var loseContextExtension = gl.getExtension('WEBGL_lose_context');
     // if (loseContextExtension) {
