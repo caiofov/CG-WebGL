@@ -1,6 +1,6 @@
 const GAME = {
     scores: 0,
-    isRunning: true
+    isRunning: false
 }
 
 
@@ -17,7 +17,8 @@ function score() {
 
 /** Exibe mensagem de game over e para de rodar a animação */
 function gameOver() {
-    over.style.visibility = "visible"
+    over.style.display = "block"
+    CANVAS.style.display = "none"
     GAME.isRunning = false
     // var loseContextExtension = gl.getExtension('WEBGL_lose_context');
     // if (loseContextExtension) {

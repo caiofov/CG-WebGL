@@ -6,6 +6,11 @@
 
 .col-2 {
   display: flex;
+  flex-wrap: initial;
+}
+
+.display-none {
+  display: none;
 }
 
 #canvas-container {
@@ -15,10 +20,20 @@
 }
 
 #game-over {
-  visibility: hidden;
-  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.over-message {
+  font-size: 3rem;
   font-weight: bold;
   color: red;
+  margin: 0;
+}
+.subtitle {
+  margin: 0;
+  font-weight: bold;
+  font-size: 0.9rem;
 }
 
 #instructions p {

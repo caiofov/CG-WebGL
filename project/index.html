@@ -98,9 +98,8 @@
 </head>
 
 
-<body onload="init()">
+<body>
     <div class="container">
-
         <div class="col-2">
             <section id="#about">
                 <h2>Sobre o jogo</h2>
@@ -133,13 +132,20 @@
         <section id="#game">
             <h2>Jogo</h2>
 
+            
             <div id="#instructions">
                 <p>Desvie dos trens! (Utilize as teclas WASD)</p>
                 <p>Pontuação atual: <b id="scoreboard">0</b></p>
             </div>
-            <div id="canvas-container">
-                <p id="game-over">GAME OVER</p>
-                <canvas id="glcanvas1" width="500" height="500">
+            <div>
+                <div id="canvas-container">
+                    <button onclick="startGame()">Iniciar</button>
+                    <div id="game-over" class="display-none">
+                        <p class="over-message">GAME OVER</p>
+                        <p class="subtitle">(recarregue a página)</p>
+                    </div>
+                    <canvas id="glcanvas1" class="display-none" width="500" height="500">
+                </div>
             </div>
         </section>
     </div>
@@ -161,3 +167,14 @@
 <script src="game/elements/scenario.js"></script>
 <script src="game/elements/train.js"></script>
 <script src="game/elements/coin.js"></script>
+
+<script>
+
+    function startGame(){
+        CANVAS.style.display = "block"
+        const startButton = document.querySelector("#canvas-container button")
+        startButton.style.display = "none"
+        init()
+    }
+
+</script>
