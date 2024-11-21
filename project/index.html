@@ -1,13 +1,14 @@
 <head>
     <title>Trabalho 2 - CG</title>
-    <link rel="stylesheet" href="index.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.2/math.js"></script>
-    
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="style.css">
 
     <script src="game/index.js"></script>
 
@@ -105,13 +106,14 @@
 </head>
 
 
-<body>
+<body class="bg-light bg-gradient">
     <div class="container mt-4">
         <div class="row">
             <div class="col">
                 <section id="#about">
                     <h2>Sobre o jogo</h2>
-                    <p>Inspirado no famoso <b>Subway Surfers</b>, o jogador deverá desviar dos trens para alcançar sua melhor
+                    <p>Inspirado no famoso <b>Subway Surfers</b>, o jogador deverá desviar dos trens para alcançar sua
+                        melhor
                         pontuação. Além disso, ele pode também coletar moedas, que adicionarão mais pontos ao seu total.
                     </p>
                     <p>Caso colida com um trem e queira recomeçar, será necessário recarregar a página.
@@ -152,25 +154,39 @@
                 <p>Desvie dos trens! (Utilize as teclas WASD)</p>
                 <p>Pontuação atual: <b id="scoreboard">0</b></p>
             </div>
-            <div>
-                <div class="d-flex flex-column align-items-center">
-                    <button id="start-button" class="d-block btn btn-primary" onclick="startGame()">
-                        <i class="bi bi-play-fill"></i>
-                        Iniciar
-                    </button>
-                    
-                    <div id="game-over" class="d-none text-center">
-                        <p class="over-message">GAME OVER</p>
-                        
-                        <!-- Botão para recarregar -->
-                        <button class="btn btn-primary" onclick="location.reload()">
-                            <i class="bi bi-arrow-clockwise"></i> Reiniciar
-                        </button>
+
+            <div class="d-flex justify-content-center">
+                <div class="d-flex flex-column align-items-center position-relative w-500px h-500px">
+
+                    <!-- Overlay -->
+                    <div id="overlay"
+                        class="d-flex justify-content-center align-items-center position-absolute top-0 start-0 w-100 h-100 bg-dark-subtle bg-opacity-75">
+
+                        <div id="start-overlay" class="d-flex">
+                            <button class="btn btn-success" onclick="startGame()">
+                                <i class="bi bi-play-fill"></i>
+                                Iniciar
+                            </button>
+
+                        </div>
+
+                        <div id="game-over-overlay" class="d-none flex-column align-items-center">
+                            <p class="text-danger h1">GAME OVER</p>
+
+                            <button class="btn btn-primary" onclick="location.reload()">
+                                <i class="bi bi-arrow-clockwise"></i>
+                                Reiniciar
+                            </button>
+                        </div>
+
                     </div>
-                    
-                    <canvas id="glcanvas1" class="d-none" width="500" height="500">
+
+
+                    <!-- Canvas -->
+                    <canvas id="glcanvas1" width="500" height="500" class="border"></canvas>
                 </div>
             </div>
+
         </section>
     </div>
 </body>
@@ -199,12 +215,17 @@
     function startGame() {
         /**@type {HTMLCanvasElement} */
         let canvas = CANVAS;
-        canvas.className = canvas.className.replace("d-none", "d-block")
+        canvas.className = canvas.className.replace("d-none", "d-flex")
 
-        /**@type {HTMLButtonElement} */
-        const startButton = document.querySelector("#start-button")
-        startButton.className = startButton.className.replace("d-block", "d-none")
+        /**@type {HTMLDivElement} */
+        const startOverlay = document.querySelector("#start-overlay")
+        startOverlay.className = startOverlay.className.replace("d-flex", "d-none")
 
+        /**@type {HTMLDivElement} */
+        const overlay = document.querySelector("#overlay")
+        overlay.className = overlay.className.replace("d-flex", "d-none")
+        overlay.className = overlay.className.replace("bg-dark-subtle", "bg-dark")
         init()
+
     }
 </script>

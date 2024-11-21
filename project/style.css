@@ -1,0 +1,10 @@
+.bg-dark-subtle .bg-opacity-50 {
+  background-color: rgba(var(--bs-dark-bg-subtle), 0.5) !important;
+}
+
+.w-500px {
+  width: 500px;
+}
+.h-500px {
+  height: 500px;
+}
