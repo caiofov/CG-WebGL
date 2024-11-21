@@ -6,8 +6,8 @@ const GAME = {
 
 /**@type {HTMLParagraphElement} */
 const scoreboard = document.querySelector("#scoreboard")
-/**@type {HTMLParagraphElement} */
-const over = document.querySelector("#game-over")
+/**@type {HTMLDivElement} */
+const GAME_OVER_MESSAGE = document.querySelector("#game-over")
 
 /**Atualiza a pontuação */
 function score() {
@@ -17,9 +17,9 @@ function score() {
 
 /** Exibe mensagem de game over e para de rodar a animação */
 function gameOver() {
-    over.style.display = "block"
-    CANVAS.style.display = "none"
+    GAME_OVER_MESSAGE.className = GAME_OVER_MESSAGE.className.replace("d-none", "d-block")
     GAME.isRunning = false
+
     // var loseContextExtension = gl.getExtension('WEBGL_lose_context');
     // if (loseContextExtension) {
     //     loseContextExtension.loseContext();

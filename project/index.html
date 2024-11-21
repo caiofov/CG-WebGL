@@ -2,6 +2,7 @@
     <title>Trabalho 2 - CG</title>
     <link rel="stylesheet" href="index.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.2/math.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="game/index.js"></script>
 
 
@@ -99,24 +100,27 @@
 
 
 <body>
-    <div class="container">
-        <div class="col-2">
-            <section id="#about">
-                <h2>Sobre o jogo</h2>
-                <p>Inspirado no famoso Subway Surfers, o jogador deverá desviar dos trens para alcançar sua melhor pontuação. Além disso, ele pode também coletar moedas, que adicionarão mais pontos ao seu total.
-                </p>
-                <p>Caso colida com um trem e queira recomeçar, será necessário recarregar a página.
+    <div class="container mt-10">
+        <div class="row">
+            <div class="col-6 col-sm-12">
+                <section id="#about" >
+                    <h2>Sobre o jogo</h2>
+                    <p>Inspirado no famoso Subway Surfers, o jogador deverá desviar dos trens para alcançar sua melhor pontuação. Além disso, ele pode também coletar moedas, que adicionarão mais pontos ao seu total.
                     </p>
-                    <section id="#authors">
-                        <h2>Autores</h2>
-                        <div>
-                            <a href="https://github.com/caiofov">Caio de Freitas Oliveira</a>
-                            <a href="https://github.com/matheusriale">Matheus Ribeiro Alencar</a>
-                        </div>
-                    </section>
-            </section>
+                    <p>Caso colida com um trem e queira recomeçar, será necessário recarregar a página.
+                        </p>
+                        <section id="#authors">
+                            <h2>Autores</h2>
+                            <div>
+                                <a href="https://github.com/caiofov">Caio de Freitas Oliveira</a>
+                                <a href="https://github.com/matheusriale">Matheus Ribeiro Alencar</a>
+                            </div>
+                        </section>
+                </section>
+            </div>
 
-            <section id="tech">
+            <div class="col-6 col-sm-12">
+                <section id="tech" >
                 <h2>Informações técnicas</h2>
                     <ul>
                         <li><b>Câmera:</b> A visão é em 3ª pessoa, podendo ser movida com as teclas WASD. O personagem do jogador também se move junto à câmera.</li>
@@ -128,6 +132,7 @@
                     </ul>
                 </section>
         </div>
+    </div>
         
         <section id="#game">
             <h2>Jogo</h2>
@@ -138,19 +143,20 @@
                 <p>Pontuação atual: <b id="scoreboard">0</b></p>
             </div>
             <div>
-                <div id="canvas-container">
-                    <button onclick="startGame()">Iniciar</button>
-                    <div id="game-over" class="display-none">
+                <div class="d-flex flex-column align-items-center">
+                    <button id="start-button" class="d-block" onclick="startGame()">Iniciar</button>
+                    <div id="game-over" class="d-none text-center">
                         <p class="over-message">GAME OVER</p>
                         <p class="subtitle">(recarregue a página)</p>
                     </div>
-                    <canvas id="glcanvas1" class="display-none" width="500" height="500">
+                    <canvas id="glcanvas1" class="d-none" width="500" height="500">
                 </div>
             </div>
         </section>
     </div>
 </body>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 <script src="game/camera.js"></script>
 <script src="game/events.js"></script>
@@ -169,12 +175,15 @@
 <script src="game/elements/coin.js"></script>
 
 <script>
-
     function startGame(){
-        CANVAS.style.display = "block"
-        const startButton = document.querySelector("#canvas-container button")
-        startButton.style.display = "none"
+        /**@type {HTMLCanvasElement} */
+        let canvas = CANVAS;
+        canvas.className = canvas.className.replace("d-none", "d-block")
+        
+        /**@type {HTMLButtonElement} */
+        const startButton = document.querySelector("#start-button")
+        startButton.className = startButton.className.replace("d-block", "d-none")
+        
         init()
     }
-
 </script>
