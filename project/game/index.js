@@ -51,6 +51,7 @@ function init() {
     loadAllElements().then(() => {
         initGL();
         configScene();
+        GAME.isRunning = true
         draw();
     })
 

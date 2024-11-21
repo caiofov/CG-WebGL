@@ -3,7 +3,7 @@ var gl;
 /** @type {WebGLProgram}*/
 var prog;
 /**@type {HTMLCanvasElement} */
-var canvas = document.getElementById("glcanvas1");
+const CANVAS = document.getElementById("glcanvas1");
 
 /**
  * Retorna o elemento do webgl
@@ -83,7 +83,7 @@ function createShader(gl, shaderType, shaderSrc) {
 }
 
 function initGL() {
-    gl = getGL(canvas);
+    gl = getGL(CANVAS);
 
     //Inicializa shaders
     var vtxShSrc = document.getElementById("vertex-shader").text;
