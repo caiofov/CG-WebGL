@@ -107,7 +107,7 @@
 
 
 <body class="bg-light bg-gradient">
-    <div class="container mt-4">
+    <div class="container my-4">
         <div class="row">
             <div class="col">
                 <section id="#about">
@@ -149,42 +149,46 @@
         <section id="#game">
             <h2>Jogo</h2>
 
+            <div class="d-flex flex-column align-items-center">
+                <div id="#instructions" class="text-center">
+                    <p class="lead">Pontuação atual: <b class="scoreboard">0</b></p>
+                    <p class="d-none text-success h5 record">(Novo recorde!)</p>
+                </div>
 
-            <div id="#instructions">
-                <p>Desvie dos trens! (Utilize as teclas WASD)</p>
-                <p>Pontuação atual: <b id="scoreboard">0</b></p>
-            </div>
-
-            <div class="d-flex justify-content-center">
                 <div class="d-flex flex-column align-items-center position-relative w-500px h-500px">
 
-                    <!-- Overlay -->
-                    <div id="overlay"
-                        class="d-flex justify-content-center align-items-center position-absolute top-0 start-0 w-100 h-100 bg-dark-subtle bg-opacity-75">
+                    <!-- Start Overlay -->
+                    <div
+                        class="hide-start z-1 d-flex justify-content-center flex-column align-items-center position-absolute top-0 start-0 w-100 h-100 bg-dark-subtle">
 
-                        <div id="start-overlay" class="d-flex">
-                            <button class="btn btn-success" onclick="startGame()">
-                                <i class="bi bi-play-fill"></i>
-                                Iniciar
-                            </button>
+                        <p class="display-6 text-center">Desvie dos trens!
+                        <p class="h4 text-center">(Utilize as teclas WASD)</p>
 
-                        </div>
-
-                        <div id="game-over-overlay" class="d-none flex-column align-items-center">
-                            <p class="text-danger h1">GAME OVER</p>
-
-                            <button class="btn btn-primary" onclick="location.reload()">
-                                <i class="bi bi-arrow-clockwise"></i>
-                                Reiniciar
-                            </button>
-                        </div>
+                        <button class="btn btn-success mt-3" onclick="startGame()">
+                            <i class="bi bi-play-fill"></i>
+                            Iniciar
+                        </button>
 
                     </div>
 
+                    <!-- Game Over Overlay -->
+                    <div
+                        class="show-end z-1 d-none justify-content-center flex-column align-items-center position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-75">
+                        <p class="text-danger h1">GAME OVER</p>
+                        <p class="text-white h3">Pontuação: <b class="scoreboard">0</b></p>
+                        <p class="d-none text-success h5 record">(Novo recorde!)</p>
+
+                        <button class="btn btn-primary" onclick="location.reload()">
+                            <i class="bi bi-arrow-clockwise"></i>
+                            Reiniciar
+                        </button>
+                    </div>
 
                     <!-- Canvas -->
-                    <canvas id="glcanvas1" width="500" height="500" class="border"></canvas>
+                    <canvas id="glcanvas1" width="500" height="500"
+                        class="show-start d-none justify-content-center flex-column align-items-center position-absolute top-0 start-0"></canvas>
                 </div>
+
             </div>
 
         </section>
@@ -213,19 +217,10 @@
 
 <script>
     function startGame() {
-        /**@type {HTMLCanvasElement} */
-        let canvas = CANVAS;
-        canvas.className = canvas.className.replace("d-none", "d-flex")
-
         /**@type {HTMLDivElement} */
-        const startOverlay = document.querySelector("#start-overlay")
-        startOverlay.className = startOverlay.className.replace("d-flex", "d-none")
+        document.querySelectorAll(".hide-start").forEach(e => e.className = e.className.replace("d-flex", "d-none"))
+        document.querySelectorAll(".show-start").forEach(e => e.className = e.className.replace("d-none", "d-flex"))
 
-        /**@type {HTMLDivElement} */
-        const overlay = document.querySelector("#overlay")
-        overlay.className = overlay.className.replace("d-flex", "d-none")
-        overlay.className = overlay.className.replace("bg-dark-subtle", "bg-dark")
         init()
-
     }
 </script>
