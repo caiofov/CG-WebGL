@@ -2,7 +2,8 @@
     <title>Trabalho 2 - CG</title>
     <link rel="stylesheet" href="index.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.2/math.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="game/index.js"></script>
 
 
@@ -100,44 +101,48 @@
 
 
 <body>
-    <div class="container mt-10">
+    <div class="container mt-4">
         <div class="row">
-            <div class="col-6 col-sm-12">
-                <section id="#about" >
+            <div class="col">
+                <section id="#about">
                     <h2>Sobre o jogo</h2>
-                    <p>Inspirado no famoso Subway Surfers, o jogador deverá desviar dos trens para alcançar sua melhor pontuação. Além disso, ele pode também coletar moedas, que adicionarão mais pontos ao seu total.
+                    <p>Inspirado no famoso <b>Subway Surfers</b>, o jogador deverá desviar dos trens para alcançar sua melhor
+                        pontuação. Além disso, ele pode também coletar moedas, que adicionarão mais pontos ao seu total.
                     </p>
                     <p>Caso colida com um trem e queira recomeçar, será necessário recarregar a página.
-                        </p>
-                        <section id="#authors">
-                            <h2>Autores</h2>
-                            <div>
-                                <a href="https://github.com/caiofov">Caio de Freitas Oliveira</a>
-                                <a href="https://github.com/matheusriale">Matheus Ribeiro Alencar</a>
-                            </div>
-                        </section>
+                    </p>
                 </section>
             </div>
-
-            <div class="col-6 col-sm-12">
-                <section id="tech" >
-                <h2>Informações técnicas</h2>
-                    <ul>
-                        <li><b>Câmera:</b> A visão é em 3ª pessoa, podendo ser movida com as teclas WASD. O personagem do jogador também se move junto à câmera.</li>
-                        <li><b>Iluminação:</b> Utilizamos o modelo de reflexão de Phong com luzes ambiente, direcional e especular. A luz da moeda é pontual e se move.</li>
-                        <li><b>Transformações:</b> Foram realizadas translações para a moeda, jogador e trens. Além disso, a moeda também rotaciona.</li>
-                        <li>Todos os objetos tem textura, com exceção do jogador e da moeda, que possuem cor sólida.</li>
-                        <li>Utilizamos o <b>WebGL</b> como foi feito durante as aulas da disciplina. Além disso, também utilizamos a biblioteca math.js para realizar operações com matrizes.</li>
-                        <li>O jogador e a moeda são objetos carregados de OBJ a partir de um leitor implementador por nós.</li>
-                    </ul>
+            <div class="col">
+                <section id="#authors">
+                    <h2>Autores</h2>
+                    <div>
+                        <a href="https://github.com/caiofov">Caio de Freitas Oliveira</a>
+                        <a href="https://github.com/matheusriale">Matheus Ribeiro Alencar</a>
+                    </div>
                 </section>
+            </div>
         </div>
-    </div>
-        
+        <section id="tech">
+            <h2>Informações técnicas</h2>
+            <ul>
+                <li><b>Câmera:</b> A visão é em 3ª pessoa, podendo ser movida com as teclas WASD. O personagem do
+                    jogador também se move junto à câmera.</li>
+                <li><b>Iluminação:</b> Utilizamos o modelo de reflexão de Phong com luzes ambiente, direcional e
+                    especular. A luz da moeda é pontual e se move.</li>
+                <li><b>Transformações:</b> Foram realizadas translações para a moeda, jogador e trens. Além disso, a
+                    moeda também rotaciona.</li>
+                <li>Todos os objetos tem textura, com exceção do jogador e da moeda, que possuem cor sólida.</li>
+                <li>Utilizamos o <b>WebGL</b> como foi feito durante as aulas da disciplina. Além disso, também
+                    utilizamos a biblioteca math.js para realizar operações com matrizes.</li>
+                <li>O jogador e a moeda são objetos carregados de OBJ a partir de um leitor implementador por nós.</li>
+            </ul>
+        </section>
+
         <section id="#game">
             <h2>Jogo</h2>
 
-            
+
             <div id="#instructions">
                 <p>Desvie dos trens! (Utilize as teclas WASD)</p>
                 <p>Pontuação atual: <b id="scoreboard">0</b></p>
@@ -156,7 +161,9 @@
     </div>
 </body>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
 
 <script src="game/camera.js"></script>
 <script src="game/events.js"></script>
@@ -175,15 +182,15 @@
 <script src="game/elements/coin.js"></script>
 
 <script>
-    function startGame(){
+    function startGame() {
         /**@type {HTMLCanvasElement} */
         let canvas = CANVAS;
         canvas.className = canvas.className.replace("d-none", "d-block")
-        
+
         /**@type {HTMLButtonElement} */
         const startButton = document.querySelector("#start-button")
         startButton.className = startButton.className.replace("d-block", "d-none")
-        
+
         init()
     }
 </script>
