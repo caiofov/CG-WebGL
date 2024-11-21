@@ -111,10 +111,10 @@
         <section id="game" class="mb-5">
             <div class="d-flex flex-column align-items-center">
                 <div>
-                    <p class="lead mb-0">Pontuação atual: <b id="live-scoreboard">0</b></p>
-                    <div class="d-flex gap-1">
-                        <p class="h6">Recorde: <b id="record">0</b></p>
-                        <p class="d-none text-success h6 new-record"> (Novo recorde!)</p>
+                    <p class="lead mb-0 fs-3">Pontuação atual: <b id="live-scoreboard">0</b></p>
+                    <div class="d-flex gap-1 h6 mb-0">
+                        <p>Recorde: <b id="record">0</b></p>
+                        <p class="d-none text-success new-record"> (Novo recorde!)</p>
                     </div>
                 </div>
 
@@ -156,48 +156,44 @@
 
         </section>
 
-        <div class="row mb-4">
-            <div class="col-7">
-                <section id="about">
-                    <h2>Sobre o jogo <a title="Ver no GitHub" target="_blank" class='link-body-emphasis'
-                            href="https://github.com/caiofov/CG-WebGL"><i class="mx-2 bi bi-github fs-4"></i></a></h2>
-                    <p>Inspirado no famoso <b>Subway Surfers</b>, o jogador deverá desviar dos trens para alcançar sua
-                        melhor
-                        pontuação. Além disso, ele pode também coletar moedas, que adicionarão mais pontos ao seu total.
-                    </p>
 
-                </section>
-            </div>
-            <div class="col-5">
-                <section id="authors">
-                    <h2>Autores</h2>
-                    <div class="d-flex gap-5 mt-3">
-                        <div class="d-flex flex-column align-items-center">
-                            <div class="d-flex gap-3">
-                                <a target="_blank" class="link-body-emphasis" title="GitHub"
-                                    href="https://github.com/caiofov"><i class="bi bi-github fs-5"></i></a>
-                                <a target="_blank" class="link-body-emphasis" title="LinkedIn"
-                                    href="https://www.linkedin.com/in/caio-oliveira1312/"><i
-                                        class="bi bi-linkedin fs-5"></i></a>
-                            </div>
-                            <p class="lead mb-0"><strong>Caio Oliveira</strong></p>
-                        </div>
-                        <div class="d-flex flex-column align-items-center">
-                            <div class="d-flex gap-3">
-                                <a target="_blank" class="link-body-emphasis" title="GitHub" class="link-body-emphasis"
-                                    href="https://github.com/matheusriale"><i class="bi bi-github fs-5"></i></a>
-                                <a target="_blank" class="link-body-emphasis" title="LinkedIn"
-                                    class="link-body-emphasis"
-                                    href="https://www.linkedin.com/in/matheusribeiroalencar/"><i
-                                        class="bi bi-linkedin fs-5"></i></a>
-                            </div>
-                            <p class="lead mb-0"><strong>Matheus Ribeiro</strong></p>
+        <section id="about" class="my-5">
+            <h2>Sobre o jogo <a title="Ver no GitHub" target="_blank" class='link-body-emphasis'
+                    href="https://github.com/caiofov/CG-WebGL"><i class="mx-2 bi bi-github fs-4"></i></a></h2>
+            <p>Inspirado no popular <b>Subway Surfers</b>, o jogador deve desviar dos trens enquanto coleta moedas, que
+                aumentam sua pontuação total. Os movimentos são realizados utilizando as teclas <b>W, A, S</b> e
+                <b>D</b>. A melhor pontuação obtida é armazenada e exibida, permitindo ao jogador saber qual foi seu
+                recorde anterior.
+            </p>
 
-                        </div>
+
+
+            <div class="d-flex gap-5 mt-4 align-items-center">
+                <h5>Desenvolvido por: </h5>
+                <div class="d-flex flex-column align-items-center gap-2">
+                    <p class="lead mb-0"><strong>Caio Oliveira</strong></p>
+                    <div class="d-flex gap-3">
+                        <a target="_blank" class="link-body-emphasis" title="GitHub"
+                            href="https://github.com/caiofov"><i class="bi bi-github fs-5"></i></a>
+                        <a target="_blank" class="link-body-emphasis" title="LinkedIn"
+                            href="https://www.linkedin.com/in/caio-oliveira1312/"><i
+                                class="bi bi-linkedin fs-5"></i></a>
                     </div>
-                </section>
+                </div>
+                <div class="d-flex flex-column align-items-center gap-2">
+                    <p class="lead mb-0"><strong>Matheus Ribeiro</strong></p>
+                    <div class="d-flex gap-3">
+                        <a target="_blank" class="link-body-emphasis" title="GitHub" class="link-body-emphasis"
+                            href="https://github.com/matheusriale"><i class="bi bi-github fs-5"></i></a>
+                        <a target="_blank" class="link-body-emphasis" title="LinkedIn" class="link-body-emphasis"
+                            href="https://www.linkedin.com/in/matheusribeiroalencar/"><i
+                                class="bi bi-linkedin fs-5"></i></a>
+                    </div>
+
+                </div>
             </div>
-        </div>
+        </section>
+
         <section id="tech">
             <h2>Informações</h2>
 
@@ -255,8 +251,10 @@
                             Tecnologias
                         </h4>
                     </div>
-                    <p>Utilizamos o <b>WebGL</b> para os gráficos e a biblioteca <b>math.js</b> para realizar
-                        operações com matrizes.</p>
+                    <p>Além do <b>JavaScript</b>, foi utilizado o <b>WebGL</b> para os gráficos e a biblioteca
+                        <b>math.js</b> para realizar
+                        operações com matrizes.
+                    </p>
                 </div>
 
                 <div class="col d-flex flex-column align-items-center mb-4">
